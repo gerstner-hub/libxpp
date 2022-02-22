@@ -1,0 +1,32 @@
+Import('env')
+
+tests = env.GatherSources(suffixes=[".cxx"])
+
+test_env = env.Clone()
+test_env.ConfigureForLib('libcosmos')
+test_env.ConfigureForLib('libX++')
+run_env = test_env.Clone()
+run_env.ConfigureRunForLib('libcosmos')
+run_env.ConfigureRunForLib('libX++')
+
+for test in tests:
+
+    label = '.'.join(test.split('.')[:-1])
+    test_prog_key = f"test_{label}"
+
+    test_bin = test_env.Program(test_prog_key, [test])
+
+    env.Alias("xpp_tests", test_prog_key)
+
+    run_test_key = f"run_xpp_test_{label}"
+    logfile = Dir(".").abspath + "/" + run_test_key + ".log"
+    binary = test_bin[0].abspath
+    test_action = run_env.Action(f"{binary} >{logfile} 2>&1 || cat {logfile} && exit 1")
+    run_cmd = run_env.Command(f"{run_test_key}.command", test_bin, test_action)
+
+    env.Alias(run_test_key, run_cmd)
+    env.Alias("run_xpp_tests", run_test_key)
+
+env.Alias("tests", "xpp_tests")
+env.Alias("run_tests", "run_xpp_tests")
+
