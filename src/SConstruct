@@ -9,16 +9,15 @@ libenv.Append(CCFLAGS="-fvisibility=hidden")
 libenv.Append(CCFLAGS="-DXPP_EXPORT")
 libenv.Append(CPPPATH=["."])
 libenv.ConfigureForLib('libcosmos')
+libenv.ConfigureForPackage("x11")
 
 libxpp_srcs = env.GatherSources(suffixes=[".cxx"])
 
-libxpp = libenv.SharedLibrary(
-    "X++",
-    libxpp_srcs
-)
+libxpp = libenv.SharedLibrary("X++", libxpp_srcs)
 
 env.RegisterLibConfig('libX++', libxpp, {
-    "CCFLAGS": ["-DXPP_API="],
-    "CPPPATH": [public_includes],
-    "LIBS": ["X11"]
-})
+        "CCFLAGS": ["-DXPP_API="],
+        "CPPPATH": [public_includes]
+    },
+    config = {"pkgs": ["x11"]}
+)
