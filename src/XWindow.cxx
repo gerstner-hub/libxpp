@@ -577,7 +577,7 @@ template void XWindow::setProperty(const Atom, const Property<utf8_string>&);
 } // end ns
 
 std::ostream& operator<<(std::ostream &o, const xpp::XWindow &w) {
-	const std::ostream::fmtflags f = o.flags();
+	const auto f = o.flags();
 
 	o << "0x" << std::setw(8)
 		<< std::hex << std::setfill('0')
@@ -585,7 +585,6 @@ std::ostream& operator<<(std::ostream &o, const xpp::XWindow &w) {
 		<< std::dec << " (" << w.id() << ")";
 
 	o.flags(f);
-	o << std::dec;
 
 	return o;
 }
