@@ -519,7 +519,7 @@ protected: // data
 	Window m_win = 0;
 	//! The X11 window ID of the parent of this window
 	Window m_parent = 0;
-	//! A set of X11 window IDs that presents the children of this window
+	//! A set of X11 window IDs that represents the children of this window
 	WindowSet m_children;
 
 	//! The X11 input event mask currently associated with this window

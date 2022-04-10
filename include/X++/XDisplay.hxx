@@ -4,6 +4,9 @@
 // C
 #include <stdint.h>
 
+// stdlib
+#include <optional>
+
 // xlib
 #include "X11/Xlib.h"
 #include "X11/Xatom.h"
@@ -112,6 +115,14 @@ public: // functions
 		if (XSync( m_dis, False ) == 0) {
 			cosmos_throw (X11Exception("XSync failed"));
 		}
+	}
+
+	int getDefaultScreen() const {
+		return XDefaultScreen(m_dis);
+	}
+
+	Visual* getDefaultVisual(const std::optional<int> &screen) const {
+		return XDefaultVisual(m_dis, screen ? *screen : getDefaultScreen());
 	}
 
 	//! transparently casts the instance to the Xlib Display primitive

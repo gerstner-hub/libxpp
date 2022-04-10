@@ -7,8 +7,8 @@
 
 namespace xpp {
 
-RootWin::RootWin() :
-	XWindow(DefaultRootWindow(static_cast<Display*>(XDisplay::getInstance()))),
+RootWin::RootWin(XDisplay &display, int screen) :
+	XWindow(XRootWindow(display, screen)),
 	m_wm_name(),
 	m_wm_class(),
 	m_windows()
@@ -26,6 +26,10 @@ RootWin::RootWin() :
 	// might be correct for our use cases
 	m_send_event_mask = SubstructureRedirectMask | SubstructureNotifyMask;
 }
+
+RootWin::RootWin() :
+	RootWin(XDisplay::getInstance(), XDisplay::getInstance().getDefaultScreen())
+{}
 
 void RootWin::getInfo() {
 	queryWMWindow();

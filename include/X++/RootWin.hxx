@@ -45,8 +45,11 @@ public: // types
 
 public: // functions
 
-	//! Queries RootWindow properties via getInfo().
+	//! Creates a root window representation for the default display/screen
 	RootWin();
+
+	//! Creates a root window representation for the given display/screen
+	explicit RootWin(XDisplay &display, int screen);
 
 	//! Checks for presence of compatible WM and retrieves information.
 	void getInfo();
