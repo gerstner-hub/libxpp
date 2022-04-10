@@ -4,6 +4,7 @@
 // C++
 #include <ostream>
 #include <string>
+#include <string_view>
 
 namespace xpp {
 
@@ -26,7 +27,7 @@ namespace xpp {
  **/
 struct utf8_string {
 	utf8_string() {}
-	explicit utf8_string(const char *s) : str(s) {}
+	explicit utf8_string(const std::string_view &s) : str(s) {}
 
 	size_t length() { return str.length(); }
 

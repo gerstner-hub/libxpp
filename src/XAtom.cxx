@@ -93,7 +93,7 @@ const std::string& XAtomMapper::cacheMiss(const XAtom &atom) const {
 
 	{
 		cosmos::WriteLockGuard g(m_mappings_lock);
-		auto ret = m_mappings.insert( std::make_pair( name, atom ) );
+		auto ret = m_mappings.insert( std::make_pair(name, atom) );
 
 		return (ret.first)->first;
 	}

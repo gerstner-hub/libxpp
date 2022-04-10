@@ -1,7 +1,8 @@
 #ifndef XPP_X11EXCEPTION_HXX
 #define XPP_X11EXCEPTION_HXX
 
-#include <stdint.h>
+// stdlib
+#include <string_view>
 
 // main xlib header
 #include "X11/Xlib.h"
@@ -34,7 +35,7 @@ struct X11Exception : public cosmos::CosmosError {
 	 * error code. It only takes a custom error description to be provided
 	 * by the caller.
 	 **/
-	explicit X11Exception(const char *problem) :
+	explicit X11Exception(const std::string_view &problem) :
 		CosmosError("X11Exception", problem)
 	{
 
