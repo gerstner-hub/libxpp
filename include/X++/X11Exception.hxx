@@ -35,7 +35,7 @@ struct X11Exception : public cosmos::CosmosError {
 	 * by the caller.
 	 **/
 	explicit X11Exception(const char *problem) :
-		CosmosError("X11Exception")
+		CosmosError("X11Exception", problem)
 	{
 
 	}
