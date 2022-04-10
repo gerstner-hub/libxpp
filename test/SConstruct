@@ -1,4 +1,5 @@
 Import('env')
+import os
 
 tests = env.GatherSources(suffixes=[".cxx"])
 
@@ -8,6 +9,8 @@ test_env.ConfigureForLib('libX++')
 run_env = test_env.Clone()
 run_env.ConfigureRunForLib('libcosmos')
 run_env.ConfigureRunForLib('libX++')
+# we require the DISPLAY to get access to the X11 environment
+run_env['ENV']['DISPLAY'] = os.environ['DISPLAY']
 
 for test in tests:
 
@@ -21,7 +24,7 @@ for test in tests:
     run_test_key = f"run_xpp_test_{label}"
     logfile = Dir(".").abspath + "/" + run_test_key + ".log"
     binary = test_bin[0].abspath
-    test_action = run_env.Action(f"{binary} >{logfile} 2>&1 || cat {logfile} && exit 1")
+    test_action = run_env.Action(f"{binary} >{logfile} 2>&1 || (cat {logfile} && exit 1)")
     run_cmd = run_env.Command(f"{run_test_key}.command", test_bin, test_action)
 
     env.Alias(run_test_key, run_cmd)

@@ -15,7 +15,7 @@ public:
 
 };
 
-int main() {
+void test() {
 
 	DefLogger logger;
 	xpp::Init init(&logger);
@@ -33,6 +33,14 @@ int main() {
 	for (const auto &atom: props) {
 		std::cout << "- " << xpp::XAtom(atom) << "\n";
 	}
+}
 
-	return 0;
+int main() {
+	try {
+		test();
+		return 0;
+	} catch (const std::exception &ex) {
+		std::cerr << "test failed: " << ex.what() << std::endl;
+		return 1;
+	}
 }
