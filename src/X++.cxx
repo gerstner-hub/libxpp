@@ -30,6 +30,10 @@ void initLibXpp(std::optional<cosmos::ILogger*> logger) {
 
 	PropertyTraits<utf8_string>::init();
 	PropertyTraits<std::vector<utf8_string>>::init();
+
+	if (logger) {
+		Xpp::getInstance().setLogger(**logger);
+	}
 }
 
 void finishLibXpp() {
@@ -47,9 +51,7 @@ Xpp& Xpp::getInstance() {
 }
 
 Xpp::~Xpp() {
-	if (m_null_logger) {
-		cleanupNullLogger();
-	}
+	cleanupNullLogger();
 }
 
 void Xpp::setupNullLogger() {

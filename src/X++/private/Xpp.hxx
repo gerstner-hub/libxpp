@@ -35,6 +35,7 @@ protected: // functions
 	}
 
 	void setLogger(cosmos::ILogger &logger) {
+		cleanupNullLogger();
 		m_logger = &logger;
 	}
 	void setupNullLogger();
