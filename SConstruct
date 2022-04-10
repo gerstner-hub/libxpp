@@ -14,10 +14,13 @@ except Exception:
         from buildsystem import initSCons
     env = initSCons("libX++")
 
-cosmos_env = env.Clone()
-cosmos_env['buildroot'] = ""
-SConscript('libcosmos/SConstruct', duplicate=0, variant_dir=env['buildroot'] + "libcosmos/", exports={"env": cosmos_env})
+if not env.ExistsLib("libcosmos"):
+    cosmos_env = env.Clone()
+    cosmos_env['buildroot'] = ""
+    SConscript('libcosmos/SConstruct', duplicate=0, variant_dir=env['buildroot'] + "libcosmos/", exports={"env": cosmos_env})
 
 SConscript(env['buildroot'] + 'src/SConstruct')
-SConscript(env['buildroot'] + 'test/SConstruct')
-Default(env['libs']['libX++'])
+
+if env['project'] == "libX++":
+    SConscript(env['buildroot'] + 'test/SConstruct')
+    Default(env['libs']['libX++'])
