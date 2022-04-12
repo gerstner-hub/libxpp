@@ -429,6 +429,10 @@ public: // functions
 		return *this;
 	}
 
+	operator Window() const {
+		return m_win;
+	}
+
 	/**
 	 * \brief
 	 * 	Retrieve the attributes for this window
