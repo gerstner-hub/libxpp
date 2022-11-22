@@ -1,8 +1,8 @@
-#ifndef XPP_XPP_HXX
-#define XPP_XPP_HXX
+#ifndef XPP_XPP_PRIVATE_HXX
+#define XPP_XPP_PRIVATE_HXX
 
 // X++
-#include "X++/X++.hxx"
+#include "X++/Xpp.hxx"
 
 // cosmos
 #include "cosmos/io/ILogger.hxx"

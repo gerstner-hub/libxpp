@@ -6,7 +6,7 @@
 
 // X++
 #include "X++/PropertyTraits.hxx"
-#include "X++/X++.hxx"
+#include "X++/Xpp.hxx"
 #include "X++/private/Xpp.hxx"
 
 // Cosmos

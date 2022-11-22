@@ -8,6 +8,8 @@ namespace cosmos {
 	class ILogger;
 }
 
+namespace xpp {
+
 /**
  * \brief
  * 	Initializes the X++ library before first use
@@ -21,10 +23,10 @@ namespace cosmos {
  * 	Multiple initializations can be performed but finishLibXpp() needs
  * 	to be called the same number of times for cleanup to occur.
  * \param[in-out] logger
- * 	If set then this logger instance will be used for runtime error or
- * 	debugging messages presenting internal library state.
+ * 	If set then this Cosmos logger instance will be used for runtime error
+ * 	or debugging messages presenting internal library state.
  **/
-void XPP_API initLibXpp(std::optional<ILogger*> logger);
+void XPP_API initLibXpp(std::optional<cosmos::ILogger*> logger);
 
 void XPP_API finishLibXpp();
 
@@ -36,13 +38,11 @@ void XPP_API finishLibXpp();
  * 	initialized.
  **/
 struct XPP_API Init {
-	Init() { initLibXpp(); }
+	Init(std::optional<cosmos::ILogger*> logger = std::nullopt) { initLibXpp(logger); }
 
 	~Init() { finishLibXpp(); }
 };
 
-namespace xpp {
-
-}
+} // end ns
 
 #endif // inc. guard

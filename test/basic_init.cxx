@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "X++/X++.hxx"
+#include "X++/Xpp.hxx"
 #include "X++/RootWin.hxx"
 #include "cosmos/io/ILogger.hxx"
 
