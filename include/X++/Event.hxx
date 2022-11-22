@@ -13,7 +13,7 @@
 namespace xpp {
 
 /// Wraps an XEvent libX11 union
-class Event {
+class XPP_API Event {
 public: // functions
 	explicit Event(const XEvent &ev) :
 		m_ev(ev) {}
@@ -50,19 +50,69 @@ public: // functions
 
 	bool isConfigureNotify() const { return m_ev.type == ConfigureNotify; }
 	bool isMapNotify() const { return m_ev.type == MapNotify; }
+	bool isVisibilityNotify() const { return m_ev.type == VisibilityNotify; }
+	bool isFocusChange() const { return m_ev.type == FocusIn || m_ev.type == FocusOut; }
+	bool isKeyPress() const { return m_ev.type == KeyPress; }
+	bool isClientMessage() const { return m_ev.type == ClientMessage; }
+	bool isButtonEvent() const { return m_ev.type == ButtonRelease || m_ev.type == ButtonPress; }
+	bool isPropertyNotify() const { return m_ev.type == PropertyNotify; }
+	bool isSelectionNotify() const { return m_ev.type == SelectionNotify; }
+	bool isSelectionRequest() const { return m_ev.type == SelectionRequest; }
 
 	int getType() const { return m_ev.type; }
 
-	auto toConfigureNotify() {
-		if (!isConfigureNotify())
-			raiseMismatch();
+	void onMismatch(const bool matches) const {
+		if (!matches) raiseMismatch();
+	}
 
+	auto toConfigureNotify() const {
+		onMismatch(isConfigureNotify());
 		return m_ev.xconfigure;
+	}
+
+	auto toVisibilityNotify() const {
+		onMismatch(isVisibilityNotify());
+		return m_ev.xvisibility;
+	}
+
+	auto toFocusChangeEvent() const {
+		onMismatch(isFocusChange());
+		return m_ev.xfocus;
+	}
+
+	auto toKeyEvent() const {
+		onMismatch(isKeyPress());
+		return m_ev.xkey;
+	}
+
+	auto toClientMessage() const {
+		onMismatch(isClientMessage());
+		return m_ev.xclient;
+	}
+
+	auto toButtonEvent() const {
+		onMismatch(isButtonEvent());
+		return m_ev.xbutton;
+	}
+
+	auto toProperty() const {
+		onMismatch(isPropertyNotify());
+		return m_ev.xproperty;
+	}
+
+	auto toSelectionRequest() const {
+		onMismatch(isSelectionRequest());
+		return m_ev.xselectionrequest;
+	}
+
+	auto toSelectionNotify() const {
+		onMismatch(isSelectionNotify());
+		return m_ev.xselection;
 	}
 
 protected: // functions
 
-	void raiseMismatch();
+	void raiseMismatch() const;
 
 protected: // data
 	XEvent m_ev;

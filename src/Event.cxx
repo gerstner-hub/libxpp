@@ -6,7 +6,7 @@
 
 namespace xpp {
 
-void Event::raiseMismatch() {
+void Event::raiseMismatch() const {
 	cosmos_throw( cosmos::RuntimeError("XEvent type access mismatch") );
 }
 
