@@ -11,6 +11,7 @@ run_env.ConfigureRunForLib('libcosmos')
 run_env.ConfigureRunForLib('libX++')
 # we require the DISPLAY to get access to the X11 environment
 run_env['ENV']['DISPLAY'] = os.environ['DISPLAY']
+run_env['ENV']['XAUTHORITY'] = os.environ['XAUTHORITY']
 
 for test in tests:
 
