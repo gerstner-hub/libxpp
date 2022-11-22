@@ -12,9 +12,13 @@
 #include <X11/Xatom.h>
 
 // X++
+#include "X++/types.hxx"
 #include "X++/X11Exception.hxx"
 
 namespace xpp {
+
+class Event;
+class XWindow;
 
 /**
  * \brief
@@ -102,6 +106,47 @@ public: // functions
 
 	/**
 	 * \brief
+	 * 	Returns the next event pending on the display
+	 * \details
+	 * 	If no event is currently queued at the display then output
+	 * 	buffers are flushed and the call blocks until a new event is
+	 * 	received.
+	 *
+	 * 	This call returns any events for any windows regardless of
+	 * 	their event types.
+	 *
+	 * 	This call does not pass on error conditions, it will always
+	 * 	succeed.
+	 **/
+	void getNextEvent(Event &event);
+
+	/**
+	 * \brief
+	 * 	Creates a new window with the given properties
+	 * \details
+	 * 	If depth is not provided then the default depth for the
+	 * 	current display and default screen is used.
+	 *
+	 * 	If visual is not provided then the default visual will be be
+	 * 	used.
+	 *
+	 * 	If attrs and value_mask are not provided then default
+	 * 	attributes apply. If one is supplied then the other needs to
+	 * 	be supplied, too.
+	 **/
+	XWindow createWindow(
+		const WindowSpec &spec,
+		unsigned int border_width,
+		unsigned int clazz = CopyFromParent,
+		const std::optional<XWindow*> parent = std::nullopt,
+		const std::optional<int> &depth = std::nullopt,
+		const std::optional<Visual*> &visual = std::nullopt,
+		const std::optional<unsigned long> &value_mask = std::nullopt,
+		const std::optional<XSetWindowAttributes*> &attrs = std::nullopt
+	);
+
+	/**
+	 * \brief
 	 * 	Flushes any commands not yet issued to the server and waits
 	 * 	for it to process them
 	 * \details
@@ -121,8 +166,16 @@ public: // functions
 		return XDefaultScreen(m_dis);
 	}
 
-	Visual* getDefaultVisual(const std::optional<int> &screen) const {
+	Visual* getDefaultVisual(const std::optional<int> screen = std::nullopt) const {
 		return XDefaultVisual(m_dis, screen ? *screen : getDefaultScreen());
+	}
+
+	int getDefaultDepth(const std::optional<int> screen = std::nullopt) const {
+		return XDefaultDepth(m_dis, screen ? *screen : getDefaultScreen());
+	}
+
+	Colormap getDefaultColormap(const std::optional<int> screen = std::nullopt) const {
+		return XDefaultColormap(m_dis, screen ? *screen : getDefaultScreen());
 	}
 
 	//! transparently casts the instance to the Xlib Display primitive

@@ -511,6 +511,15 @@ void XWindow::delProperty(const Atom name_atom) {
 	display.flush();
 }
 
+void XWindow::getNextEvent(XEvent &event, const long event_mask) {
+	auto &display = XDisplay::getInstance();
+	const auto status = XWindowEvent(display, m_win, event_mask, &event);
+
+	if (status == 0) {
+		cosmos_throw(X11Exception(display, status));
+	}
+}
+
 void XWindow::getAttrs(XWindowAttrs &attrs) {
 	auto &display = XDisplay::getInstance();
 	const auto status = XGetWindowAttributes(display, m_win, &attrs);

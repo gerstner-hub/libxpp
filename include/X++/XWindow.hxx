@@ -376,6 +376,17 @@ public: // functions
 
 	/**
 	 * \brief
+	 * 	Returns the next event queued for the represented X11 window
+	 * 	that matches the given event mask
+	 * \details
+	 * 	If no matching event is currently pending for the window then
+	 * 	this call flushes output buffer and blocks until an event is
+	 * 	received.
+	 **/
+	void getNextEvent(XEvent &event, const long event_mask);
+
+	/**
+	 * \brief
 	 * 	Inform the X server that we want to be notified of window
 	 * 	creation events
 	 * \details
