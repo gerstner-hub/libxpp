@@ -2,7 +2,7 @@
 #define XPP_ATTRIBUTES_HXX
 
 // Xlib
-#include "X11/Xlib.h"
+#include <X11/Xlib.h>
 
 namespace xpp {
 

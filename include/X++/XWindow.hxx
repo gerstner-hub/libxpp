@@ -11,9 +11,9 @@
 #include "cosmos/ostypes.hxx"
 
 // Xlib
-#include "X11/Xlib.h"
-#include "X11/Xatom.h" // declaration of various atom types like XA_WINDOW
-#include "X11/X.h" // event mask bits
+#include <X11/Xlib.h>
+#include <X11/Xatom.h> // declaration of various atom types like XA_WINDOW
+#include <X11/X.h> // event mask bits
 
 // X++
 #include "X++/Property.hxx"

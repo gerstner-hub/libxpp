@@ -5,7 +5,7 @@
 #include <string_view>
 
 // main xlib header
-#include "X11/Xlib.h"
+#include <X11/Xlib.h>
 
 // Cosmos
 #include "cosmos/errors/CosmosError.hxx"

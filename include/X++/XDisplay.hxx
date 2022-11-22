@@ -8,8 +8,8 @@
 #include <optional>
 
 // xlib
-#include "X11/Xlib.h"
-#include "X11/Xatom.h"
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
 
 // X++
 #include "X++/X11Exception.hxx"
