@@ -11,6 +11,9 @@
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 
+// cosmos
+#include "cosmos/fs/FileDescriptor.hxx"
+
 // X++
 #include "X++/types.hxx"
 #include "X++/X11Exception.hxx"
@@ -33,8 +36,7 @@ class XWindow;
  *	instance is required at a lot of places and passing it from one place
  *	to another becomes very annoying.
  **/
-class XPP_API XDisplay
-{
+class XPP_API XDisplay {
 public: // types
 
 	//! Specialized X11Exception for Atom Mapping Errors
@@ -54,6 +56,25 @@ public: // types
 public: // functions
 
 	~XDisplay();
+
+	/// returns a file descriptor representing the connection to the X server
+	cosmos::FileDescriptor getConnectionNumber() {
+		return cosmos::FileDescriptor(XConnectionNumber(m_dis));
+	}
+
+	/// returns the numbers of events currently queued but not yet processes
+	size_t getPendingEvents() const {
+		auto ret = XPending(m_dis);
+		if (ret < 0) {
+			cosmos_throw (X11Exception("XPending() failed"));
+		}
+
+		return static_cast<size_t>(ret);
+	}
+
+	bool hasPendingEvents() const {
+		return getPendingEvents() != 0;
+	}
 
 	/**
 	 * \brief
@@ -201,7 +222,7 @@ protected: // functions
 protected: // data
 
 	//! The Xlib primitive for the Display
-	Display *m_dis = nullptr;
+	mutable Display *m_dis = nullptr;
 };
 
 } // end ns

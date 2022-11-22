@@ -51,6 +51,8 @@ public: // functions
 	bool isConfigureNotify() const { return m_ev.type == ConfigureNotify; }
 	bool isMapNotify() const { return m_ev.type == MapNotify; }
 
+	int getType() const { return m_ev.type; }
+
 	auto toConfigureNotify() {
 		if (!isConfigureNotify())
 			raiseMismatch();
