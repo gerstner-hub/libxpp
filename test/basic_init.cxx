@@ -15,6 +15,25 @@ public:
 
 };
 
+void testDisplay() {
+	auto &display = xpp::XDisplay::getInstance();
+	auto window = display.createWindow({0, 0, 100, 100}, 0);
+	auto depth = display.getDefaultDepth();
+	std::cout << "default depth: " << depth << std::endl;
+	if (depth < 8 || depth > 32) {
+		throw std::runtime_error("strange depth");
+	}
+	xpp::PixMap pmap;
+	if (pmap.valid()) {
+		throw std::runtime_error("pmap valid on init");
+	}
+	pmap = display.createPixmap(window, xpp::Extent{100, 100});
+	if (!pmap.valid()) {
+		throw std::runtime_error("pmap invalid on create");
+	}
+	display.freePixmap(pmap);
+}
+
 void test() {
 
 	DefLogger logger;
@@ -33,6 +52,8 @@ void test() {
 	for (const auto &atom: props) {
 		std::cout << "- " << xpp::XAtom(atom) << "\n";
 	}
+
+	testDisplay();
 }
 
 int main() {

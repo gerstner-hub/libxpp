@@ -80,4 +80,20 @@ XDisplay::DisplayOpenError::DisplayOpenError() :
 	m_msg += "\". ";
 }
 
+PixMap XDisplay::createPixmap(
+	const XWindow &win,
+	const Extent &extent,
+	const std::optional<int> depth) const {
+
+	auto pm = XCreatePixmap(
+			m_dis, win.id(), extent.width, extent.height,
+			depth ? *depth : getDefaultDepth());
+	return PixMap(pm);
+}
+
+void XDisplay::freePixmap(PixMap &pm) const {
+	XFreePixmap(m_dis, pm.id());
+	pm.reset();
+}
+
 } // end ns

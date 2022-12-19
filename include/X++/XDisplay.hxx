@@ -199,6 +199,23 @@ public: // functions
 		return XDefaultColormap(m_dis, screen ? *screen : getDefaultScreen());
 	}
 
+	/// creates a pixmap for the given window and of the given size
+	/**
+	 * The returned object is only a simple wrapper for type safety.
+	 * Resource management is still explicit i.e. you have to free the
+	 * Pixmap when no longer needed via freePixmap().
+	 *
+	 * \param[in] depth the depth of the pixmap, if given, otherwise the
+	 *            default depth for the display and window involved.
+	 **/
+	PixMap createPixmap(
+		const XWindow &win,
+		const Extent &extent,
+		const std::optional<int> depth = std::nullopt) const;
+
+	/// frees a pixmap previously obtained via createPixmap()
+	void freePixmap(PixMap &pm) const;
+
 	//! transparently casts the instance to the Xlib Display primitive
 	operator Display*() { return m_dis; }
 
