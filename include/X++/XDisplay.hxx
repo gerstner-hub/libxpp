@@ -199,6 +199,14 @@ public: // functions
 		return XDefaultColormap(m_dis, screen ? *screen : getDefaultScreen());
 	}
 
+	int getDisplayWidth(const std::optional<int> screen = std::nullopt) const {
+		return DisplayWidth(m_dis, screen ? *screen : getDefaultScreen());
+	}
+
+	int getDisplayHeight(const std::optional<int> screen = std::nullopt) const {
+		return DisplayHeight(m_dis, screen ? *screen : getDefaultScreen());
+	}
+
 	/// creates a pixmap for the given window and of the given size
 	/**
 	 * The returned object is only a simple wrapper for type safety.
