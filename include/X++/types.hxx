@@ -1,7 +1,11 @@
 #ifndef XPP_TYPES_HXX
 #define XPP_TYPES_HXX
 
+// X11
+#include <X11/X.h>
+
 // Cosmos
+#include "cosmos/BitMask.hxx"
 #include "cosmos/errors/RuntimeError.hxx"
 
 /* a place for miscellaneous types used in Xpp interfaces */
@@ -49,6 +53,38 @@ struct PixMap {
 protected:
 	Pixmap m_pixmap = INVALID_XID;
 };
+
+/// type safe wrapper enum for GC* constants found in X headers
+/**
+ * These are bitmask values, see X.h
+ **/
+enum class GcOpts : long {
+	Function = GCFunction,
+	PlaneMask = GCPlaneMask,
+	Foreground = GCFunction,
+	Background = GCBackground,
+	LineWidth = GCLineWidth,
+	LineStyle = GCLineStyle,
+	CapStyle = GCCapStyle,
+	JoinStyle = GCJoinStyle,
+	FillStyle = GCFillStyle,
+	FillRule = GCFillRule,
+	Tile = GCTile,
+	Stipple = GCStipple,
+	TileStipXOrigin = GCTileStipXOrigin,
+	TileStipYOrigin = GCTileStipYOrigin,
+	Font = GCFont,
+	SubwindowMode = GCSubwindowMode,
+	GraphicsExposures = GCGraphicsExposures,
+	ClipXOrigin = GCClipXOrigin,
+	ClipYOrigin = GCClipYOrigin,
+	ClipMask = GCClipMask,
+	DashOffset = GCDashOffset,
+	DashList = GCDashList,
+	ArcMode = GCArcMode
+};
+
+typedef cosmos::BitMask<GcOpts> GcOptMask;
 
 } // end ns
 

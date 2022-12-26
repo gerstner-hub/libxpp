@@ -2,6 +2,7 @@
 
 #include "X++/Xpp.hxx"
 #include "X++/RootWin.hxx"
+#include "X++/types.hxx"
 #include "cosmos/io/ILogger.hxx"
 
 class DefLogger :
@@ -34,6 +35,12 @@ void testDisplay() {
 	display.freePixmap(pmap);
 }
 
+void testGC() {
+	auto &display = xpp::XDisplay::getInstance();
+	XGCValues vals;
+	auto gc_ptr = display.createGraphicsContext(xpp::RootWin(), xpp::GcOptMask(), vals);
+}
+
 void test() {
 
 	DefLogger logger;
@@ -54,6 +61,8 @@ void test() {
 	}
 
 	testDisplay();
+
+	testGC();
 }
 
 int main() {

@@ -96,4 +96,15 @@ void XDisplay::freePixmap(PixMap &pm) const {
 	pm.reset();
 }
 
+std::shared_ptr<struct _XGC>
+XDisplay::createGraphicsContext(Drawable d, const GcOptMask &mask, const XGCValues &vals) {
+	auto gc = XCreateGC(m_dis, d, mask.get(), const_cast<XGCValues*>(&vals));
+
+	if (!gc) {
+		cosmos_throw(cosmos::RuntimeError("failed to allocate GC"));
+	}
+
+	return GcSharedPtr(gc, [this](GC c){ XFreeGC(*this, c); });
+}
+
 } // end ns
