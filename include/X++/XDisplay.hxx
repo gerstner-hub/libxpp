@@ -169,6 +169,14 @@ public: // functions
 		const std::optional<XSetWindowAttributes*> &attrs = std::nullopt
 	);
 
+	/// requests to map the given window to make is visible on the screen
+	/**
+	 * If an ancestor of the given window is not yet mapped, then the
+	 * mapping of the window will not take place until the ancestor is
+	 * also mapped.
+	 **/
+	void mapWindow(const XWindow &win);
+
 	/**
 	 * \brief
 	 * 	Flushes any commands not yet issued to the server and waits
@@ -185,6 +193,21 @@ public: // functions
 			cosmos_throw (X11Exception("XSync failed"));
 		}
 	}
+
+	/// puts libX11 into synchronized or unsynchronized mode
+	/**
+	 * By default the client library caches various operations and only
+	 * sends them out to the X server during certain actions or on
+	 * explicit flush() requests. By turning synchronized mode on this
+	 * behaviour will be changed and every bit of communication towards
+	 * the server will be carried out right away.
+	 *
+	 * Setting this to on is mostly useful for debugging issues in the X
+	 * protocol e.g. errors will be reported right away and not only
+	 * asynchronously a longer time later. Performance will be poor
+	 * in this mode.
+	 **/
+	void setSynchronized(bool on_off);
 
 	int getDefaultScreen() const {
 		return XDefaultScreen(m_dis);

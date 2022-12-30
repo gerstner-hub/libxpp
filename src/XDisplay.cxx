@@ -60,6 +60,19 @@ XWindow XDisplay::createWindow(
 	return XWindow(res);
 }
 
+void XDisplay::mapWindow(const XWindow &win) {
+	// this should never fail looking at current libX11 code, but you
+	// never know ...
+	if (XMapWindow(m_dis, win) != 1) {
+		cosmos_throw(cosmos::RuntimeError("failed to map window"));
+	}
+}
+
+void XDisplay::setSynchronized(bool on_off) {
+	// this returns a callback function pointer we don't need
+	(void)::XSynchronize(m_dis, on_off ? True : False);
+}
+
 XDisplay& XDisplay::getInstance() {
 	static XDisplay dis;
 
