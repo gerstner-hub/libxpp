@@ -378,6 +378,9 @@ public: // functions
 	 **/
 	void getAttrs(XWindowAttrs &attrs);
 
+	/// sets new window attributes according to the given mask
+	void setWindowAttrs(const XSetWindowAttributes &attrs, const WindowAttrMask &mask);
+
 	/// Move and or resize the window
 	/**
 	 * The x, y, width and height parameters from \c attrs will be used to

@@ -104,6 +104,26 @@ enum class GcOpts : long {
 
 typedef cosmos::BitMask<GcOpts> GcOptMask;
 
+enum class WindowAttr : unsigned long {
+	BackPixmap = CWBackPixmap,
+	BackPixel = CWBackPixel,
+	BorderPixmap = CWBorderPixmap,
+	BorderPixel = CWBorderPixel,
+	BitGravity = CWBitGravity,
+	WinGravity = CWWinGravity,
+	BackingStore = CWBackingStore,
+	BackingPlanes = CWBackingPlanes,
+	BackingPixel = CWBackingPixel,
+	OverrideRedirect = CWOverrideRedirect,
+	SaveUnder = CWSaveUnder,
+	EventMask = CWEventMask,
+	DontPropagate = CWDontPropagate,
+	Colormap = CWColormap,
+	Cursor = CWCursor
+};
+
+typedef cosmos::BitMask<WindowAttr> WindowAttrMask;
+
 } // end ns
 
 #endif // inc. guard

@@ -528,6 +528,12 @@ void XWindow::getAttrs(XWindowAttrs &attrs) {
 	}
 }
 
+void XWindow::setWindowAttrs(const XSetWindowAttributes &attrs, const WindowAttrMask &mask) {
+	// - the return value is always the 1 here so no need to check
+	// - the attrs are never changed in Xlib so const_cast is safe
+	XChangeWindowAttributes(m_display, m_win, mask.get(), const_cast<XSetWindowAttributes*>(&attrs));
+}
+
 void XWindow::moveResize(const XWindowAttrs &attrs) {
 	const auto status = XMoveResizeWindow(
 		m_display, m_win, attrs.x, attrs.y, attrs.width, attrs.height
