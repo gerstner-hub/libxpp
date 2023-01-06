@@ -3,6 +3,7 @@
 
 // stdlib
 #include <memory>
+#include <string_view>
 #include <vector>
 
 // X11
@@ -79,6 +80,17 @@ struct PixMap {
 	bool valid() const { return m_pixmap != INVALID_XID; }
 protected:
 	Pixmap m_pixmap = INVALID_XID;
+};
+
+/// represents a raw window property
+struct RawProperty {
+	std::shared_ptr<uint8_t> data;
+	size_t length = 0; /// number of bytes found in data
+	size_t offset = 0; /// byte offset of the data into the original property
+	size_t left = 0; /// the number of bytes of the property left to read, if a partial read was performed
+
+	/// returns a read-only string_view object representing the data
+	auto getView() const { return std::string_view(reinterpret_cast<const char*>(data.get()), length); }
 };
 
 /// type safe wrapper enum for GC* constants found in X headers

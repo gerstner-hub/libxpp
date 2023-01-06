@@ -76,11 +76,15 @@ public: // types
 	/// Keeps metadata about a property.
 	struct PropertyInfo {
 		/// the property's type
-		Atom type = None;
+		XAtom type;
 		/// the number of items of the given format
 		size_t items = 0;
 		/// the format of the property 8/16/32
 		size_t format = 0;
+
+		size_t numBytes() const {
+			return items * (format / 8);
+		}
 	};
 
 	typedef std::set<Window> WindowSet;
@@ -93,6 +97,7 @@ public: // functions
 		m_display(XDisplay::getInstance()),
 		m_std_props(StandardProps::instance())
 	{}
+
 	XWindow(const XWindow &other) : XWindow() { *this = other; }
 
 	/// Create an object representing \c win on the current Display
@@ -275,6 +280,19 @@ public: // functions
 	 * together with getPropertyList().
 	 **/
 	void getPropertyInfo(const XAtom &property, PropertyInfo &info);
+
+	/// Retrieves raw property data without interpreting type and format
+	/**
+	 * Similar to getPropertyInfo() this returns the actual property info
+	 * in \c info. On input the RawProperty's length and offset members
+	 * will determine the offset into the property and maximum number of
+	 * bytes to retrieve.
+	 *
+	 * \warning The length and offset requested need to be aligned to
+	 * 32-bit boundaries, otherwise an exception is thrown. This is due to
+	 * the design of the X API.
+	 **/
+	void getRawProperty(const XAtom &property, PropertyInfo &info, RawProperty &out);
 
 	/// Retrieve a property from this window object
 	/**

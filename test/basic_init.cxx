@@ -4,6 +4,7 @@
 #include "X++/RootWin.hxx"
 #include "X++/types.hxx"
 #include "cosmos/io/ILogger.hxx"
+#include "cosmos/Init.hxx"
 
 class DefLogger :
 	public cosmos::ILogger {
@@ -42,7 +43,7 @@ void testGC() {
 }
 
 void test() {
-
+	cosmos::Init cosmos_init;
 	DefLogger logger;
 	xpp::Init init(&logger);
 	xpp::RootWin root_win;
@@ -51,13 +52,13 @@ void test() {
 	std::cout << "WM name: " << root_win.getWM_Name() << std::endl;;
 	std::cout << "WM pid: " << root_win.getWM_Pid() << std::endl;
 
-	xpp::AtomVector props;
+	xpp::XAtomVector props;
 	root_win.getPropertyList(props);
 
 	std::cout << "list of properties on root window: " << std::endl;
 
 	for (const auto &atom: props) {
-		std::cout << "- " << xpp::XAtom(atom) << "\n";
+		std::cout << "- " << atom << "\n";
 	}
 
 	testDisplay();

@@ -368,24 +368,36 @@ void XWindow::getPropertyList(XAtomVector &atoms) {
 }
 
 void XWindow::getPropertyInfo(const XAtom &property, PropertyInfo &info) {
+	RawProperty p;
+
+	// reuse the code from getRawProperty but don't ask for any actual
+	// data (zero length in RawProperty causes that)
+	getRawProperty(property, info, p);
+}
+
+void XWindow::getRawProperty(const XAtom &property, PropertyInfo &info, RawProperty &out) {
 	int actual_format = 0;
 	unsigned long number_items = 0;
 	/*
-	 * we don't want any data returned, but the function excepts valid
-	 * pointers to pointers here, otherwise we segfault
+	 * NOTE: even if we don't want any data returned, the function
+	 * expects valid pointers to pointers here, otherwise we segfault
 	 */
 	unsigned long bytes_left = 0;
 	unsigned char *prop_data = nullptr;
+
+	if ((out.length & 0x3) != 0 || (out.offset & 0x3) != 0) {
+		cosmos_throw(cosmos::UsageError("length or offset not aligned to 32-bits"));
+	}
 
 	const auto res = XGetWindowProperty(
 		XDisplay::getInstance(),
 		m_win,
 		property,
-		0, /* offset */
-		0, /* length */
+		out.offset / 4, /* offset in 32-bit multiples */
+		out.length / 4, /* length in 32-bit multiples */
 		False, /* deleted property ? */
 		AnyPropertyType,
-		&info.type,
+		const_cast<Atom*>(info.type.getPtr()),
 		&actual_format,
 		&number_items,
 		&bytes_left, /* bytes left to read */
@@ -396,15 +408,18 @@ void XWindow::getPropertyInfo(const XAtom &property, PropertyInfo &info) {
 		cosmos_throw(X11Exception(XDisplay::getInstance(), res));
 	}
 
+	const auto bytes_per_item = actual_format / 8;
+
 	if (actual_format != 0) {
-		info.items = bytes_left / (actual_format / 8);
+		info.items = (bytes_left / bytes_per_item) + number_items + (out.offset / bytes_per_item);
 	} else {
 		info.items = 0;
 	}
 
 	info.format = actual_format;
-
-	XFree(prop_data);
+	out.left = bytes_left;
+	out.length = number_items * bytes_per_item;
+	out.data = make_shared_xptr(prop_data);
 }
 
 template <typename PROPTYPE>
