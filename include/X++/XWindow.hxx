@@ -2,18 +2,20 @@
 #define XPP_WINDOW_HXX
 
 // C++
-#include <set>
 #include <iosfwd>
-#include <vector>
+#include <memory>
+#include <set>
 #include <utility>
+#include <vector>
+
+// Xlib
+#include <X11/Xatom.h> // declaration of various atom types like XA_WINDOW
+#include <X11/Xlib.h>
+#include <X11/Xutil.h> // XWMHints
+#include <X11/X.h> // event mask bits
 
 // Cosmos
 #include "cosmos/ostypes.hxx"
-
-// Xlib
-#include <X11/Xlib.h>
-#include <X11/Xatom.h> // declaration of various atom types like XA_WINDOW
-#include <X11/X.h> // event mask bits
 
 // X++
 #include "X++/Property.hxx"
@@ -213,6 +215,16 @@ public: // functions
 	 * 	supported by the window
 	 **/
 	void getProtocols(AtomVector &protocols) const;
+
+	/// returns the currently set XWMHints for the window
+	/**
+	 * This can also return a nullptr in case there are no hints set for
+	 * the current window.
+	 **/
+	std::shared_ptr<XWMHints> getWMHints() const;
+
+	/// sets new XWMHints for the window
+	void setWMHints(const XWMHints &hints);
 
 	/**
 	 * \brief

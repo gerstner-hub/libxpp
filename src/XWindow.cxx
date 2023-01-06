@@ -6,10 +6,11 @@
 #include "cosmos/errors/InternalError.hxx"
 
 // X++
-#include "X++/XWindow.hxx"
-#include "X++/XWindowAttrs.hxx"
-#include "X++/XAtom.hxx"
 #include "X++/private/Xpp.hxx"
+#include "X++/XAtom.hxx"
+#include "X++/XWindowAttrs.hxx"
+#include "X++/XWindow.hxx"
+#include "X++/helpers.hxx"
 
 namespace xpp {
 
@@ -171,6 +172,23 @@ void XWindow::getProtocols(AtomVector &protocols) const {
 	}
 
 	XFree(ret);
+}
+
+std::shared_ptr<XWMHints> XWindow::getWMHints() const {
+	auto &display = XDisplay::getInstance();
+	auto hints = XGetWMHints(display, m_win);
+
+	if (!hints) {
+		return nullptr;
+	}
+
+	return make_shared_xptr(hints);
+}
+
+void XWindow::setWMHints(const XWMHints &hints) {
+	auto &display = XDisplay::getInstance();
+	// currently always returns 1, hints aren't modified in the lib
+	(void)XSetWMHints(display, m_win, const_cast<XWMHints*>(&hints));
 }
 
 XWindow::ClassStringPair XWindow::getClass() const {
