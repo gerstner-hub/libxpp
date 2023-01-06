@@ -145,7 +145,7 @@ Atom XWindow::getWindowType() const {
 	return type.get();
 }
 
-void XWindow::getProtocols(AtomVector &protocols) const {
+void XWindow::getProtocols(XAtomVector &protocols) const {
 	protocols.clear();
 
 	Atom *ret = nullptr;
@@ -163,10 +163,23 @@ void XWindow::getProtocols(AtomVector &protocols) const {
 	}
 
 	for (int num = 0; num < ret_count; num++) {
-		protocols.push_back(ret[num]);
+		protocols.push_back(XAtom(ret[num]));
 	}
 
 	XFree(ret);
+}
+
+void XWindow::setProtocols(const XAtomVector &protocols) {
+	AtomVector plain;
+	for (const auto &prot: protocols) {
+		plain.push_back(static_cast<Atom>(prot));
+	}
+
+	auto res = XSetWMProtocols(m_display, m_win, plain.data(), plain.size());
+
+	if (res != True) {
+		cosmos_throw(X11Exception(m_display, res));
+	}
 }
 
 std::shared_ptr<XWMHints> XWindow::getWMHints() const {
@@ -325,7 +338,7 @@ void XWindow::selectEvent(const long new_event) const {
 	}
 }
 
-void XWindow::getPropertyList(AtomVector &atoms) {
+void XWindow::getPropertyList(XAtomVector &atoms) {
 	atoms.clear();
 
 	int num_atoms = 0;
@@ -343,7 +356,7 @@ void XWindow::getPropertyList(AtomVector &atoms) {
 	}
 
 	for (int i = 0; i < num_atoms; i++) {
-		atoms.push_back(list[i]);
+		atoms.push_back(XAtom(list[i]));
 	}
 
 	XFree(list);

@@ -3,6 +3,7 @@
 
 // stdlib
 #include <memory>
+#include <vector>
 
 // X11
 #include <X11/X.h>
@@ -43,6 +44,14 @@ struct Coord {
  * behind this to create a valid shared_ptr around it.
  **/
 typedef std::shared_ptr<struct _XGC> GcSharedPtr;
+
+/// A vector of primitive Atom values
+typedef std::vector<Atom> AtomVector;
+
+class XAtom; // fwd. decl.
+
+/// A vector of strongly typed XAtom values
+typedef std::vector<XAtom> XAtomVector;
 
 /// constant for an invalid XID value
 /**

@@ -84,7 +84,6 @@ public: // types
 	};
 
 	typedef std::set<Window> WindowSet;
-	typedef std::vector<Atom> AtomVector;
 	typedef std::pair<std::string, std::string> ClassStringPair;
 
 public: // functions
@@ -187,7 +186,13 @@ public: // functions
 	Atom getWindowType() const;
 
 	/// Returns the array of atoms representing the protocols supported by the window
-	void getProtocols(AtomVector &protocols) const;
+	void getProtocols(XAtomVector &protocols) const;
+
+	/// Sets the array of atoms representing the protocols supported by the window
+	/**
+	 * This can throw an exception on error.
+	 **/
+	void setProtocols(const XAtomVector &protocols);
 
 	/// returns the currently set XWMHints for the window
 	/**
@@ -254,7 +259,7 @@ public: // functions
 	 * filled with the atoms identifying the properties existing on this
 	 * window.
 	 **/
-	void getPropertyList(AtomVector &atoms);
+	void getPropertyList(XAtomVector &atoms);
 
 	/// Retrieves property metadata about the given property present on this window
 	/**

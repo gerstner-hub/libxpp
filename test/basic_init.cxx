@@ -51,7 +51,7 @@ void test() {
 	std::cout << "WM name: " << root_win.getWM_Name() << std::endl;;
 	std::cout << "WM pid: " << root_win.getWM_Pid() << std::endl;
 
-	xpp::XWindow::AtomVector props;
+	xpp::AtomVector props;
 	root_win.getPropertyList(props);
 
 	std::cout << "list of properties on root window: " << std::endl;
