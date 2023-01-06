@@ -15,29 +15,24 @@
 namespace xpp {
 
 XWindow::PropertyTypeMismatch::PropertyTypeMismatch(Atom expected, Atom encountered) :
-	CosmosError("PropertyTypeMismatch", "Retrieved property has different type than expected")
-{
+		CosmosError("PropertyTypeMismatch", "Retrieved property has different type than expected") {
 	std::ostringstream s;
 	s << "Expected " << expected << " but encountered " << encountered;
 	m_msg += s.str();
 }
 
 XWindow::PropertyChangeError::PropertyChangeError(Display *dis, const int errcode) :
-	X11Exception(dis, errcode)
-{
+		X11Exception(dis, errcode) {
 	m_msg = std::string("Error changing property: ") + m_msg;
 }
 
 XWindow::PropertyQueryError::PropertyQueryError(Display *dis, const int errcode) :
-	X11Exception(dis, errcode)
-{
+	X11Exception(dis, errcode) {
 	m_msg = std::string("Error querying property: ") + m_msg;
 }
 
-XWindow::XWindow(Window win) :
-	m_win(win),
-	m_std_props(StandardProps::instance())
-{
+XWindow::XWindow(Window win) : XWindow() {
+	m_win = win;
 }
 
 std::string XWindow::idStr() const {
@@ -100,12 +95,12 @@ void XWindow::setName(const std::string &name) {
 		xpp::Property<utf8_string> utf8_name;
 		utf8_name = utf8_string(name.c_str());
 
-		this->setProperty( m_std_props.atom_ewmh_window_name, utf8_name );
+		this->setProperty(m_std_props.atom_ewmh_window_name, utf8_name);
 
 		return;
 	} catch(...) {}
 
-	xpp::Property<const char*> name_prop( name.c_str() );
+	xpp::Property<const char*> name_prop(name.c_str());
 
 	this->setProperty(m_std_props.atom_icccm_window_name, name_prop);
 }
@@ -157,14 +152,14 @@ void XWindow::getProtocols(AtomVector &protocols) const {
 	int ret_count = 0;
 
 	const auto status = XGetWMProtocols(
-		XDisplay::getInstance(),
+		m_display,
 		m_win,
 		&ret,
 		&ret_count
 	);
 
 	if (status == 0) {
-		cosmos_throw(X11Exception(XDisplay::getInstance(), status));
+		cosmos_throw(X11Exception(m_display, status));
 	}
 
 	for (int num = 0; num < ret_count; num++) {
@@ -175,8 +170,7 @@ void XWindow::getProtocols(AtomVector &protocols) const {
 }
 
 std::shared_ptr<XWMHints> XWindow::getWMHints() const {
-	auto &display = XDisplay::getInstance();
-	auto hints = XGetWMHints(display, m_win);
+	auto hints = XGetWMHints(m_display, m_win);
 
 	if (!hints) {
 		return nullptr;
@@ -186,9 +180,8 @@ std::shared_ptr<XWMHints> XWindow::getWMHints() const {
 }
 
 void XWindow::setWMHints(const XWMHints &hints) {
-	auto &display = XDisplay::getInstance();
 	// currently always returns 1, hints aren't modified in the lib
-	(void)XSetWMHints(display, m_win, const_cast<XWMHints*>(&hints));
+	(void)XSetWMHints(m_display, m_win, const_cast<XWMHints*>(&hints));
 }
 
 XWindow::ClassStringPair XWindow::getClass() const {
@@ -213,20 +206,17 @@ XWindow::ClassStringPair XWindow::getClass() const {
 }
 
 void XWindow::destroy() {
-	auto &display = XDisplay::getInstance();
-	const auto res = XDestroyWindow( display, m_win );
-	display.flush();
+	const auto res = XDestroyWindow(m_display, m_win);
+	m_display.flush();
 
 	if (res != 1) {
-		cosmos_throw( X11Exception(display, res) );
+		cosmos_throw(X11Exception(m_display, res));
 	}
 }
 
 Window XWindow::createChild() {
-	auto &display = XDisplay::getInstance();
-
 	Window new_win = XCreateSimpleWindow(
-		display,
+		m_display,
 		this->id(),
 		// dimensions and alike don't matter for this hidden window
 		-10, -10, 1, 1, 0, 0, 0
@@ -236,7 +226,7 @@ Window XWindow::createChild() {
 		cosmos_throw(X11Exception("Failed to create pseudo child window"));
 	}
 
-	display.flush();
+	m_display.flush();
 
 	return new_win;
 }
@@ -247,10 +237,8 @@ void XWindow::convertSelection(
 	const XAtom &target_prop
 )
 {
-	auto &display = XDisplay::getInstance();
-
 	if (XConvertSelection(
-		display,
+		m_display,
 		selection,
 		target_type,
 		target_prop,
@@ -260,7 +248,7 @@ void XWindow::convertSelection(
 		cosmos_throw(X11Exception("Failed to request selecton conversion"));
 	}
 
-	display.flush();
+	m_display.flush();
 }
 
 void XWindow::sendDeleteRequest() {
@@ -308,10 +296,8 @@ void XWindow::sendRequest(
 }
 
 void XWindow::sendEvent(const XEvent &event) {
-	auto &display = XDisplay::getInstance();
-
 	const Status s = XSendEvent(
-		display,
+		m_display,
 		this->id(),
 		False,
 		m_send_event_mask,
@@ -319,11 +305,11 @@ void XWindow::sendEvent(const XEvent &event) {
 	);
 
 	if (s == BadValue || s == BadWindow) {
-		cosmos_throw(X11Exception(display, s));
+		cosmos_throw(X11Exception(m_display, s));
 	}
 
 	// make sure the event gets sent out
-	display.flush();
+	m_display.flush();
 }
 
 void XWindow::selectEvent(const long new_event) const {
@@ -357,7 +343,7 @@ void XWindow::getPropertyList(AtomVector &atoms) {
 	}
 
 	for (int i = 0; i < num_atoms; i++) {
-		atoms.push_back( list[i] );
+		atoms.push_back(list[i]);
 	}
 
 	XFree(list);
@@ -490,10 +476,8 @@ void XWindow::setProperty(const Atom name_atom, const Property<PROPTYPE> &prop) 
 
 	const int siz = THIS_PROP::Traits::getNumElements(prop.get());
 
-	auto &display = XDisplay::getInstance();
-
 	const int res = XChangeProperty(
-		display,
+		m_display,
 		m_win,
 		name_atom,
 		x_type,
@@ -513,54 +497,48 @@ void XWindow::setProperty(const Atom name_atom, const Property<PROPTYPE> &prop) 
 
 	// requests to the server are not dispatched immediatly thus we need
 	// to flush once
-	display.flush();
+	m_display.flush();
 }
 
 void XWindow::delProperty(const Atom name_atom) {
-	auto &display = XDisplay::getInstance();
-
-	const auto status = XDeleteProperty(display, m_win, name_atom);
+	const auto status = XDeleteProperty(m_display, m_win, name_atom);
 
 	if (status == 0) {
-		cosmos_throw(X11Exception(display, status));
+		cosmos_throw(X11Exception(m_display, status));
 	}
 
 	// see setProperty()
-	display.flush();
+	m_display.flush();
 }
 
 void XWindow::getNextEvent(XEvent &event, const long event_mask) {
-	auto &display = XDisplay::getInstance();
-	const auto status = XWindowEvent(display, m_win, event_mask, &event);
+	const auto status = XWindowEvent(m_display, m_win, event_mask, &event);
 
 	if (status == 0) {
-		cosmos_throw(X11Exception(display, status));
+		cosmos_throw(X11Exception(m_display, status));
 	}
 }
 
 void XWindow::getAttrs(XWindowAttrs &attrs) {
-	auto &display = XDisplay::getInstance();
-	const auto status = XGetWindowAttributes(display, m_win, &attrs);
+	const auto status = XGetWindowAttributes(m_display, m_win, &attrs);
 
 	// stupid error codes again. A non-zero status on success?
 	if (status == 0) {
-		cosmos_throw(X11Exception(display, status));
+		cosmos_throw(X11Exception(m_display, status));
 	}
 }
 
 void XWindow::moveResize(const XWindowAttrs &attrs) {
-	auto &display = XDisplay::getInstance();
 	const auto status = XMoveResizeWindow(
-		display, m_win, attrs.x, attrs.y, attrs.width, attrs.height
+		m_display, m_win, attrs.x, attrs.y, attrs.width, attrs.height
 	);
 
 	if (status == 0) {
-		cosmos_throw(X11Exception(display, status));
+		cosmos_throw(X11Exception(m_display, status));
 	}
 }
 
 void XWindow::updateFamily() {
-	auto &display = XDisplay::getInstance();
 	Window root = 0, parent = 0;
 	Window *children = nullptr;
 	unsigned int num_children = 0;
@@ -569,11 +547,11 @@ void XWindow::updateFamily() {
 	m_parent = 0;
 
 	const Status res = XQueryTree(
-		display, m_win, &root, &parent, &children, &num_children
+		m_display, m_win, &root, &parent, &children, &num_children
 	);
 
 	if (res != 1) {
-		cosmos_throw(X11Exception(display, res));
+		cosmos_throw(X11Exception(m_display, res));
 	}
 
 	m_parent = parent;
@@ -588,13 +566,22 @@ void XWindow::updateFamily() {
 void XWindow::copyArea(
 		const GcSharedPtr &gc, const PixMap &px,
 		const Extent &ext, const Coord &src_pos, const Coord &dst_pos) {
-	auto &display = XDisplay::getInstance();
 	// does not return synchronous errors
 	(void)XCopyArea(
-		display, px.id(), m_win, &(*gc),
+		m_display, px.id(), m_win, &(*gc),
 		src_pos.x, src_pos.y,
 		ext.width, ext.height,
 		dst_pos.x, dst_pos.y);
+}
+
+XWindow& XWindow::operator=(const XWindow &other) {
+	m_win = other.m_win;
+	m_parent = other.m_parent;
+	m_children = other.m_children;
+	m_input_event_mask = other.m_input_event_mask;
+	m_send_event_mask = other.m_send_event_mask;
+	m_cached_desktop_nr = other.m_cached_desktop_nr;
+	return *this;
 }
 
 /*
