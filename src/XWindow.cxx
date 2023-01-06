@@ -638,6 +638,7 @@ template void XWindow::getProperty(const Atom, Property<std::vector<utf8_string>
 template void XWindow::setProperty(const Atom, const Property<const char*>&);
 template void XWindow::setProperty(const Atom, const Property<int>&);
 template void XWindow::setProperty(const Atom, const Property<utf8_string>&);
+template void XWindow::setProperty(const Atom, const Property<XAtom>&);
 
 } // end ns
 
