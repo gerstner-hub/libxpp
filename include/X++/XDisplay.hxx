@@ -6,7 +6,6 @@
 
 // stdlib
 #include <optional>
-#include <memory>
 
 // xlib
 #include <X11/Xlib.h>
@@ -53,8 +52,6 @@ public: // types
 
 		COSMOS_ERROR_IMPL;
 	};
-
-	typedef std::shared_ptr<struct _XGC> GcSharedPtr;
 
 public: // functions
 

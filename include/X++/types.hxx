@@ -1,8 +1,12 @@
 #ifndef XPP_TYPES_HXX
 #define XPP_TYPES_HXX
 
+// stdlib
+#include <memory>
+
 // X11
 #include <X11/X.h>
+#include <X11/Xlib.h> // for consistent declaration of _XGC
 
 // Cosmos
 #include "cosmos/BitMask.hxx"
@@ -25,6 +29,20 @@ struct Extent {
 	unsigned int width = 0;
 	unsigned int height = 0;
 };
+
+/// A Pixel coordinate for drawing operations
+struct Coord {
+	int x = 0;
+	int y = 0;
+};
+
+/// smart pointer for GC graphics context
+/**
+ * The `GC` specified in Xlib method signatures is actually a pointer
+ * preprocessor define, thus we have to use the internal name of the struct
+ * behind this to create a valid shared_ptr around it.
+ **/
+typedef std::shared_ptr<struct _XGC> GcSharedPtr;
 
 /// constant for an invalid XID value
 /**

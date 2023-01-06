@@ -567,6 +567,18 @@ void XWindow::updateFamily() {
 	XFree(children);
 }
 
+void XWindow::copyArea(
+		const GcSharedPtr &gc, const PixMap &px,
+		const Extent &ext, const Coord &src_pos, const Coord &dst_pos) {
+	auto &display = XDisplay::getInstance();
+	// does not return synchronous errors
+	(void)XCopyArea(
+		display, px.id(), m_win, &(*gc),
+		src_pos.x, src_pos.y,
+		ext.width, ext.height,
+		dst_pos.x, dst_pos.y);
+}
+
 /*
  * explicit template instantiations
  *

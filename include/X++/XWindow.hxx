@@ -477,6 +477,15 @@ public: // functions
 	//! sends the given XEvent structure to the represented X11 window
 	void sendEvent(const XEvent &event);
 
+	/// copies image data from the given PixMap into the window
+	/**
+	 * \param[in] ext The extent of the area to copy
+	 * \param[in] src_pos The upper-left coordinate of the copy area in the source pixmap
+	 * \param[in] dst_pos The upper-left coordinate of the copy area in the dest window
+	 **/
+	void copyArea(const GcSharedPtr &gc, const PixMap &px,
+			const Extent &ext, const Coord &src_pos = Coord{0,0}, const Coord &dst_pos = Coord{0,0});
+
 protected: // functions
 
 	/**
