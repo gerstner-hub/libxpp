@@ -245,6 +245,13 @@ public: // functions
 		const XAtom &target_prop
 	);
 
+	/// makes the current window the owner of the given selection type
+	/**
+	 * This means that other clients on the XServer can in the future
+	 * request the selection from this window.
+	 **/
+	void makeSelectionOwner(const XAtom &selection, const Time &t = CurrentTime);
+
 	/// Requests the targeted window to close itself
 	/**
 	 * In contrast to destroy() this is a cooperative call that allows the

@@ -264,6 +264,11 @@ void XWindow::convertSelection(
 	m_display.flush();
 }
 
+void XWindow::makeSelectionOwner(const XAtom &selection, const Time &t) {
+	/// libX11 always returns 1 here, so ignore it
+	XSetSelectionOwner(m_display, selection, m_win, t);
+}
+
 void XWindow::sendDeleteRequest() {
 	long data[2];
 	data[0] = m_std_props.atom_icccm_wm_delete_window;
