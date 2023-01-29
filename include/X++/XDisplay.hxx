@@ -271,6 +271,13 @@ public: // functions
 	 **/
 	GcSharedPtr createGraphicsContext(Drawable d, const GcOptMask &mask, const XGCValues &vals);
 
+	/// return the window ID owning the given selection type
+	/**
+	 * If \c selection is invalid or the given selection has no owner then
+	 * no value is.
+	 **/
+	std::optional<Window> getSelectionOwner(const XAtom &selection) const;
+
 	//! transparently casts the instance to the Xlib Display primitive
 	operator Display*() { return m_dis; }
 

@@ -120,4 +120,13 @@ XDisplay::createGraphicsContext(Drawable d, const GcOptMask &mask, const XGCValu
 	return GcSharedPtr(gc, [this](GC c){ XFreeGC(*this, c); });
 }
 
+std::optional<Window> XDisplay::getSelectionOwner(const XAtom &selection) const {
+	auto win = XGetSelectionOwner(m_dis, selection);
+
+	if (win == None)
+		return {};
+
+	return win;
+}
+
 } // end ns

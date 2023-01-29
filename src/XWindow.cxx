@@ -265,7 +265,7 @@ void XWindow::convertSelection(
 }
 
 void XWindow::makeSelectionOwner(const XAtom &selection, const Time &t) {
-	/// libX11 always returns 1 here, so ignore it
+	// libX11 always returns 1 here, so ignore it
 	XSetSelectionOwner(m_display, selection, m_win, t);
 }
 
