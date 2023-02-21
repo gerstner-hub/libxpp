@@ -3,7 +3,7 @@
 #include <iomanip>
 
 // cosmos
-#include "cosmos/errors/InternalError.hxx"
+#include "cosmos/error/InternalError.hxx"
 
 // X++
 #include "X++/private/Xpp.hxx"
@@ -65,12 +65,12 @@ std::string XWindow::getName() const {
 	return name.get();
 }
 
-pid_t XWindow::getPID() const {
+cosmos::ProcessID XWindow::getPID() const {
 	xpp::Property<int> pid;
 
 	this->getProperty(m_std_props.atom_ewmh_window_pid, pid);
 
-	return pid.get();
+	return cosmos::ProcessID{pid.get()};
 }
 
 int XWindow::getDesktop() const {
@@ -564,7 +564,7 @@ void XWindow::getAttrs(XWindowAttrs &attrs) {
 void XWindow::setWindowAttrs(const XSetWindowAttributes &attrs, const WindowAttrMask &mask) {
 	// - the return value is always the 1 here so no need to check
 	// - the attrs are never changed in Xlib so const_cast is safe
-	XChangeWindowAttributes(m_display, m_win, mask.get(), const_cast<XSetWindowAttributes*>(&attrs));
+	XChangeWindowAttributes(m_display, m_win, mask.raw(), const_cast<XSetWindowAttributes*>(&attrs));
 }
 
 void XWindow::moveResize(const XWindowAttrs &attrs) {

@@ -4,7 +4,7 @@
 #include "X++/XDisplay.hxx"
 
 // cosmos
-#include "cosmos/errors/UsageError.hxx"
+#include "cosmos/error/UsageError.hxx"
 
 namespace xpp
 {
@@ -111,7 +111,7 @@ void XDisplay::freePixmap(PixMap &pm) const {
 
 std::shared_ptr<struct _XGC>
 XDisplay::createGraphicsContext(Drawable d, const GcOptMask &mask, const XGCValues &vals) {
-	auto gc = XCreateGC(m_dis, d, mask.get(), const_cast<XGCValues*>(&vals));
+	auto gc = XCreateGC(m_dis, d, mask.raw(), const_cast<XGCValues*>(&vals));
 
 	if (!gc) {
 		cosmos_throw(cosmos::RuntimeError("failed to allocate GC"));

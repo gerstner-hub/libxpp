@@ -10,7 +10,7 @@
 #include "X++/private/Xpp.hxx"
 
 // Cosmos
-#include "cosmos/errors/InternalError.hxx"
+#include "cosmos/error/InternalError.hxx"
 
 namespace xpp {
 

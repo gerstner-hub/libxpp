@@ -115,7 +115,7 @@ void RootWin::queryWMWindow() {
 }
 
 RootWin::WindowManager RootWin::detectWM(const std::string &name) {
-	const auto lower = cosmos::tolower(name);
+	const auto lower = cosmos::to_lower(name);
 
 	// see whether this is a window manager known to us
 	if (lower == "fluxbox") {

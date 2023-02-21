@@ -59,7 +59,8 @@ public: // functions
 
 	/// returns a file descriptor representing the connection to the X server
 	cosmos::FileDescriptor getConnectionNumber() {
-		return cosmos::FileDescriptor(XConnectionNumber(m_dis));
+		auto fd = cosmos::FileNum{XConnectionNumber(m_dis)};
+		return cosmos::FileDescriptor{fd};
 	}
 
 	/// returns the numbers of events currently queued but not yet processes

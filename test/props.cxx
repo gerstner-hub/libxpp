@@ -4,7 +4,7 @@
 #include "X++/RootWin.hxx"
 #include "X++/types.hxx"
 #include "cosmos/io/ILogger.hxx"
-#include "cosmos/Init.hxx"
+#include "cosmos/cosmos.hxx"
 
 class DefLogger :
 	public cosmos::ILogger {

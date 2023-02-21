@@ -5,7 +5,7 @@
 #include "X++/PropertyTraits.hxx"
 
 // libcosmos
-#include "cosmos/errors/UsageError.hxx"
+#include "cosmos/error/UsageError.hxx"
 
 namespace xpp {
 

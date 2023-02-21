@@ -8,7 +8,7 @@
 #include <X11/Xlib.h>
 
 // Cosmos
-#include "cosmos/errors/CosmosError.hxx"
+#include "cosmos/error/CosmosError.hxx"
 
 namespace xpp {
 

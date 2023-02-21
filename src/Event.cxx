@@ -1,5 +1,5 @@
 // cosmos
-#include "cosmos/errors/RuntimeError.hxx"
+#include "cosmos/error/RuntimeError.hxx"
 
 // Xpp
 #include "X++/Event.hxx"

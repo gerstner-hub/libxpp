@@ -12,7 +12,7 @@
 
 // Cosmos
 #include "cosmos/BitMask.hxx"
-#include "cosmos/errors/RuntimeError.hxx"
+#include "cosmos/error/RuntimeError.hxx"
 
 /* a place for miscellaneous types used in Xpp interfaces */
 
