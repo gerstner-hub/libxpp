@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <memory>
 #include <set>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -14,7 +15,7 @@
 #include <X11/Xutil.h> // XWMHints
 #include <X11/X.h> // event mask bits
 
-// Cosmos
+// cosmos
 #include "cosmos/ostypes.hxx"
 
 // X++
@@ -35,39 +36,44 @@ class XPP_API XWindow {
 public: // types
 
 	/// Exception used for property query errors.
-	struct PropertyQueryError : public X11Exception {
+	struct PropertyQueryError :
+			public X11Exception {
 		PropertyQueryError(Display *dis, const int errcode);
 
 		COSMOS_ERROR_IMPL;
 	};
 
 	/// Exception used for property change errors.
-	struct PropertyChangeError : public X11Exception {
+	struct PropertyChangeError :
+			public X11Exception {
 		PropertyChangeError(Display *dis, const int errcode);
 
 		COSMOS_ERROR_IMPL;
 	};
 
 	/// Exception used for the case when property types don't match.
-	struct PropertyTypeMismatch : public cosmos::CosmosError {
+	struct PropertyTypeMismatch :
+			public cosmos::CosmosError {
 		PropertyTypeMismatch(Atom expected, Atom encountered);
 
 		COSMOS_ERROR_IMPL;
 	};
 
 	/// Exception used for the case when a requested property doesn't exist.
-	struct PropertyNotExisting : public cosmos::CosmosError {
+	struct PropertyNotExisting :
+			public cosmos::CosmosError {
 		PropertyNotExisting() :
-			CosmosError("PropertyNotExisting", "Requested property is not existing")
+			CosmosError{"PropertyNotExisting", "Requested property is not existing"}
 		{}
 
 		COSMOS_ERROR_IMPL;
 	};
 
 	/// Exception used in situations when an operation is not implemented by the window manager.
-	struct NotImplemented : public cosmos::CosmosError {
+	struct NotImplemented :
+			public cosmos::CosmosError {
 		NotImplemented() :
-			CosmosError("NotImplemented", "The operation is not implemented")
+			CosmosError{"NotImplemented", "The operation is not implemented"}
 		{}
 
 		COSMOS_ERROR_IMPL;
@@ -94,11 +100,13 @@ public: // functions
 
 	/// Create an object without binding to a window
 	XWindow() :
-		m_display(XDisplay::getInstance()),
-		m_std_props(StandardProps::instance())
+			m_display(XDisplay::getInstance()),
+			m_std_props(StandardProps::instance())
 	{}
 
-	XWindow(const XWindow &other) : XWindow() { *this = other; }
+	XWindow(const XWindow &other) :
+			XWindow{}
+	{ *this = other; }
 
 	/// Create an object representing \c win on the current Display
 	explicit XWindow(Window win);
@@ -125,13 +133,13 @@ public: // functions
 	 **/
 	std::string getName() const;
 
-	/// Retrieve the PID that owns the represented window
+	/// Retrieve the PID that owns the represented window.
 	/**
 	 * If the pid cannot be determined an exception is thrown.
 	 **/
 	cosmos::ProcessID getPID() const;
 
-	/// Retrieve the desktop number the window is currently on
+	/// Retrieve the desktop number the window is currently on.
 	/**
 	 * The same details found at getName() are true here, too.
 	 *
@@ -139,26 +147,26 @@ public: // functions
 	 **/
 	int getDesktop() const;
 
-	/// Retrieves the last known value of the desktop nr. as returned by getDesktop()
+	/// Retrieves the last known value of the desktop nr. as returned by getDesktop().
 	/**
 	 * If there is no last known value then an active query via
 	 * getDesktop() will be made and cached for future invocations.
 	 **/
 	int getCachedDesktop() const;
 
-	/// Set \c name as the new name of the current window
+	/// Set \c name as the new name of the current window.
 	/**
 	 * If the window name cannot be set then an exception is thrown.
 	 *
 	 * On success the window manager should update the visible window
 	 * title accordingly.
 	 **/
-	void setName(const std::string &name);
+	void setName(const std::string_view name);
 
-	/// returns the client machine the window is associated with
+	/// returns the client machine the window is associated with.
 	std::string getClientMachine() const;
 
-	/// Returns the window class parameters for this window
+	/// Returns the window class parameters for this window.
 	/**
 	 * The first returned string is the name of the application, the
 	 * second returned string is the class of the application.
@@ -167,13 +175,13 @@ public: // functions
 	 **/
 	ClassStringPair getClass() const;
 
-	/// Returns the command line used to create the window
+	/// Returns the command line used to create the window.
 	std::string getCommand() const;
 
-	/// Returns the locale used by the window
+	/// Returns the locale used by the window.
 	std::string getLocale() const;
 
-	/// Returns the ID of the client leader window
+	/// Returns the ID of the client leader window.
 	/**
 	 * The client leader is part of the window manager session management
 	 * to identify windows that belong together.
@@ -183,12 +191,12 @@ public: // functions
 	 **/
 	Window getClientLeader() const;
 
-	/// Returns the type of the window
+	/// Returns the type of the window.
 	/**
 	 * The returned value is an atom of a predefined set of values like
 	 * _NET_WM_WINDOW_TYPE_NORMAL.
 	 **/
-	Atom getWindowType() const;
+	XAtom getWindowType() const;
 
 	/// Returns the array of atoms representing the protocols supported by the window
 	void getProtocols(XAtomVector &protocols) const;
@@ -199,17 +207,17 @@ public: // functions
 	 **/
 	void setProtocols(const XAtomVector &protocols);
 
-	/// returns the currently set XWMHints for the window
+	/// returns the currently set XWMHints for the window.
 	/**
 	 * This can also return a nullptr in case there are no hints set for
 	 * the current window.
 	 **/
 	std::shared_ptr<XWMHints> getWMHints() const;
 
-	/// sets new XWMHints for the window
+	/// Sets new XWMHints for the window.
 	void setWMHints(const XWMHints &hints);
 
-	/// Requests the X server to destroy the represented window and all sub-windows
+	/// Requests the X server to destroy the represented window and all sub-windows.
 	/**
 	 * This request cannot be ignored by the application owning the
 	 * window. It is a forcible way to remove the window from the X
@@ -222,7 +230,7 @@ public: // functions
 	 **/
 	void destroy();
 
-	/// Creates a pseudo window as child of the current window
+	/// Creates a pseudo window as child of the current window.
 	/**
 	 * For the dimensions and other properties of the window currently
 	 * sane defaults for a pseudo window that will never be mapped are
@@ -232,7 +240,7 @@ public: // functions
 	 **/
 	Window createChild();
 
-	/// Requests the given selection buffer to be sent to this window
+	/// Requests the given selection buffer to be sent to this window.
 	/**
 	 * The result will be received at the target window via a
 	 * SelectionNotify event.
@@ -250,14 +258,14 @@ public: // functions
 		const XAtom &target_prop
 	);
 
-	/// makes the current window the owner of the given selection type
+	/// Makes the current window the owner of the given selection type.
 	/**
 	 * This means that other clients on the XServer can in the future
 	 * request the selection from this window.
 	 **/
 	void makeSelectionOwner(const XAtom &selection, const Time &t = CurrentTime);
 
-	/// Requests the targeted window to close itself
+	/// Requests the targeted window to close itself.
 	/**
 	 * In contrast to destroy() this is a cooperative call that allows the
 	 * targeted window to cleanly close itself and the associated
@@ -265,7 +273,7 @@ public: // functions
 	 **/
 	void sendDeleteRequest();
 
-	/// Retrieves a list of all properties currently present on this window
+	/// Retrieves a list of all properties currently present on this window.
 	/**
 	 * The vector of \c atoms is first cleared in any case and will be
 	 * filled with the atoms identifying the properties existing on this
@@ -273,7 +281,7 @@ public: // functions
 	 **/
 	void getPropertyList(XAtomVector &atoms);
 
-	/// Retrieves property metadata about the given property present on this window
+	/// Retrieves property metadata about the given property present on this window.
 	/**
 	 * This information is useful for processing properties in a generic
 	 * way without knowing their type in advance. For example to be used
@@ -281,7 +289,7 @@ public: // functions
 	 **/
 	void getPropertyInfo(const XAtom &property, PropertyInfo &info);
 
-	/// Retrieves raw property data without interpreting type and format
+	/// Retrieves raw property data without interpreting type and format.
 	/**
 	 * Similar to getPropertyInfo() this returns the actual property info
 	 * in \c info. On input the RawProperty's length and offset members
@@ -294,7 +302,7 @@ public: // functions
 	 **/
 	void getRawProperty(const XAtom &property, PropertyInfo &info, RawProperty &out);
 
-	/// Retrieve a property from this window object
+	/// Retrieve a property from this window object.
 	/**
 	 * The property \c name will be queried from the current window and
 	 * stored in \c p.
@@ -304,11 +312,11 @@ public: // functions
 	 * The PROPTYPE type must match the property's type.
 	 **/
 	template <typename PROPTYPE>
-	void getProperty(const std::string &name, Property<PROPTYPE> &p) const {
-		getProperty(m_display, p);
+	void getProperty(const std::string_view name, Property<PROPTYPE> &p) const {
+		getProperty(m_display.getAtom(name), p);
 	}
 
-	/// Gets a property for an already mapped Atom
+	/// Gets a property for an already mapped Atom.
 	/**
 	 * \see getProperty(copnst std::string &name, ...)
 	 * \param[in] info
@@ -316,13 +324,9 @@ public: // functions
 	 * 	helping determining the correct size to retrieve
 	 **/
 	template <typename PROPTYPE>
-	void getProperty(
-		const Atom name_atom,
-		Property<PROPTYPE> &p,
-		const PropertyInfo *info = nullptr
-	) const;
+	void getProperty(const XAtom name_atom, Property<PROPTYPE> &p, const PropertyInfo *info = nullptr) const;
 
-	/// Store a property in this window object
+	/// Store a property in this window object.
 	/**
 	 * Sets the property \c name for the current window to the value
 	 * stored in \c p.
@@ -330,39 +334,39 @@ public: // functions
 	 * On error an exception is thrown.
 	 **/
 	template <typename PROPTYPE>
-	void setProperty(const std::string &name, const Property<PROPTYPE> &p) {
-		setProperty(m_display, p);
+	void setProperty(const std::string_view name, const Property<PROPTYPE> &p) {
+		setProperty(m_display.getAtom(name), p);
 	}
 
-	/// Set a property for an already mapped Atom
+	/// Set a property for an already mapped Atom.
 	/**
 	 * \see setProperty(const std::string&, const Property<PROPTYPE>&)
 	 **/
 	template <typename PROPTYPE>
-	void setProperty(const Atom name_atom, const Property<PROPTYPE> &p);
+	void setProperty(const XAtom name_atom, const Property<PROPTYPE> &p);
 
 
-	/// Removes the property of the given name identifier from the window
+	/// Removes the property of the given name identifier from the window.
 	void delProperty(const std::string &name) {
 		delProperty(m_display.getAtom(name));
 	}
 
-	/// Removes the property of the given atom identifier from the 	window
-	void delProperty(const Atom name_atom);
+	/// Removes the property of the given atom identifier from the window.
+	void delProperty(const XAtom name_atom);
 
-	/// compares the Xlib Window primitive for equality
+	/// compares the Xlib Window primitive for equality.
 	bool operator==(const XWindow &o) const { return m_win == o.m_win; }
 
 	bool operator!=(const XWindow &o) const { return !operator==(o); }
 
-	/// Returns the next queued window event that matches the given event mask
+	/// Returns the next queued window event that matches the given event mask.
 	/**
 	 * If no matching event is currently pending for the window then this
 	 * call flushes the output buffer and blocks until an event is received.
 	 **/
 	void getNextEvent(XEvent &event, const long event_mask);
 
-	/// Inform the X server that we want to be notified of window creation events
+	/// Inform the X server that we want to be notified of window creation events.
 	/**
 	 * This call mostly makes sense for the root window to get notified of
 	 * new windows that come to life.
@@ -380,7 +384,7 @@ public: // functions
 		selectEvent(SubstructureNotifyMask);
 	}
 
-	///  Inform the X server that we want to be notified of window destruction events
+	/// Inform the X server that we want to be notified of window destruction events.
 	/**
 	 * If the current window will be destroyed an event will be sent to
 	 * your X application.
@@ -389,7 +393,7 @@ public: // functions
 		selectEvent(StructureNotifyMask);
 	}
 
-	/// Inform the X server that we want to be notified if properties of the current window change
+	/// Inform the X server that we want to be notified if properties of the current window change.
 	/**
 	 * This enables you to get events if properties of the current window
 	 * are added, changed or deleted.
@@ -402,13 +406,13 @@ public: // functions
 
 	operator Window() const { return m_win; }
 
-	/// Retrieve the attributes for this window
+	/// Retrieve the attributes for this window.
 	/**
-	 * If this fails then an X11Exception is thrown
+	 * If this fails then an X11Exception is thrown.
 	 **/
 	void getAttrs(XWindowAttrs &attrs);
 
-	/// sets new window attributes according to the given mask
+	/// Sets new window attributes according to the given mask.
 	void setWindowAttrs(const XSetWindowAttributes &attrs, const WindowAttrMask &mask);
 
 	/// Move and or resize the window
@@ -418,8 +422,7 @@ public: // functions
 	 **/
 	void moveResize(const XWindowAttrs &attrs);
 
-	void setParent(Window parent) { m_parent = parent; }
-	void setParent(const XWindow &parent) { setParent(parent.id()); }
+	void setParent(const XWindow &parent) { m_parent = parent.id(); }
 
 	Window getParent() const { return m_parent; }
 
@@ -428,13 +431,13 @@ public: // functions
 	void addChild(const XWindow &child) { m_children.insert(child.id()); }
 	void delChild(const XWindow &child) { m_children.erase(child.id()); }
 
-	/// queries parent and child windows of this window and sets them acc.
+	/// Queries parent and child windows of this window and sets them acc.
 	void updateFamily();
 
-	/// sends the given XEvent structure to the represented X11 window
+	/// Sends the given XEvent structure to the represented X11 window.
 	void sendEvent(const XEvent &event);
 
-	/// copies image data from the given PixMap into the window
+	/// Copies image data from the given PixMap into the window.
 	/**
 	 * \param[in] ext The extent of the area to copy
 	 * \param[in] src_pos The upper-left coordinate of the copy area in the source pixmap
@@ -445,15 +448,11 @@ public: // functions
 
 protected: // functions
 
-	/// Adds the given event(s) to the set of window events we want to be notified about
+	/// Adds the given event(s) to the set of window events we want to be notified about.
 	void selectEvent(const long new_event) const;
 
-	/// Sends a request to the window with a single long parameter as data
-	void sendRequest(
-		const XAtom &message,
-		long data,
-		const XWindow *window = nullptr
-	) {
+	/// Sends a request to the window with a single long parameter as data.
+	void sendRequest(const XAtom &message, long data, const XWindow *window = nullptr) {
 		return sendRequest(message, (const char*)&data, sizeof(data), window);
 	}
 

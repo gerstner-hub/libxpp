@@ -40,20 +40,20 @@ template <typename PROPTYPE>
 class PropertyTraits {
 public: // constants
 
-	//! Xlib atom data type corresponding to PROPTYPE that is passed to the X functions for identification.
+	/// Xlib atom data type corresponding to PROPTYPE that is passed to the X functions for identification.
 	static const Atom x_type = XA_CARDINAL;
-	//! if PROPTYPE has got a fixed size then this constant denotes that size in bytes, otherwise set to zero.
+	/// if PROPTYPE has got a fixed size then this constant denotes that size in bytes, otherwise set to zero.
 	static const unsigned long fixed_size = 0;
-	//! A pointer to PROPTYPE that can be passed to the X functions
-	//! for retrieving / passing data.
+	/// A pointer to PROPTYPE that can be passed to the X functions
+	/// for retrieving / passing data.
 	typedef float* XPtrType;
-	//! The format in X terms, determines the width of a single sequence
-	//! item in bits (e.g. for arrays of 8-bit, 16-bit or 32-bit items).
+	/// The format in X terms, determines the width of a single sequence
+	/// item in bits (e.g. for arrays of 8-bit, 16-bit or 32-bit items).
 	static const char format = 0;
 
 public: // functions
 
-	//! Returns the number of elements the given property has in X terms
+	/// Returns the number of elements the given property has in X terms
 	static
 	int getNumElements(const PROPTYPE &val) { return 0; }
 
@@ -133,8 +133,7 @@ public: // functions
 
 	static
 	void native2x(const XAtom &a, XPtrType &data) {
-		// We simply set the pointer to the PROPTYPE item as a flat
-		// copy.
+		// We simply set the pointer to the PROPTYPE item as a flat copy.
 		data = (XPtrType)a.getPtr();
 	}
 };
@@ -227,7 +226,7 @@ public: // functions
 
 
 template <typename ELEM>
-//! property type specialization for vectors of primitives
+/// property type specialization for vectors of primitives
 class PropertyTraits<std::vector<ELEM>> {
 public: // constants
 
@@ -247,8 +246,7 @@ public: // functions
 };
 
 template <>
-class PropertyTraits< std::vector<utf8_string> >
-{
+class PropertyTraits< std::vector<utf8_string>> {
 public: // constants
 
 	static XAtom x_type;
@@ -280,7 +278,7 @@ public: // functions
 };
 
 template <>
-//! property type specialization for arrays of Window identifiers
+/// property type specialization for arrays of Window identifiers
 class PropertyTraits<std::vector<int>> {
 public: // constants
 

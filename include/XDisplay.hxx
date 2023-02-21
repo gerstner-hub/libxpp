@@ -4,10 +4,10 @@
 // C
 #include <stdint.h>
 
-// stdlib
+// C++
 #include <optional>
 
-// xlib
+// X11
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 
@@ -17,37 +17,40 @@
 // X++
 #include "X++/types.hxx"
 #include "X++/X11Exception.hxx"
+#include "X++/XAtom.hxx"
 
 namespace xpp {
 
 class Event;
 class XWindow;
 
+/// Wrapper around the Xlib Display type.
 /**
- * \brief
- * 	Wrapper around the Xlib Display type.
- * \details
- *	This class associates the Xlib Display type with relevant operations.
- *	Most importantly the Display provides the actual Atom mapping
- *	operations and is also required to create instances of the XWindow
- *	type.
+ * This class associates the Xlib Display type with relevant operations. Most
+ * importantly the Display provides the actual Atom mapping operations and is
+ * also required to create instances of the XWindow type.
+ * 
+ * I decided to make this type a singleton as the one and only Display
+ * instance is required at a lot of places and passing it from one place to
+ * another becomes very annoying.
  *
- *	I decided to make this type a singleton as the one and only Display
- *	instance is required at a lot of places and passing it from one place
- *	to another becomes very annoying.
+ * Making it possible to operate on the non-default Display should be not too
+ * hard to implement, if ever needed.
  **/
 class XPP_API XDisplay {
 public: // types
 
-	//! Specialized X11Exception for Atom Mapping Errors
-	struct AtomMappingError : public xpp::X11Exception {
-		AtomMappingError(Display *dis, const int errcode, const std::string &s);
+	/// Specialized X11Exception for Atom Mapping Errors.
+	struct AtomMappingError :
+			public xpp::X11Exception {
+		AtomMappingError(Display *dis, const int errcode, const std::string_view s);
 
 		COSMOS_ERROR_IMPL;
 	};
 
-	//! Specialized Exception for errors regarding opening the Display
-	struct DisplayOpenError : public cosmos::CosmosError {
+	/// Specialized Exception for errors regarding opening the Display.
+	struct DisplayOpenError :
+			public cosmos::CosmosError {
 		DisplayOpenError();
 
 		COSMOS_ERROR_IMPL;
@@ -77,48 +80,39 @@ public: // functions
 		return getPendingEvents() != 0;
 	}
 
+ 	/// Creates an X atom for the given string and returns it.
 	/**
-	 * \brief
-	 *	Creates an X atom for the given string and returns it.
-	 * \details
-	 *	The function always returns a valid Atom, even if it first
-	 *	needs to be created by X11.
-	 *
-	 *	Can throw AtomMappingError.
+	 * The function always returns a valid Atom, even if it first needs to
+	 * be created by X11.
+	 * 
+	 * Can throw AtomMappingError.
 	 **/
-	Atom getAtom(const std::string &name) {
-		return getAtom(name.c_str());
-	}
-
-	//! see getAtom(const std::string&)
-	Atom getAtom(const char *name) {
-		Atom ret = XInternAtom(m_dis, name, False);
+	XAtom getAtom(const std::string_view name) {
+		Atom ret = XInternAtom(m_dis, name.data(), False);
 
 		if (ret == BadAlloc || ret == BadValue || ret == None) {
 			cosmos_throw (AtomMappingError(m_dis, ret, name));
 		}
 
-		return ret;
+		return XAtom{ret};
 	}
 
-	std::string getName(const Atom atom) {
-		auto str = XGetAtomName(m_dis, atom);
-		std::string ret(str);
+	std::string getName(const XAtom atom) {
+		auto str = XGetAtomName(m_dis, atom.get());
+		std::string ret{str};
 		XFree(str);
 		return ret;
 	}
 
+	/// Flushes any commands not yet issued to the server.
 	/**
-	 * \brief
-	 *	Flushes any commands not yet issued to the server
-	 * \details
-	 * 	Xlib, if not running in synchronous mode, assumes that an X
-	 * 	application is frequently sending some X commands to the
-	 * 	server and thus buffers commands according to some
-	 * 	implementation defined strategy.
-	 *
-	 * 	To make sure that any recently issued communication to the X
-	 * 	server takes place right now you can call this function.
+	 * Xlib, if not running in synchronous mode, assumes that an X
+	 * application is frequently sending some X commands to the server and
+	 * thus buffers commands according to some implementation defined
+	 * strategy.
+	 * 
+	 * To make sure that any recently issued communication to the X server
+	 * takes place right now you can call this function.
 	 **/
 	void flush() {
 		if (XFlush(m_dis) == 0) {
@@ -126,35 +120,28 @@ public: // functions
 		}
 	}
 
+	/// Returns the next event pending for this client.
 	/**
-	 * \brief
-	 * 	Returns the next event pending on the display
-	 * \details
-	 * 	If no event is currently queued at the display then output
-	 * 	buffers are flushed and the call blocks until a new event is
-	 * 	received.
-	 *
-	 * 	This call returns any events for any windows regardless of
-	 * 	their event types.
-	 *
-	 * 	This call does not pass on error conditions, it will always
-	 * 	succeed.
+	 * If no event is currently queued at the display then output buffers
+	 * are flushed and the call blocks until a new event is received.
+	 * 
+	 * This call returns any events for any windows regardless of their
+	 * event types.
+	 * 
+	 * This call does not pass on error conditions, it will always
+	 * succeed.
 	 **/
 	void getNextEvent(Event &event);
 
+	/// Creates a new window with the given properties.
 	/**
-	 * \brief
-	 * 	Creates a new window with the given properties
-	 * \details
-	 * 	If depth is not provided then the default depth for the
-	 * 	current display and default screen is used.
-	 *
-	 * 	If visual is not provided then the default visual will be be
-	 * 	used.
-	 *
-	 * 	If attrs and value_mask are not provided then default
-	 * 	attributes apply. If one is supplied then the other needs to
-	 * 	be supplied, too.
+	 * If depth is not provided then the default depth for the current
+	 * display and default screen is used.
+	 * 
+	 * If visual is not provided then the default visual will be be used.
+	 * 
+	 * If attrs and value_mask are not provided then default attributes
+	 * apply. If one is supplied then the other needs to be supplied, too.
 	 **/
 	XWindow createWindow(
 		const WindowSpec &spec,
@@ -175,24 +162,21 @@ public: // functions
 	 **/
 	void mapWindow(const XWindow &win);
 
+	/// Flushes any commands not yet issued to the server and waits for it to process them
 	/**
-	 * \brief
-	 * 	Flushes any commands not yet issued to the server and waits
-	 * 	for it to process them
-	 * \details
-	 * 	This is just like flush(), with the extra functionality that
-	 * 	this call will block until all requests have also been
-	 * 	processed by the XServer. This is helpful, for example, if we
-	 * 	have registered new events to be notified of and want to make
-	 * 	sure the XServer knows this at some point in time.
+	 * This is just like flush(), with the extra functionality that this
+	 * call will block until all requests have also been processed by the
+	 * XServer. This is helpful, for example, if we have registered new
+	 * events to be notified of and want to make sure the XServer knows
+	 * this at some point in time.
 	 **/
 	void sync() {
-		if (XSync( m_dis, False ) == 0) {
+		if (XSync(m_dis, False) == 0) {
 			cosmos_throw (X11Exception("XSync failed"));
 		}
 	}
 
-	/// puts libX11 into synchronized or unsynchronized mode
+	/// puts libX11 into synchronized or unsynchronized mode.
 	/**
 	 * By default the client library caches various operations and only
 	 * sends them out to the X server during certain actions or on
@@ -279,12 +263,11 @@ public: // functions
 	 **/
 	std::optional<Window> getSelectionOwner(const XAtom &selection) const;
 
-	//! transparently casts the instance to the Xlib Display primitive
+	/// transparently casts the instance to the Xlib Display primitive
 	operator Display*() { return m_dis; }
 
+	/// Returns a reference to the single XDisplay instance.
 	/**
-	 * \brief
-	 * 	Returns a reference to the single XDisplay instance
 	 * \note
 	 * 	The first access to this function (construction) can generate
 	 * 	errors that will be propagated by means of exceptions.
@@ -293,7 +276,7 @@ public: // functions
 
 protected: // functions
 
-	//! Opens the default display, protected due to singleton pattern
+	/// Opens the default display, protected due to singleton pattern
 	XDisplay();
 
 	// disallow copy of the singleton XDisplay
@@ -301,7 +284,7 @@ protected: // functions
 
 protected: // data
 
-	//! The Xlib primitive for the Display
+	/// The Xlib primitive for the Display
 	mutable Display *m_dis = nullptr;
 };
 

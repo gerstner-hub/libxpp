@@ -15,8 +15,9 @@ namespace xpp {
 /// Wraps an XEvent libX11 union
 class XPP_API Event {
 public: // functions
+
 	explicit Event(const XEvent &ev) :
-		m_ev(ev) {}
+			m_ev(ev) {}
 
 	Event() {
 		m_ev.type = 0;
@@ -25,17 +26,16 @@ public: // functions
 	XEvent* raw() { return &m_ev; }
 	const XEvent* raw() const { return &m_ev; }
 
+	/// Check whether the given event should be filtered.
 	/**
-	 * \brief
-	 * 	Check whether the given event should be filtered
-	 * \details
-	 * 	Certain layers above libX11 (like XOpenIM) make use of events
-	 * 	on their own. To avoid getting confused by these events and to
-	 * 	make these layers work correctly this call should be used to
-	 * 	check whether this is the case for this event.
+	 * Certain layers above libX11 (like XOpenIM) make use of events on
+	 * their own. To avoid getting confused by these events and to make
+	 * these layers work correctly this call should be used to check
+	 * whether this is the case for this event.
+	 * 
+	 * If no window is passed then the window value stored in the event
+	 * structure will be used.
 	 *
-	 * 	If no window is passed then the window value stored in the
-	 * 	event structure will be used.
 	 * \return
 	 * 	\c true if the event is to be filtered, \c false if the caller
 	 * 	should continue processing the event.
@@ -48,21 +48,22 @@ public: // functions
 		return XFilterEvent(const_cast<XEvent*>(&m_ev), w ? *w : None) == True;
 	}
 
-	bool isConfigureNotify() const { return m_ev.type == ConfigureNotify; }
-	bool isMapNotify() const { return m_ev.type == MapNotify; }
+	bool isConfigureNotify() const  { return m_ev.type == ConfigureNotify; }
+	bool isMapNotify() const        { return m_ev.type == MapNotify; }
 	bool isVisibilityNotify() const { return m_ev.type == VisibilityNotify; }
-	bool isFocusChange() const { return m_ev.type == FocusIn || m_ev.type == FocusOut; }
-	bool isKeyPress() const { return m_ev.type == KeyPress; }
-	bool isClientMessage() const { return m_ev.type == ClientMessage; }
-	bool isButtonEvent() const { return m_ev.type == ButtonRelease || m_ev.type == ButtonPress; }
-	bool isPropertyNotify() const { return m_ev.type == PropertyNotify; }
-	bool isSelectionNotify() const { return m_ev.type == SelectionNotify; }
+	bool isFocusChange() const      { return m_ev.type == FocusIn || m_ev.type == FocusOut; }
+	bool isKeyPress() const         { return m_ev.type == KeyPress; }
+	bool isClientMessage() const    { return m_ev.type == ClientMessage; }
+	bool isButtonEvent() const      { return m_ev.type == ButtonRelease || m_ev.type == ButtonPress; }
+	bool isPropertyNotify() const   { return m_ev.type == PropertyNotify; }
+	bool isSelectionNotify() const  { return m_ev.type == SelectionNotify; }
 	bool isSelectionRequest() const { return m_ev.type == SelectionRequest; }
 
 	int getType() const { return m_ev.type; }
 
 	void onMismatch(const bool matches) const {
-		if (!matches) raiseMismatch();
+		if (!matches)
+			raiseMismatch();
 	}
 
 	auto toConfigureNotify() const {
@@ -115,6 +116,7 @@ protected: // functions
 	void raiseMismatch() const;
 
 protected: // data
+
 	XEvent m_ev;
 };
 

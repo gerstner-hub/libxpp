@@ -22,7 +22,7 @@ public: // functions
 
 protected: // functions
 
-	friend void initLibXpp(std::optional<cosmos::ILogger*>);
+	friend void init(std::optional<cosmos::ILogger*>);
 
 	//! protected constructor to enforce singleton usage
 	Xpp() {};

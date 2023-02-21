@@ -1,31 +1,30 @@
-// stdlib
+// C++
 #include <atomic>
 
 // libX11
 #include <X11/Xlib.h>
+
+// cosmos
+#include "cosmos/error/InternalError.hxx"
 
 // X++
 #include "X++/PropertyTraits.hxx"
 #include "X++/Xpp.hxx"
 #include "X++/private/Xpp.hxx"
 
-// Cosmos
-#include "cosmos/error/InternalError.hxx"
-
 namespace xpp {
 
 static std::atomic<std::size_t> g_init_counter;
 
-void initLibXpp(std::optional<cosmos::ILogger*> logger) {
+void init(std::optional<cosmos::ILogger*> logger) {
 	if (g_init_counter++ != 0)
 		return;
 
 	// this asks the Xlib to be thread-safe
 	// be careful that this must be the first Xlib call in the process
 	// otherwise it won't work!
-	if (!::XInitThreads())
-	{
-		cosmos_throw( cosmos::InternalError("Error initialiizing libX11 threads") );
+	if (!::XInitThreads()) {
+		cosmos_throw (cosmos::InternalError("Error initialiizing libX11 threads"));
 	}
 
 	PropertyTraits<utf8_string>::init();
@@ -36,8 +35,7 @@ void initLibXpp(std::optional<cosmos::ILogger*> logger) {
 	}
 }
 
-void finishLibXpp() {
-
+void finish() {
 	if (--g_init_counter != 0)
 		return;
 
@@ -55,7 +53,8 @@ Xpp::~Xpp() {
 }
 
 void Xpp::setupNullLogger() {
-	class NullLogger : public cosmos::ILogger {
+	class NullLogger :
+			public cosmos::ILogger {
 	public:
 		NullLogger() {
 			auto &noop = this->getNoopStream();

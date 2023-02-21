@@ -5,6 +5,9 @@
 #include <memory>
 #include <exception>
 
+// libX11
+#include <X11/Xlib.h>
+
 namespace xpp {
 
 /// returns a shared_ptr object that calls XFree on cleanup for XLib memory

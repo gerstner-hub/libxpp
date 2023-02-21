@@ -1,7 +1,7 @@
 #ifndef XPP_TYPES_HXX
 #define XPP_TYPES_HXX
 
-// stdlib
+// C++
 #include <memory>
 #include <string_view>
 #include <vector>
@@ -14,7 +14,11 @@
 #include "cosmos/BitMask.hxx"
 #include "cosmos/error/RuntimeError.hxx"
 
-/* a place for miscellaneous types used in Xpp interfaces */
+/**
+ * @file
+ *
+ * A place for miscellaneous types used in libX++ interfaces.
+ **/
 
 namespace xpp {
 
@@ -47,12 +51,12 @@ struct Coord {
 typedef std::shared_ptr<struct _XGC> GcSharedPtr;
 
 /// A vector of primitive Atom values
-typedef std::vector<Atom> AtomVector;
+using AtomVector = std::vector<Atom>;
 
 class XAtom; // fwd. decl.
 
 /// A vector of strongly typed XAtom values
-typedef std::vector<XAtom> XAtomVector;
+using XAtomVector = std::vector<XAtom>;
 
 /// constant for an invalid XID value
 /**
@@ -98,49 +102,49 @@ struct RawProperty {
  * These are bitmask values, see X.h
  **/
 enum class GcOpts : long {
-	Function = GCFunction,
-	PlaneMask = GCPlaneMask,
-	Foreground = GCFunction,
-	Background = GCBackground,
-	LineWidth = GCLineWidth,
-	LineStyle = GCLineStyle,
-	CapStyle = GCCapStyle,
-	JoinStyle = GCJoinStyle,
-	FillStyle = GCFillStyle,
-	FillRule = GCFillRule,
-	Tile = GCTile,
-	Stipple = GCStipple,
-	TileStipXOrigin = GCTileStipXOrigin,
-	TileStipYOrigin = GCTileStipYOrigin,
-	Font = GCFont,
-	SubwindowMode = GCSubwindowMode,
+	Function          = GCFunction,
+	PlaneMask         = GCPlaneMask,
+	Foreground        = GCFunction,
+	Background        = GCBackground,
+	LineWidth         = GCLineWidth,
+	LineStyle         = GCLineStyle,
+	CapStyle          = GCCapStyle,
+	JoinStyle         = GCJoinStyle,
+	FillStyle         = GCFillStyle,
+	FillRule          = GCFillRule,
+	Tile              = GCTile,
+	Stipple           = GCStipple,
+	TileStipXOrigin   = GCTileStipXOrigin,
+	TileStipYOrigin   = GCTileStipYOrigin,
+	Font              = GCFont,
+	SubwindowMode     = GCSubwindowMode,
 	GraphicsExposures = GCGraphicsExposures,
-	ClipXOrigin = GCClipXOrigin,
-	ClipYOrigin = GCClipYOrigin,
-	ClipMask = GCClipMask,
-	DashOffset = GCDashOffset,
-	DashList = GCDashList,
-	ArcMode = GCArcMode
+	ClipXOrigin       = GCClipXOrigin,
+	ClipYOrigin       = GCClipYOrigin,
+	ClipMask          = GCClipMask,
+	DashOffset        = GCDashOffset,
+	DashList          = GCDashList,
+	ArcMode           = GCArcMode
 };
 
 typedef cosmos::BitMask<GcOpts> GcOptMask;
 
 enum class WindowAttr : unsigned long {
-	BackPixmap = CWBackPixmap,
-	BackPixel = CWBackPixel,
-	BorderPixmap = CWBorderPixmap,
-	BorderPixel = CWBorderPixel,
-	BitGravity = CWBitGravity,
-	WinGravity = CWWinGravity,
-	BackingStore = CWBackingStore,
-	BackingPlanes = CWBackingPlanes,
-	BackingPixel = CWBackingPixel,
+	BackPixmap       = CWBackPixmap,
+	BackPixel        = CWBackPixel,
+	BorderPixmap     = CWBorderPixmap,
+	BorderPixel      = CWBorderPixel,
+	BitGravity       = CWBitGravity,
+	WinGravity       = CWWinGravity,
+	BackingStore     = CWBackingStore,
+	BackingPlanes    = CWBackingPlanes,
+	BackingPixel     = CWBackingPixel,
 	OverrideRedirect = CWOverrideRedirect,
-	SaveUnder = CWSaveUnder,
-	EventMask = CWEventMask,
-	DontPropagate = CWDontPropagate,
-	Colormap = CWColormap,
-	Cursor = CWCursor
+	SaveUnder        = CWSaveUnder,
+	EventMask        = CWEventMask,
+	DontPropagate    = CWDontPropagate,
+	Colormap         = CWColormap,
+	Cursor           = CWCursor
 };
 
 typedef cosmos::BitMask<WindowAttr> WindowAttrMask;

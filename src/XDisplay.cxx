@@ -1,13 +1,12 @@
+// cosmos
+#include "cosmos/error/UsageError.hxx"
+
 // X++
 #include "X++/Event.hxx"
 #include "X++/RootWin.hxx"
 #include "X++/XDisplay.hxx"
 
-// cosmos
-#include "cosmos/error/UsageError.hxx"
-
-namespace xpp
-{
+namespace xpp {
 
 XDisplay::~XDisplay() {
 	XCloseDisplay(m_dis);
@@ -15,12 +14,11 @@ XDisplay::~XDisplay() {
 }
 
 XDisplay::XDisplay() {
-	// if nullptr is specified, then the value of DISPLAY
-	// environment will be used
+	// if nullptr is specified, then the value of DISPLAY environment will be used
 	m_dis = XOpenDisplay(nullptr);
 
 	if (!m_dis) {
-		cosmos_throw(DisplayOpenError());
+		cosmos_throw (DisplayOpenError());
 	}
 }
 
@@ -40,7 +38,7 @@ XWindow XDisplay::createWindow(
 		const std::optional<XSetWindowAttributes*> &attrs) {
 
 	if (value_mask && !attrs) {
-		cosmos_throw(cosmos::UsageError("attrs cannot be nullptr if value_mask is given"));
+		cosmos_throw (cosmos::UsageError("attrs cannot be nullptr if value_mask is given"));
 	}
 
 	static RootWin root_win;
@@ -57,20 +55,20 @@ XWindow XDisplay::createWindow(
 		attrs ? *attrs : nullptr
 	);
 
-	return XWindow(res);
+	return XWindow{res};
 }
 
 void XDisplay::mapWindow(const XWindow &win) {
 	// this should never fail looking at current libX11 code, but you
 	// never know ...
 	if (XMapWindow(m_dis, win) != 1) {
-		cosmos_throw(cosmos::RuntimeError("failed to map window"));
+		cosmos_throw (cosmos::RuntimeError("failed to map window"));
 	}
 }
 
 void XDisplay::setSynchronized(bool on_off) {
 	// this returns a callback function pointer we don't need
-	(void)::XSynchronize(m_dis, on_off ? True : False);
+	(void)::XSynchronize (m_dis, on_off ? True : False);
 }
 
 XDisplay& XDisplay::getInstance() {
@@ -79,29 +77,28 @@ XDisplay& XDisplay::getInstance() {
 	return dis;
 }
 
-XDisplay::AtomMappingError::AtomMappingError(Display *dis, const int errcode, const std::string &s) :
-	X11Exception(dis, errcode) {
+XDisplay::AtomMappingError::AtomMappingError(Display *dis, const int errcode, const std::string_view s) :
+		X11Exception{dis, errcode} {
 
-	m_msg = std::string("Trying to map atom '") + s + std::string("':") + m_msg;
+	m_msg = std::string("Trying to map atom '") + std::string{s} + std::string("':") + m_msg;
 }
 
 XDisplay::DisplayOpenError::DisplayOpenError() :
-	CosmosError("DisplayOpenError")
-{
+		CosmosError{"DisplayOpenError"} {
 	m_msg = "Unable to open X11 display: \"";
 	m_msg += XDisplayName(nullptr);
 	m_msg += "\". ";
 }
 
 PixMap XDisplay::createPixmap(
-	const XWindow &win,
-	const Extent &extent,
-	const std::optional<int> depth) const {
+		const XWindow &win,
+		const Extent &extent,
+		const std::optional<int> depth) const {
 
 	auto pm = XCreatePixmap(
 			m_dis, win.id(), extent.width, extent.height,
 			depth ? *depth : getDefaultDepth());
-	return PixMap(pm);
+	return PixMap{pm};
 }
 
 void XDisplay::freePixmap(PixMap &pm) const {
@@ -114,10 +111,10 @@ XDisplay::createGraphicsContext(Drawable d, const GcOptMask &mask, const XGCValu
 	auto gc = XCreateGC(m_dis, d, mask.raw(), const_cast<XGCValues*>(&vals));
 
 	if (!gc) {
-		cosmos_throw(cosmos::RuntimeError("failed to allocate GC"));
+		cosmos_throw (cosmos::RuntimeError("failed to allocate GC"));
 	}
 
-	return GcSharedPtr(gc, [this](GC c){ XFreeGC(*this, c); });
+	return GcSharedPtr{gc, [this](GC c){ XFreeGC(*this, c); }};
 }
 
 std::optional<Window> XDisplay::getSelectionOwner(const XAtom &selection) const {

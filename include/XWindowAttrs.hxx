@@ -6,7 +6,8 @@
 
 namespace xpp {
 
-struct XWindowAttrs : public XWindowAttributes {
+struct XWindowAttrs :
+		public XWindowAttributes {
 	bool isMapped() const;
 };
 

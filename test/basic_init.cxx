@@ -5,6 +5,7 @@
 #include "X++/types.hxx"
 #include "cosmos/io/ILogger.hxx"
 #include "cosmos/cosmos.hxx"
+#include "cosmos/formatting.hxx"
 
 class DefLogger :
 	public cosmos::ILogger {

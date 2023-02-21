@@ -1,22 +1,17 @@
-// libX++
+// cosmos
+#include "cosmos/formatting.hxx"
+#include "cosmos/string.hxx"
+
+// X++
 #include "X++/RootWin.hxx"
 #include "X++/private/Xpp.hxx"
-
-// cosmos
-#include "cosmos/string.hxx"
 
 namespace xpp {
 
 RootWin::RootWin(XDisplay &display, int screen) :
-	XWindow(XRootWindow(display, screen)),
-	m_wm_name(),
-	m_wm_class(),
-	m_windows()
-{
-	Xpp::getLogger().debug()
-		<< "root window has id: "
-		<< std::hex << std::showbase << this->id() << std::dec
-		<< std::endl;
+		XWindow{XRootWindow(display, screen)} {
+		
+	Xpp::getLogger().debug() << "root window has id: " << *this << "\n";
 	this->getInfo();
 
 	// the event mask influences which X clients will receive the event.
@@ -28,7 +23,7 @@ RootWin::RootWin(XDisplay &display, int screen) :
 }
 
 RootWin::RootWin() :
-	RootWin(XDisplay::getInstance(), XDisplay::getInstance().getDefaultScreen())
+		RootWin{XDisplay::getInstance(), XDisplay::getInstance().getDefaultScreen()}
 {}
 
 void RootWin::getInfo() {
@@ -65,8 +60,7 @@ void RootWin::queryWMWindow() {
 	 * compatible window manager is running.
 	 */
 
-	try
-	{
+	try {
 		Property<Window> child_window_prop;
 
 		this->getProperty(
@@ -74,11 +68,9 @@ void RootWin::queryWMWindow() {
 			child_window_prop
 		);
 
-		m_ewmh_child = XWindow(child_window_prop.get());
+		m_ewmh_child = XWindow{child_window_prop.get()};
 
-		logger.debug() << "Child window of EWMH is: "
-			<< std::hex << std::showbase << m_ewmh_child.id()
-			<< std::dec << "\n";
+		logger.debug() << "Child window of EWMH is: " << m_ewmh_child << "\n";
 
 		/*
 		 * m_ewmh_child also needs to have m_support_property_ewmh set
@@ -88,24 +80,19 @@ void RootWin::queryWMWindow() {
 		 * EWMH says the application SHOULD check that. We're a nice
 		 * application an do that.
 		 */
-		m_ewmh_child.getProperty(
-			m_std_props.atom_ewmh_support_check,
-			child_window_prop
-		);
+		m_ewmh_child.getProperty(m_std_props.atom_ewmh_support_check, child_window_prop);
 
-		xpp::XWindow child2 = XWindow(child_window_prop.get());
+		xpp::XWindow child2 = XWindow{child_window_prop.get()};
 
 		if (m_ewmh_child == child2) {
 			logger.debug() << "EWMH compatible WM is running!\n";
-		}
-		else {
+		} else {
 			cosmos_throw (QueryError(
 				"Couldn't reassure EWMH compatible WM running:"\
 				"IDs of child window and root window don't match"
 			));
 		}
-	}
-	catch (const cosmos::CosmosError &ex) {
+	} catch (const cosmos::CosmosError &ex) {
 		logger.error()
 			<< "Couldn't query EWMH child window: " << ex.what()
 			<< "\nSorry, can't continue without EWMH compatible"\
@@ -119,12 +106,10 @@ RootWin::WindowManager RootWin::detectWM(const std::string &name) {
 
 	// see whether this is a window manager known to us
 	if (lower == "fluxbox") {
-		return WindowManager::FLUXBOX;
-	}
+		return WindowManager::FLUXBOX; }
 	else if (lower == "i3") {
 		return WindowManager::I3;
-	}
-	else {
+	} else {
 		return WindowManager::UNKNOWN;
 	}
 }
@@ -143,13 +128,12 @@ void RootWin::queryPID() {
 		Property<int> wm_pid;
 
 		m_ewmh_child.getProperty(m_std_props.atom_ewmh_wm_pid, wm_pid);
-		m_wm_pid = wm_pid.get();
+		m_wm_pid = cosmos::ProcessID{wm_pid.get()};
 
 		logger.debug() << "wm_pid acquired: " << m_wm_pid << "\n";
 
 		return;
-	}
-	catch (const cosmos::CosmosError &ex) {
+	} catch (const cosmos::CosmosError &ex) {
 		logger.warn() << "Couldn't query ewmh wm pid: " << ex.what();
 	}
 
@@ -157,29 +141,26 @@ void RootWin::queryPID() {
 	std::string alt_pid_atom;
 
 	switch (m_wm_type) {
-	case WindowManager::FLUXBOX:
-		alt_pid_atom = "_BLACKBOX_PID";
-		break;
-	case WindowManager::I3:
-		alt_pid_atom = "I3_PID";
-		break;
-	default:
-		break;
+		case WindowManager::FLUXBOX:
+			alt_pid_atom = "_BLACKBOX_PID";
+			break;
+		case WindowManager::I3:
+			alt_pid_atom = "I3_PID";
+			break;
+		default:
+			break;
 	}
 
-	if (! alt_pid_atom.empty()) {
+	if (!alt_pid_atom.empty()) {
 		// this WM hides its PID somewhere else
 		try {
 			Property<int> wm_pid;
 
-			const XAtom atom_wm_pid(
-				XAtomMapper::getInstance().getAtom(alt_pid_atom)
-			);
+			const XAtom atom_wm_pid(XAtomMapper::getInstance().getAtom(alt_pid_atom));
 			this->getProperty(atom_wm_pid, wm_pid);
 
-			m_wm_pid = wm_pid.get();
-		}
-		catch (const cosmos::CosmosError &ex) {
+			m_wm_pid = cosmos::ProcessID{wm_pid.get()};
+		} catch (const cosmos::CosmosError &ex) {
 			logger.warn()
 				<< "Couldn't query proprietary wm pid \""
 				<< alt_pid_atom << "\": " << ex.what();
@@ -201,8 +182,7 @@ void RootWin::queryBasicWMProperties() {
 		logger.debug() << "wm_name acquired: " << m_wm_name << "\n";
 
 		m_wm_type = detectWM(m_wm_name);
-	}
-	catch (const cosmos::CosmosError &ex) {
+	} catch (const cosmos::CosmosError &ex) {
 		logger.warn() << "Couldn't query wm name: " << ex.what();
 	}
 
@@ -214,11 +194,10 @@ void RootWin::queryBasicWMProperties() {
 	 * WM window needs to have this property.
 	 */
 	try {
-		m_ewmh_child.getProperty(XA_WM_CLASS, m_wm_class);
+		m_ewmh_child.getProperty(XAtom{XA_WM_CLASS}, m_wm_class);
 
 		logger.debug() << "wm_class acquired: " << m_wm_class.get().str << "\n";
-	}
-	catch (const cosmos::CosmosError &ex) {
+	} catch (const cosmos::CosmosError &ex) {
 		logger.warn() << "Couldn't query wm class: " << ex.what();
 	}
 
@@ -291,8 +270,7 @@ void RootWin::updateProperty(const XAtom &atom, TYPE &property) {
 
 		logger.debug() << "Property update acquired for "
 			<< atom << ": " << property << "\n";
-	}
-	catch (const cosmos::CosmosError &ex) {
+	} catch (const cosmos::CosmosError &ex) {
 		logger.warn() << "Couldn't update property " << atom
 			<< ": " << ex.what()  << std::endl;
 	}
@@ -329,8 +307,7 @@ void RootWin::queryWindows() {
 			logger.debug() << "- " << win << "\n";
 		}
 
-	}
-	catch (const cosmos::CosmosError &ex) {
+	} catch (const cosmos::CosmosError &ex) {
 		logger.warn() << "Couldn't query window list: " << ex.what();
 		throw;
 	}
@@ -347,16 +324,16 @@ void RootWin::queryTree() {
 	 */
 
 	// helper class for storing tree traversal state
-	class TreeNode : public XWindow {
+	class TreeNode :
+			public XWindow {
 	public:
-		explicit TreeNode(Window w) : XWindow(w) {
+		explicit TreeNode(Window w) : XWindow{w} {
 			// query all children
 			updateFamily();
 			m_next = m_children.begin();
 		}
 
 		TreeNode(const TreeNode &o) = delete;
-
 
 		bool isFinished() const { return m_next == m_children.end(); }
 		void nextChild() { m_next++; }
@@ -368,23 +345,24 @@ void RootWin::queryTree() {
 
 	m_tree.clear();
 
+	// Use heap allocated node instances, otherwise the copying
+	// within containers becomes troublesome. Using C++11
+	// movables there might be a more efficient and elegant
+	// approach
+	std::vector<TreeNode*> to_process;
+
 	try {
-		// Use heap allocated node instances, otherwise the copying
-		// within containers becomes troublesome. Using C++11
-		// movables there might be a more efficient and elegant
-		// approach
-		std::vector<TreeNode*> to_process;
 
 		// start with the root window
-		to_process.push_back(new TreeNode(this->id()));
+		to_process.push_back(new TreeNode{this->id()});
 
-		while (! to_process.empty()) {
+		while (!to_process.empty()) {
 			auto &current = *(to_process.back());
 
 			if (current.isFinished()) {
 				// no more childs, add this window to the list
 				// and remove it
-				m_tree.push_back(XWindow(current));
+				m_tree.push_back(XWindow{current});
 				delete &current;
 				to_process.pop_back();
 			} else {
@@ -394,12 +372,15 @@ void RootWin::queryTree() {
 				auto next = current.currentChild();
 				current.nextChild();
 
-				to_process.push_back(new TreeNode(next));
+				to_process.push_back(new TreeNode{next});
 			}
 		}
-	}
-	catch (const cosmos::CosmosError &ex) {
+	} catch (const cosmos::CosmosError &ex) {
 		Xpp::getLogger().warn() << "Couldn't query window tree: " << ex.what();
+		while (!to_process.empty()) {
+			delete to_process.back();
+			to_process.pop_back();
+		}
 		throw;
 	}
 
@@ -407,7 +388,7 @@ void RootWin::queryTree() {
 
 void RootWin::setWM_ActiveDesktop(const int &num) {
 	if (!hasWM_ActiveDesktop()) {
-		cosmos_throw(NotImplemented());
+		cosmos_throw (NotImplemented());
 	}
 
 	this->sendRequest(m_std_props.atom_ewmh_wm_cur_desktop, num);
@@ -415,7 +396,7 @@ void RootWin::setWM_ActiveDesktop(const int &num) {
 
 void RootWin::setWM_ActiveWindow(const XWindow &win) {
 	if (!hasWM_ActiveWindow()) {
-		cosmos_throw(NotImplemented());
+		cosmos_throw (NotImplemented());
 	}
 
 	long data[3];

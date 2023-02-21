@@ -1,19 +1,20 @@
 #ifndef XPP_X11EXCEPTION_HXX
 #define XPP_X11EXCEPTION_HXX
 
-// stdlib
+// C++
 #include <string_view>
 
 // main xlib header
 #include <X11/Xlib.h>
 
-// Cosmos
+// cosmos
 #include "cosmos/error/CosmosError.hxx"
 
 namespace xpp {
 
 /// Exception type for X11 errors.
-struct X11Exception : public cosmos::CosmosError {
+struct X11Exception :
+		public cosmos::CosmosError {
 
 	/// libX11 error text constructor.
 	/**
@@ -22,8 +23,7 @@ struct X11Exception : public cosmos::CosmosError {
 	 * instance is also necessary for this.
 	 **/
 	X11Exception(Display *dis, const int errcode) :
-		CosmosError("X11Exception")
-	{
+			CosmosError("X11Exception") {
 		char errtext[128];
 		(void)XGetErrorText(dis, errcode, errtext, sizeof(errtext));
 		m_msg += errtext;
@@ -36,9 +36,7 @@ struct X11Exception : public cosmos::CosmosError {
 	 * by the caller.
 	 **/
 	explicit X11Exception(const std::string_view &problem) :
-		CosmosError("X11Exception", problem)
-	{
-
+			CosmosError("X11Exception", problem) {
 	}
 
 	COSMOS_ERROR_IMPL;

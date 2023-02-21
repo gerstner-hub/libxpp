@@ -1,11 +1,11 @@
 #ifndef XPP_PROPERTY
 #define XPP_PROPERTY
 
+// cosmos
+#include "cosmos/error/UsageError.hxx"
+
 // X++
 #include "X++/PropertyTraits.hxx"
-
-// libcosmos
-#include "cosmos/error/UsageError.hxx"
 
 namespace xpp {
 
@@ -25,22 +25,23 @@ class Property {
 
 public: // types
 
-	//! the matching traits for our property type
+	/// the matching traits for our property type
 	typedef PropertyTraits<PROPTYPE> Traits;
-	//! The correct pointer type for our property type
+	/// The correct pointer type for our property type
 	typedef typename PropertyTraits<PROPTYPE>::XPtrType XPtrType;
 
 public: // functions
 
-	//! construct an empty/default property value
-	Property() : m_native() { }
+	/// construct an empty/default property value
+	Property() : m_native() {}
 
-	//! forbid copying to avoid trouble with memory mgm.
+	/// forbid copying to avoid trouble with memory mgm.
 	Property(const Property&) = delete;
 
 	//! construct a property holding the value from \c p
-	explicit Property(const PROPTYPE &p) : m_native() {
-		// our own assignment operator knows how to deal with this
+	explicit Property(const PROPTYPE &p) :
+			m_native() {
+		// the assignment operator knows how to deal with this
 		*this = p;
 	}
 
@@ -60,13 +61,15 @@ public: // functions
 		return m_native;
 	}
 
-	//! Retrieves a pointer to the raw data associated with the property.
-	typename Traits::XPtrType getRawData() const { return m_data; }
+	/// Retrieves a pointer to the raw data associated with the property.
+	typename Traits::XPtrType raw() const { return m_data; }
 
-	//! returns whether valid property data is set
-	bool valid() const { return m_data != nullptr; }
+	/// returns whether valid property data is set
+	bool valid() const {
+		return m_data != nullptr;
+	}
 
-	//! Assigns the given property value from \c p
+	/// Assigns the given property value from \c p
 	Property& operator=(const PROPTYPE &p) {
 		checkDelete();
 
@@ -90,7 +93,7 @@ protected: // functions
 		checkDelete();
 
 		if (Traits::fixed_size && size > Traits::fixed_size) {
-			cosmos_throw(cosmos::UsageError("size is larger than fixed_size"));
+			cosmos_throw (cosmos::UsageError("size is larger than fixed_size"));
 		}
 
 		m_data_is_from_x = true;
@@ -103,11 +106,11 @@ protected: // functions
 		);
 	}
 
-	//! Retrieves the associated XAtom type from the traits of PROPTYPE
+	/// Retrieves the associated XAtom type from the traits of PROPTYPE
 	static Atom getXType() { return Traits::x_type; }
 
-	//! If the current Property instance contains data allocated by
-	//! Xlib then it is deleted.
+	/// If the current Property instance contains data allocated by
+	/// Xlib then it is deleted.
 	void checkDelete() {
 		// frees the ptr data if it comes from xlib
 		if (m_data_is_from_x) {
@@ -119,12 +122,11 @@ protected: // functions
 
 private: // data
 
-	//! The native property type
+	/// The native property type
 	PROPTYPE m_native;
-	//! determines whether the pointer m_data is from Xlib and needs to be
-	//! freed
+	/// determines whether the pointer m_data is from Xlib and needs to be freed
 	bool m_data_is_from_x = false;
-	//! A pointer to m_native that can be fed to Xlib
+	/// A pointer to m_native that can be fed to Xlib
 	typename Traits::XPtrType m_data = nullptr;
 };
 
