@@ -9,10 +9,9 @@
 namespace xpp {
 
 RootWin::RootWin(XDisplay &display, int screen) :
-		XWindow{XRootWindow(display, screen)} {
+		XWindow{WinID{XRootWindow(display, screen)}} {
 		
 	Xpp::getLogger().debug() << "root window has id: " << *this << "\n";
-	this->getInfo();
 
 	// the event mask influences which X clients will receive the event.
 	// For the root window to react to our requests these masks seem to be
@@ -25,256 +24,6 @@ RootWin::RootWin(XDisplay &display, int screen) :
 RootWin::RootWin() :
 		RootWin{XDisplay::getInstance(), XDisplay::getInstance().getDefaultScreen()}
 {}
-
-void RootWin::getInfo() {
-	queryWMWindow();
-	queryBasicWMProperties();
-}
-
-void RootWin::queryWMWindow() {
-	auto &logger = Xpp::getLogger();
-
-	/*
-	 * This part is about checking for the presence of a compatible window
-	 * manager. Both variants work the same but have different properties
-	 * to check for.
-	 * 
-	 * _WIN_SUPPORTING_WM_CHECK seems to be according to some pretty
-	 * deprecated gnome WM specifications. This is expected to be an
-	 * ordinal property. But fluxbox for example sets this to be a Window
-	 * property.
-	 * 
-	 * _NET_SUPPORTING_WM_CHECK seems to be an extension by EWMH and is a
-	 * window property.
-	 * 
-	 * In both cases, if the property is present in the root window then
-	 * its value is the identifier for a valid child window created by the
-	 * window manager.
-	 * 
-	 * In the case of _NET_SUPPORTING_WM_CHECK the child window must also
-	 * define the _NET_WM_NAME property which should contain the name of
-	 * the window manager. In the other case the child only contains the
-	 * same property as in the root window again with the same value.
-	 * 
-	 * This seems to be the only way to portably and safely determine a
-	 * compatible window manager is running.
-	 */
-
-	try {
-		Property<Window> child_window_prop;
-
-		this->getProperty(
-			m_std_props.atom_ewmh_support_check,
-			child_window_prop
-		);
-
-		m_ewmh_child = XWindow{child_window_prop.get()};
-
-		logger.debug() << "Child window of EWMH is: " << m_ewmh_child << "\n";
-
-		/*
-		 * m_ewmh_child also needs to have m_support_property_ewmh set
-		 * to the same ID (of itself). Otherwise this may be a stale
-		 * window and the WM isn't actually running any more.
-		 * 
-		 * EWMH says the application SHOULD check that. We're a nice
-		 * application an do that.
-		 */
-		m_ewmh_child.getProperty(m_std_props.atom_ewmh_support_check, child_window_prop);
-
-		xpp::XWindow child2 = XWindow{child_window_prop.get()};
-
-		if (m_ewmh_child == child2) {
-			logger.debug() << "EWMH compatible WM is running!\n";
-		} else {
-			cosmos_throw (QueryError(
-				"Couldn't reassure EWMH compatible WM running:"\
-				"IDs of child window and root window don't match"
-			));
-		}
-	} catch (const cosmos::CosmosError &ex) {
-		logger.error()
-			<< "Couldn't query EWMH child window: " << ex.what()
-			<< "\nSorry, can't continue without EWMH compatible"\
-			" WM running\n";
-		throw;
-	}
-}
-
-RootWin::WindowManager RootWin::detectWM(const std::string &name) {
-	const auto lower = cosmos::to_lower(name);
-
-	// see whether this is a window manager known to us
-	if (lower == "fluxbox") {
-		return WindowManager::FLUXBOX; }
-	else if (lower == "i3") {
-		return WindowManager::I3;
-	} else {
-		return WindowManager::UNKNOWN;
-	}
-}
-
-void RootWin::queryPID() {
-	/*
-	 * The PID of the process running the window, if existing MUST contain
-	 * the PID and not something else.
-	 * Spec doesn't say anything about whether the "window manager window"
-	 * should set this and if it is set whether it needs to be the PID of
-	 * the WM.
-	 */
-	auto &logger = Xpp::getLogger();
-
-	try {
-		Property<int> wm_pid;
-
-		m_ewmh_child.getProperty(m_std_props.atom_ewmh_wm_pid, wm_pid);
-		m_wm_pid = cosmos::ProcessID{wm_pid.get()};
-
-		logger.debug() << "wm_pid acquired: " << m_wm_pid << "\n";
-
-		return;
-	} catch (const cosmos::CosmosError &ex) {
-		logger.warn() << "Couldn't query ewmh wm pid: " << ex.what();
-	}
-
-	// maybe there's an alternative property for our specific WM
-	std::string alt_pid_atom;
-
-	switch (m_wm_type) {
-		case WindowManager::FLUXBOX:
-			alt_pid_atom = "_BLACKBOX_PID";
-			break;
-		case WindowManager::I3:
-			alt_pid_atom = "I3_PID";
-			break;
-		default:
-			break;
-	}
-
-	if (!alt_pid_atom.empty()) {
-		// this WM hides its PID somewhere else
-		try {
-			Property<int> wm_pid;
-
-			const XAtom atom_wm_pid(XAtomMapper::getInstance().getAtom(alt_pid_atom));
-			this->getProperty(atom_wm_pid, wm_pid);
-
-			m_wm_pid = cosmos::ProcessID{wm_pid.get()};
-		} catch (const cosmos::CosmosError &ex) {
-			logger.warn()
-				<< "Couldn't query proprietary wm pid \""
-				<< alt_pid_atom << "\": " << ex.what();
-		}
-	}
-}
-
-void RootWin::queryBasicWMProperties() {
-	/*
-	 * The window manager name MUST be present according to EWMH spec. It
-	 * is supposed to be in UTF8_STRING format. MUST only accounts for the
-	 * window manager name. For client windows it may be present.
-	 */
-	auto &logger = Xpp::getLogger();
-
-	try {
-		m_wm_name = m_ewmh_child.getName();
-
-		logger.debug() << "wm_name acquired: " << m_wm_name << "\n";
-
-		m_wm_type = detectWM(m_wm_name);
-	} catch (const cosmos::CosmosError &ex) {
-		logger.warn() << "Couldn't query wm name: " << ex.what();
-	}
-
-	queryPID();
-
-	/*
-	 * The WM_CLASS should identify application class and name. This is
-	 * not EWMH specific but from ICCCM. Nothing's mentioned whether the
-	 * WM window needs to have this property.
-	 */
-	try {
-		m_ewmh_child.getProperty(XAtom{XA_WM_CLASS}, m_wm_class);
-
-		logger.debug() << "wm_class acquired: " << m_wm_class.get().str << "\n";
-	} catch (const cosmos::CosmosError &ex) {
-		logger.warn() << "Couldn't query wm class: " << ex.what();
-	}
-
-	updateShowingDesktop();
-	updateNumberOfDesktops();
-	updateDesktopNames();
-	updateActiveDesktop();
-	updateActiveWindow();
-}
-
-
-void RootWin::updateShowingDesktop() {
-	/*
-	 * The _NET_WM_SHOWING_DESKTOP, if supported, indicates whether
-	 * currently the "show the desktop" mode is active.
-	 * 
-	 * This is EWMH specific. It's supposed to be an integer value of zero
-	 * or one (thus a boolean value). The property is to be found on the
-	 * root window, not the m_ewmh_child window.
-	 */
-	updateProperty(
-		m_std_props.atom_ewmh_wm_desktop_shown,
-		m_wm_showing_desktop
-	);
-}
-
-void RootWin::updateActiveDesktop() {
-	updateProperty(
-		m_std_props.atom_ewmh_wm_cur_desktop,
-		m_wm_active_desktop
-	);
-}
-
-void RootWin::updateActiveWindow() {
-	updateProperty(
-		m_std_props.atom_ewmh_wm_active_window,
-		m_wm_active_window
-	);
-}
-
-void RootWin::updateNumberOfDesktops() {
-	updateProperty(
-		m_std_props.atom_ewmh_wm_nr_desktops,
-		m_wm_num_desktops
-	);
-}
-
-void RootWin::updateDesktopNames() {
-	std::vector<utf8_string> desktop_names;
-
-	updateProperty(m_std_props.atom_ewmh_wm_desktop_names, desktop_names);
-
-	m_wm_desktop_names.clear();
-
-	for (const auto &name: desktop_names) {
-		m_wm_desktop_names.push_back(name.str);
-	}
-}
-
-template <typename TYPE>
-void RootWin::updateProperty(const XAtom &atom, TYPE &property) {
-	auto &logger = Xpp::getLogger();
-
-	try {
-		Property<TYPE> tmp;
-
-		this->getProperty(atom, tmp);
-
-		property = tmp.get();
-
-		logger.debug() << "Property update acquired for "
-			<< atom << ": " << property << "\n";
-	} catch (const cosmos::CosmosError &ex) {
-		logger.warn() << "Couldn't update property " << atom
-			<< ": " << ex.what()  << std::endl;
-	}
-}
 
 void RootWin::queryWindows() {
 	m_windows.clear();
@@ -303,7 +52,7 @@ void RootWin::queryWindows() {
 		logger.debug() << "window list acquired:\n";
 
 		for (const auto &win: wins) {
-			m_windows.push_back(xpp::XWindow(win));
+			m_windows.push_back(WinID{win});
 			logger.debug() << "- " << win << "\n";
 		}
 
@@ -319,7 +68,7 @@ void RootWin::queryTree() {
 	 * this query operation is inherently racy ... windows might
 	 * appear/disappear and we thus might construct an invalid state
 	 *
-	 * there could a possibility to lock the complete X server for the
+	 * there could be a possibility to lock the complete X server for the
 	 * duration of this operation but I didn't look that up yet ...
 	 */
 
@@ -327,7 +76,7 @@ void RootWin::queryTree() {
 	class TreeNode :
 			public XWindow {
 	public:
-		explicit TreeNode(Window w) : XWindow{w} {
+		explicit TreeNode(WinID w) : XWindow{w} {
 			// query all children
 			updateFamily();
 			m_next = m_children.begin();
@@ -337,7 +86,7 @@ void RootWin::queryTree() {
 
 		bool isFinished() const { return m_next == m_children.end(); }
 		void nextChild() { m_next++; }
-		Window currentChild() { return *m_next; }
+		WinID currentChild() { return *m_next; }
 
 		// next child to process
 		WindowSet::const_iterator m_next;
@@ -362,7 +111,7 @@ void RootWin::queryTree() {
 			if (current.isFinished()) {
 				// no more childs, add this window to the list
 				// and remove it
-				m_tree.push_back(XWindow{current});
+				m_tree.push_back(WinID{current.id()});
 				delete &current;
 				to_process.pop_back();
 			} else {
@@ -384,62 +133,6 @@ void RootWin::queryTree() {
 		throw;
 	}
 
-}
-
-void RootWin::setWM_ActiveDesktop(const int &num) {
-	if (!hasWM_ActiveDesktop()) {
-		cosmos_throw (NotImplemented());
-	}
-
-	this->sendRequest(m_std_props.atom_ewmh_wm_cur_desktop, num);
-}
-
-void RootWin::setWM_ActiveWindow(const XWindow &win) {
-	if (!hasWM_ActiveWindow()) {
-		cosmos_throw (NotImplemented());
-	}
-
-	long data[3];
-	// source indication. 0 == outdated client, 1 == application, 2 ==
-	// pager. Suppose we're a pager.
-	data[0] = 2;
-	// timestamp of the last user activity in the client. Since we have no
-	// real window associated we can set this to zero. Could also set it
-	// to the current time if we count the write request as an activity
-	data[1] = 0;
-	// our currently active window, which I again guess is zero for "we
-	// have none"
-	data[2] = 0;
-	/*
-	 * the window manager may ignore this request based on our provided
-	 * parameters and current states. For example it may set
-	 * _NET_WM_STATE_DEMANDS_ATTENTION instead.
-	 */
-	this->sendRequest(
-		m_std_props.atom_ewmh_wm_active_window,
-		(const char*)data,
-		sizeof(data),
-		&win
-	);
-}
-
-void RootWin::setWM_NumDesktops(const int &num) {
-	if (!hasWM_NumDesktops()) {
-		cosmos_throw(NotImplemented());
-	}
-
-	this->sendRequest(m_std_props.atom_ewmh_wm_nr_desktops, num);
-}
-
-void RootWin::moveToDesktop(const XWindow &window, const int desktop_nr) {
-	/*
-	 * simply setting the property at the window itself does nothing. We
-	 * need to send a request to the root window ...
-	 *
-	 * if the WM honors the request then it will set the property itself
-	 * and we will get an update.
-	 */
-	this->sendRequest(m_std_props.atom_ewmh_window_desktop, desktop_nr, &window);
 }
 
 } // end ns

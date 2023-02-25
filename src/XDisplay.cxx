@@ -1,4 +1,5 @@
 // cosmos
+#include "cosmos/algs.hxx"
 #include "cosmos/error/UsageError.hxx"
 
 // X++
@@ -9,13 +10,13 @@
 namespace xpp {
 
 XDisplay::~XDisplay() {
-	XCloseDisplay(m_dis);
+	::XCloseDisplay(m_dis);
 	m_dis = nullptr;
 }
 
 XDisplay::XDisplay() {
 	// if nullptr is specified, then the value of DISPLAY environment will be used
-	m_dis = XOpenDisplay(nullptr);
+	m_dis = ::XOpenDisplay(nullptr);
 
 	if (!m_dis) {
 		cosmos_throw (DisplayOpenError());
@@ -24,10 +25,10 @@ XDisplay::XDisplay() {
 
 void XDisplay::getNextEvent(Event &event) {
 	// xlib unconditionally returns 0 here (not documented)
-	(void)XNextEvent(m_dis, event.raw());
+	(void)::XNextEvent(m_dis, event.raw());
 }
 
-XWindow XDisplay::createWindow(
+WinID XDisplay::createWindow(
 		const WindowSpec &spec,
 		unsigned int border_width,
 		unsigned int clazz,
@@ -43,9 +44,9 @@ XWindow XDisplay::createWindow(
 
 	static RootWin root_win;
 
-	auto res = XCreateWindow(
+	auto res = ::XCreateWindow(
 		m_dis,
-		parent.value_or(&root_win)->id(),
+		cosmos::to_integral(parent.value_or(&root_win)->id()),
 		spec.x, spec.y, spec.width, spec.height,
 		border_width,
 		depth ? *depth : getDefaultDepth(),
@@ -55,13 +56,13 @@ XWindow XDisplay::createWindow(
 		attrs ? *attrs : nullptr
 	);
 
-	return XWindow{res};
+	return WinID{res};
 }
 
 void XDisplay::mapWindow(const XWindow &win) {
 	// this should never fail looking at current libX11 code, but you
 	// never know ...
-	if (XMapWindow(m_dis, win) != 1) {
+	if (::XMapWindow(m_dis, cosmos::to_integral(win.id())) != 1) {
 		cosmos_throw (cosmos::RuntimeError("failed to map window"));
 	}
 }
@@ -86,44 +87,43 @@ XDisplay::AtomMappingError::AtomMappingError(Display *dis, const int errcode, co
 XDisplay::DisplayOpenError::DisplayOpenError() :
 		CosmosError{"DisplayOpenError"} {
 	m_msg = "Unable to open X11 display: \"";
-	m_msg += XDisplayName(nullptr);
+	m_msg += ::XDisplayName(nullptr);
 	m_msg += "\". ";
 }
 
-PixMap XDisplay::createPixmap(
-		const XWindow &win,
+PixMapID XDisplay::createPixmap(
+		const WinID win,
 		const Extent &extent,
 		const std::optional<int> depth) const {
 
-	auto pm = XCreatePixmap(
-			m_dis, win.id(), extent.width, extent.height,
+	auto pm = ::XCreatePixmap(
+			m_dis, cosmos::to_integral(win), extent.width, extent.height,
 			depth ? *depth : getDefaultDepth());
-	return PixMap{pm};
+	return PixMapID{pm};
 }
 
-void XDisplay::freePixmap(PixMap &pm) const {
-	XFreePixmap(m_dis, pm.id());
-	pm.reset();
+void XDisplay::freePixmap(PixMapID pm) const {
+	::XFreePixmap(m_dis, cosmos::to_integral(pm));
 }
 
 std::shared_ptr<struct _XGC>
-XDisplay::createGraphicsContext(Drawable d, const GcOptMask &mask, const XGCValues &vals) {
-	auto gc = XCreateGC(m_dis, d, mask.raw(), const_cast<XGCValues*>(&vals));
+XDisplay::createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCValues &vals) {
+	auto gc = ::XCreateGC(m_dis, cosmos::to_integral(d), mask.raw(), const_cast<XGCValues*>(&vals));
 
 	if (!gc) {
 		cosmos_throw (cosmos::RuntimeError("failed to allocate GC"));
 	}
 
-	return GcSharedPtr{gc, [this](GC c){ XFreeGC(*this, c); }};
+	return GcSharedPtr{gc, [this](GC c){ ::XFreeGC(*this, c); }};
 }
 
-std::optional<Window> XDisplay::getSelectionOwner(const XAtom &selection) const {
-	auto win = XGetSelectionOwner(m_dis, selection);
+std::optional<WinID> XDisplay::getSelectionOwner(const XAtom &selection) const {
+	auto win = ::XGetSelectionOwner(m_dis, selection);
 
 	if (win == None)
 		return {};
 
-	return win;
+	return WinID{win};
 }
 
 } // end ns

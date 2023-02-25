@@ -143,7 +143,7 @@ public: // functions
 	 * If attrs and value_mask are not provided then default attributes
 	 * apply. If one is supplied then the other needs to be supplied, too.
 	 **/
-	XWindow createWindow(
+	WinID createWindow(
 		const WindowSpec &spec,
 		unsigned int border_width,
 		unsigned int clazz = CopyFromParent,
@@ -224,13 +224,13 @@ public: // functions
 	 * \param[in] depth the depth of the pixmap, if given, otherwise the
 	 *            default depth for the display and window involved.
 	 **/
-	PixMap createPixmap(
-		const XWindow &win,
+	PixMapID createPixmap(
+		const WinID win,
 		const Extent &extent,
 		const std::optional<int> depth = std::nullopt) const;
 
 	/// frees a pixmap previously obtained via createPixmap()
-	void freePixmap(PixMap &pm) const;
+	void freePixmap(PixMapID pm) const;
 
 	/// Creates a new graphics context using the given settings
 	/**
@@ -254,14 +254,14 @@ public: // functions
 	 *
 	 * \return The managed graphics context resource
 	 **/
-	GcSharedPtr createGraphicsContext(Drawable d, const GcOptMask &mask, const XGCValues &vals);
+	GcSharedPtr createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCValues &vals);
 
 	/// return the window ID owning the given selection type
 	/**
 	 * If \c selection is invalid or the given selection has no owner then
 	 * no value is.
 	 **/
-	std::optional<Window> getSelectionOwner(const XAtom &selection) const;
+	std::optional<WinID> getSelectionOwner(const XAtom &selection) const;
 
 	/// transparently casts the instance to the Xlib Display primitive
 	operator Display*() { return m_dis; }

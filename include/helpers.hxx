@@ -1,12 +1,19 @@
 #ifndef XPP_HELPERS_HXX
 #define XPP_HELPERS_HXX
 
-// stdlib
+// C++
 #include <memory>
 #include <exception>
 
 // libX11
 #include <X11/Xlib.h>
+
+// cosmos
+#include "cosmos/algs.hxx"
+
+// X++
+#include "X++/dso_export.h"
+#include "X++/types.hxx"
 
 namespace xpp {
 
@@ -21,6 +28,17 @@ auto make_shared_xptr(T *ptr) {
 		throw std::bad_alloc();
 	}
 	return std::shared_ptr<T>(ptr, [](T *dp) { XFree(dp); });
+}
+
+/// returns a string representation of the given Window ID
+std::string XPP_API to_string(const WinID id);
+
+inline DrawableID to_drawable(PixMapID id) {
+	return DrawableID{cosmos::to_integral(id)};
+}
+
+inline DrawableID to_drawable(WinID id) {
+	return DrawableID{cosmos::to_integral(id)};
 }
 
 } // end ns

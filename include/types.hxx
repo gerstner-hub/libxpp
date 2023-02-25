@@ -68,22 +68,20 @@ using XAtomVector = std::vector<XAtom>;
  **/
 constexpr unsigned long INVALID_XID = ~0UL;
 
-struct PixMap {
-	PixMap() {}
-	explicit PixMap(Pixmap pm) : m_pixmap(pm) {}
-	operator Pixmap() const {
-		return id();
-	}
-	Pixmap id() const {
-		if (!valid()) {
-			cosmos_throw( cosmos::RuntimeError("Attempt to use invalid Pixmap ID") );
-		}
-		return m_pixmap;
-	}
-	void reset() { m_pixmap = INVALID_XID; }
-	bool valid() const { return m_pixmap != INVALID_XID; }
-protected:
-	Pixmap m_pixmap = INVALID_XID;
+enum class WinID : Window {
+	INVALID = INVALID_XID
+};
+
+enum class AtomID : Atom {
+	INVALID = None
+};
+
+enum class PixMapID : Pixmap {
+	INVALID = INVALID_XID
+};
+
+/// can be both a WinID or a PixMapID
+enum class DrawableID : Drawable {
 };
 
 /// represents a raw window property
@@ -94,7 +92,7 @@ struct RawProperty {
 	size_t left = 0; /// the number of bytes of the property left to read, if a partial read was performed
 
 	/// returns a read-only string_view object representing the data
-	auto getView() const { return std::string_view(reinterpret_cast<const char*>(data.get()), length); }
+	auto view() const { return std::string_view(reinterpret_cast<const char*>(data.get()), length); }
 };
 
 /// type safe wrapper enum for GC* constants found in X headers

@@ -7,6 +7,9 @@
 // xlib
 #include <X11/Xlib.h>
 
+// cosmos
+#include "cosmos/algs.hxx"
+
 // xpp
 #include "X++/XWindow.hxx"
 
@@ -45,7 +48,8 @@ public: // functions
 		//
 		// if it *is* modified then only if filtering applies in which
 		// case the event shouldn't be processed by the caller anyway
-		return XFilterEvent(const_cast<XEvent*>(&m_ev), w ? *w : None) == True;
+		return XFilterEvent(const_cast<XEvent*>(&m_ev),
+				w ? cosmos::to_integral(w->id()) : None) == True;
 	}
 
 	bool isConfigureNotify() const  { return m_ev.type == ConfigureNotify; }

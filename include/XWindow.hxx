@@ -93,7 +93,7 @@ public: // types
 		}
 	};
 
-	typedef std::set<Window> WindowSet;
+	typedef std::set<WinID> WindowSet;
 	typedef std::pair<std::string, std::string> ClassStringPair;
 
 public: // functions
@@ -109,16 +109,13 @@ public: // functions
 	{ *this = other; }
 
 	/// Create an object representing \c win on the current Display
-	explicit XWindow(Window win);
+	explicit XWindow(WinID win);
 
 	/// returns whether the object holds a valid XWindow
-	bool valid() const { return m_win != INVALID_XID; }
+	bool valid() const { return m_win != WinID::INVALID; }
 
 	/// returns the Xlib primitive Window identifier
-	Window id() const { return m_win; }
-
-	/// string representation of id()
-	std::string idStr() const;
+	WinID id() const { return m_win; }
 
 	/// Retrieve the name of the represented window via EWMH property
 	/**
@@ -146,13 +143,6 @@ public: // functions
 	 * If the desktop nr. cannot be determined an exception is thrown.
 	 **/
 	int getDesktop() const;
-
-	/// Retrieves the last known value of the desktop nr. as returned by getDesktop().
-	/**
-	 * If there is no last known value then an active query via
-	 * getDesktop() will be made and cached for future invocations.
-	 **/
-	int getCachedDesktop() const;
 
 	/// Set \c name as the new name of the current window.
 	/**
@@ -189,7 +179,7 @@ public: // functions
 	 * The client leader window itself also should have this property set
 	 * with its own window ID as value.
 	 **/
-	Window getClientLeader() const;
+	WinID getClientLeader() const;
 
 	/// Returns the type of the window.
 	/**
@@ -238,7 +228,7 @@ public: // functions
 	 *
 	 * \return The ID of the newly created window
 	 **/
-	Window createChild();
+	WinID createChild();
 
 	/// Requests the given selection buffer to be sent to this window.
 	/**
@@ -354,7 +344,7 @@ public: // functions
 	/// Removes the property of the given atom identifier from the window.
 	void delProperty(const XAtom name_atom);
 
-	/// compares the Xlib Window primitive for equality.
+	/// compares the WinIDs for equality.
 	bool operator==(const XWindow &o) const { return m_win == o.m_win; }
 
 	bool operator!=(const XWindow &o) const { return !operator==(o); }
@@ -404,7 +394,7 @@ public: // functions
 
 	XWindow& operator=(const XWindow &other);
 
-	operator Window() const { return m_win; }
+	operator WinID() const { return m_win; }
 
 	/// Retrieve the attributes for this window.
 	/**
@@ -424,7 +414,7 @@ public: // functions
 
 	void setParent(const XWindow &parent) { m_parent = parent.id(); }
 
-	Window getParent() const { return m_parent; }
+	WinID getParent() const { return m_parent; }
 
 	const WindowSet& getChildren() const { return m_children; }
 
@@ -443,7 +433,7 @@ public: // functions
 	 * \param[in] src_pos The upper-left coordinate of the copy area in the source pixmap
 	 * \param[in] dst_pos The upper-left coordinate of the copy area in the dest window
 	 **/
-	void copyArea(const GcSharedPtr &gc, const PixMap &px,
+	void copyArea(const GcSharedPtr &gc, const PixMapID px,
 			const Extent &ext, const Coord &src_pos = Coord{0,0}, const Coord &dst_pos = Coord{0,0});
 
 protected: // functions
@@ -484,13 +474,17 @@ protected: // functions
 		const XWindow *window = nullptr
 	);
 
+protected: // functions
+
+	Window rawID() const;
+
 protected: // data
 
 	XDisplay &m_display;
 	/// The X11 window ID this object represents
-	Window m_win = INVALID_XID;
+	WinID m_win = WinID::INVALID;
 	/// The X11 window ID of the parent of this window
-	Window m_parent = INVALID_XID;
+	WinID m_parent = WinID::INVALID;
 	/// A set of X11 window IDs that represents the children of this window
 	WindowSet m_children;
 
@@ -500,8 +494,6 @@ protected: // data
 	mutable long m_send_event_mask = NoEventMask;
 
 	const StandardProps &m_std_props;
-
-	mutable int m_cached_desktop_nr = -1;
 };
 
 } // end ns

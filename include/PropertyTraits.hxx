@@ -70,8 +70,10 @@ public: // functions
 	 * second parameter, if applicable.
 	 **/
 	static
-	void x2native(PROPTYPE &i, XPtrType data, unsigned int count)
-	{}
+	void x2native(PROPTYPE &i, XPtrType data, unsigned int count) {
+		// prevent the generic template from being instantiated
+		static_assert(sizeof(PROPTYPE) < 0);
+	}
 
 	//! Transform the current value of the native PROPTYPE into raw X data
 	static
@@ -170,20 +172,20 @@ public: // functions
 };
 
 template <>
-class PropertyTraits<Window> {
+class PropertyTraits<WinID> {
 public: // constants
 
 	static const Atom x_type = XA_WINDOW;
-	static const unsigned long fixed_size = sizeof(Window);
+	static const unsigned long fixed_size = sizeof(WinID);
 	static const char format = 32;
 	typedef long* XPtrType;
 
 public: // functions
 
 	static
-	void x2native(Window &w, XPtrType data, unsigned int count) {
+	void x2native(WinID &w, XPtrType data, unsigned int count) {
 		(void)count;
-		w = static_cast<Window>(*data);
+		w = WinID{static_cast<Window>(*data)};
 	}
 };
 
