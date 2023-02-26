@@ -9,9 +9,10 @@
 #include "cosmos/memory.hxx"
 
 // X++
+#include "X++/AtomMapper.hxx"
+#include "X++/formatting.hxx"
 #include "X++/helpers.hxx"
 #include "X++/private/Xpp.hxx"
-#include "X++/AtomMapper.hxx"
 #include "X++/XWindowAttrs.hxx"
 #include "X++/XWindow.hxx"
 
@@ -606,11 +607,3 @@ template void XWindow::setProperty(const AtomID, const Property<utf8_string>&);
 template void XWindow::setProperty(const AtomID, const Property<AtomID>&);
 
 } // end ns
-
-std::ostream& operator<<(std::ostream &o, const xpp::XWindow &w) {
-	auto raw = xpp::raw_win(w.id());
-	auto num = cosmos::HexNum(raw, 8);
-	o << num << " (" << raw << ")";
-
-	return o;
-}

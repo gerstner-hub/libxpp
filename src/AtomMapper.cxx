@@ -66,9 +66,3 @@ AtomID AtomMapper::cacheMiss(const std::string_view s) const {
 }
 
 } // end ns
-
-std::ostream& operator<<(std::ostream &o, const xpp::AtomID atom) {
-	o << xpp::raw_atom(atom) << " (" << xpp::atom_mapper.mapName(atom) << ")";
-
-	return o;
-}

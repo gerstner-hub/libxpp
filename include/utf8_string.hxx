@@ -1,8 +1,7 @@
-#ifndef XPP_UTF8_STRING
-#define XPP_UTF8_STRING
+#ifndef XPP_UTF8_STRING_HXX
+#define XPP_UTF8_STRING_HXX
 
 // C++
-#include <ostream>
 #include <string>
 #include <string_view>
 
@@ -25,7 +24,8 @@ namespace xpp {
  **/
 struct utf8_string {
 	utf8_string() {}
-	explicit utf8_string(const std::string_view &s) : str(s) {}
+	explicit utf8_string(const std::string_view s) :
+			str(s) {}
 
 	size_t length() { return str.length(); }
 
@@ -33,10 +33,5 @@ struct utf8_string {
 };
 
 } // end ns
-
-inline std::ostream& operator<<(std::ostream &o, const xpp::utf8_string &s) {
-	o << s.str;
-	return o;
-}
 
 #endif // inc. guard

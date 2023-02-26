@@ -3,8 +3,9 @@
 #include "cosmos/string.hxx"
 
 // X++
-#include "X++/RootWin.hxx"
+#include "X++/formatting.hxx"
 #include "X++/private/Xpp.hxx"
+#include "X++/RootWin.hxx"
 
 namespace xpp {
 

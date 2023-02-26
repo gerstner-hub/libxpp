@@ -5,7 +5,6 @@
 #include <map>
 #include <string>
 #include <stdint.h>
-#include <iosfwd>
 
 // cosmos
 #include "cosmos/thread/RWLock.hxx"
@@ -75,8 +74,5 @@ protected: // data
 extern XPP_API AtomMapper atom_mapper;
 
 } // end ns
-
-/// Output operator that prints the human readable name of an atom.
-XPP_API std::ostream& operator<<(std::ostream &o, const xpp::AtomID atom);
 
 #endif // inc. guard

@@ -33,7 +33,7 @@ void XPP_API finish();
  * During the lifetime of this object the cosmos library remains initialized.
  **/
 struct XPP_API Init {
-	Init(std::optional<cosmos::ILogger*> logger = std::nullopt) { init(logger); }
+	explicit Init(std::optional<cosmos::ILogger*> logger = std::nullopt) { init(logger); }
 
 	~Init() { finish(); }
 };

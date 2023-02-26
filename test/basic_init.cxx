@@ -1,12 +1,13 @@
 #include <iostream>
 
-#include "X++/Xpp.hxx"
-#include "X++/RootWin.hxx"
-#include "X++/types.hxx"
-#include "X++/helpers.hxx"
-#include "cosmos/io/StdLogger.hxx"
 #include "cosmos/cosmos.hxx"
 #include "cosmos/formatting.hxx"
+#include "cosmos/io/StdLogger.hxx"
+#include "X++/formatting.hxx"
+#include "X++/helpers.hxx"
+#include "X++/RootWin.hxx"
+#include "X++/types.hxx"
+#include "X++/Xpp.hxx"
 
 void testDisplay() {
 	auto &display = xpp::display;

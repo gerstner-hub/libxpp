@@ -48,7 +48,7 @@ struct Coord {
  * preprocessor define, thus we have to use the internal name of the struct
  * behind this to create a valid shared_ptr around it.
  **/
-typedef std::shared_ptr<struct _XGC> GcSharedPtr;
+using GcSharedPtr = std::shared_ptr<struct _XGC>;
 
 /// constant for an invalid XID value
 /**
@@ -144,7 +144,7 @@ enum class GcOpts : long {
 	ArcMode           = GCArcMode
 };
 
-typedef cosmos::BitMask<GcOpts> GcOptMask;
+using GcOptMask = cosmos::BitMask<GcOpts>;
 
 enum class WindowAttr : unsigned long {
 	BackPixmap       = CWBackPixmap,

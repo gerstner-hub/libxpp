@@ -2,7 +2,6 @@
 #define XPP_WINDOW_HXX
 
 // C++
-#include <iosfwd>
 #include <memory>
 #include <set>
 #include <string_view>
@@ -496,8 +495,5 @@ protected: // data
 };
 
 } // end ns
-
-/// output operator that prints out the X11 window ID associated with \c w onto the stream in hex and dec
-std::ostream& operator<<(std::ostream &o, const xpp::XWindow &w);
 
 #endif // inc. guard
