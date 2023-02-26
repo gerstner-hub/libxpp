@@ -47,7 +47,7 @@ std::string XWindow::getName() const {
 	try {
 		xpp::Property<utf8_string> utf8_name;
 
-		this->getProperty(m_std_props.atom_ewmh_window_name, utf8_name);
+		this->getProperty(atoms::ewmh_window_name, utf8_name);
 
 		return utf8_name.get().str;
 	} catch(...) {}
@@ -61,7 +61,7 @@ std::string XWindow::getName() const {
 
 	xpp::Property<const char*> name;
 
-	this->getProperty(m_std_props.atom_icccm_window_name, name);
+	this->getProperty(atoms::icccm_window_name, name);
 
 	return name.get();
 }
@@ -69,7 +69,7 @@ std::string XWindow::getName() const {
 cosmos::ProcessID XWindow::getPID() const {
 	xpp::Property<int> pid;
 
-	this->getProperty(m_std_props.atom_ewmh_window_pid, pid);
+	this->getProperty(atoms::ewmh_window_pid, pid);
 
 	return cosmos::ProcessID{pid.get()};
 }
@@ -77,7 +77,7 @@ cosmos::ProcessID XWindow::getPID() const {
 int XWindow::getDesktop() const {
 	xpp::Property<int> desktop_nr;
 
-	this->getProperty(m_std_props.atom_ewmh_window_desktop, desktop_nr);
+	this->getProperty(atoms::ewmh_window_desktop, desktop_nr);
 
 	auto ret = desktop_nr.get();
 	return ret;
@@ -88,20 +88,20 @@ void XWindow::setName(const std::string_view name) {
 		xpp::Property<utf8_string> utf8_name;
 		utf8_name = utf8_string{name};
 
-		this->setProperty(m_std_props.atom_ewmh_window_name, utf8_name);
+		this->setProperty(atoms::ewmh_window_name, utf8_name);
 
 		return;
 	} catch(...) {}
 
 	xpp::Property<const char*> name_prop(name.data());
 
-	this->setProperty(m_std_props.atom_icccm_window_name, name_prop);
+	this->setProperty(atoms::icccm_window_name, name_prop);
 }
 
 std::string XWindow::getClientMachine() const {
 	xpp::Property<const char *> name;
 
-	this->getProperty(m_std_props.atom_icccm_wm_client_machine, name);
+	this->getProperty(atoms::icccm_wm_client_machine, name);
 
 	return name.get();
 }
@@ -109,7 +109,7 @@ std::string XWindow::getClientMachine() const {
 std::string XWindow::getCommand() const {
 	xpp::Property<const char *> name;
 
-	this->getProperty(m_std_props.atom_icccm_wm_command, name);
+	this->getProperty(atoms::icccm_wm_command, name);
 
 	return name.get();
 }
@@ -117,7 +117,7 @@ std::string XWindow::getCommand() const {
 std::string XWindow::getLocale() const {
 	xpp::Property<const char *> locale;
 
-	this->getProperty(m_std_props.atom_icccm_wm_locale, locale);
+	this->getProperty(atoms::icccm_wm_locale, locale);
 
 	return locale.get();
 }
@@ -125,7 +125,7 @@ std::string XWindow::getLocale() const {
 WinID XWindow::getClientLeader() const {
 	xpp::Property<WinID> leader;
 
-	this->getProperty(m_std_props.atom_icccm_wm_client_leader, leader);
+	this->getProperty(atoms::icccm_wm_client_leader, leader);
 
 	return leader.get();
 }
@@ -133,7 +133,7 @@ WinID XWindow::getClientLeader() const {
 AtomID XWindow::getWindowType() const {
 	xpp::Property<AtomID> type;
 
-	this->getProperty(m_std_props.atom_ewmh_wm_window_type, type);
+	this->getProperty(atoms::ewmh_wm_window_type, type);
 
 	return type.get();
 }
@@ -198,7 +198,7 @@ XWindow::ClassStringPair XWindow::getClass() const {
 	 */
 	xpp::Property<const char *> clazz;
 
-	this->getProperty(m_std_props.atom_icccm_wm_class, clazz);
+	this->getProperty(atoms::icccm_wm_class, clazz);
 
 	ClassStringPair ret;
 
@@ -262,11 +262,11 @@ void XWindow::makeSelectionOwner(const AtomID selection, const Time &t) {
 
 void XWindow::sendDeleteRequest() {
 	long data[2];
-	data[0] = raw_atom(m_std_props.atom_icccm_wm_delete_window);
+	data[0] = raw_atom(atoms::icccm_wm_delete_window);
 	data[1] = CurrentTime;
 
 	sendRequest(
-		m_std_props.atom_icccm_wm_protocols,
+		atoms::icccm_wm_protocols,
 		(const char*)&data[0],
 		sizeof(data),
 		this

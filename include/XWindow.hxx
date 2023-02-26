@@ -100,8 +100,7 @@ public: // functions
 
 	/// Create an object without binding to a window
 	XWindow() :
-			m_display(XDisplay::getInstance()),
-			m_std_props(StandardProps::instance())
+			m_display(XDisplay::getInstance())
 	{}
 
 	XWindow(const XWindow &other) :
@@ -492,8 +491,6 @@ protected: // data
 	mutable long m_input_event_mask = 0;
 	/// The X11 send event mask currently associated with this window
 	mutable long m_send_event_mask = NoEventMask;
-
-	const StandardProps &m_std_props;
 };
 
 } // end ns

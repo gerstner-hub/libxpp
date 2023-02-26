@@ -45,7 +45,7 @@ void RootWin::queryWindows() {
 	 */
 	try {
 		Property<std::vector<Window>> windows;
-		this->getProperty(m_std_props.atom_ewmh_wm_window_list, windows);
+		this->getProperty(atoms::ewmh_wm_window_list, windows);
 
 		const std::vector<Window> &wins = windows.get();
 

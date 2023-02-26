@@ -8,6 +8,7 @@
 // X++
 #include "X++/XDisplay.hxx"
 #include "X++/AtomMapper.hxx"
+#include "X++/atoms.hxx"
 #include "X++/utf8_string.hxx"
 
 namespace xpp {
@@ -188,7 +189,7 @@ public: // functions
 	static void init() {
 		// this XLib property type atom is not available as a constant
 		// in the Xlib headers but needs to be queried at runtime.
-		x_type = StandardProps::instance().atom_ewmh_utf8_string;
+		x_type = atoms::ewmh_utf8_string;
 	}
 
 	static void x2native(utf8_string &s, XPtrType data, unsigned int count) {
