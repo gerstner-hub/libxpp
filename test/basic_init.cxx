@@ -4,20 +4,9 @@
 #include "X++/RootWin.hxx"
 #include "X++/types.hxx"
 #include "X++/helpers.hxx"
-#include "cosmos/io/ILogger.hxx"
+#include "cosmos/io/StdLogger.hxx"
 #include "cosmos/cosmos.hxx"
 #include "cosmos/formatting.hxx"
-
-class DefLogger :
-	public cosmos::ILogger {
-public:
-
-	DefLogger() {
-		setStreams(std::cerr, std::cout, std::cerr, std::cerr);
-		setChannels(true, true, true, true);
-	}
-
-};
 
 void testDisplay() {
 	auto &display = xpp::XDisplay::getInstance();
@@ -40,7 +29,7 @@ void testGC() {
 
 void test() {
 	cosmos::Init cosmos_init;
-	DefLogger logger;
+	cosmos::StdLogger logger;
 	xpp::Init init(&logger);
 	xpp::RootWin root_win;
 

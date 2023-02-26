@@ -3,19 +3,8 @@
 #include "X++/Xpp.hxx"
 #include "X++/RootWin.hxx"
 #include "X++/types.hxx"
-#include "cosmos/io/ILogger.hxx"
+#include "cosmos/io/StdLogger.hxx"
 #include "cosmos/cosmos.hxx"
-
-class DefLogger :
-	public cosmos::ILogger {
-public:
-
-	DefLogger() {
-		setStreams(std::cerr, std::cout, std::cerr, std::cerr);
-		setChannels(true, true, true, true);
-	}
-
-};
 
 void printInfo(const xpp::XWindow::PropertyInfo &info, xpp::AtomMapper &mapper) {
 	std::cout << "property type: " << mapper.getName(xpp::AtomID{info.type}) << std::endl;
@@ -26,7 +15,7 @@ void printInfo(const xpp::XWindow::PropertyInfo &info, xpp::AtomMapper &mapper) 
 
 void test() {
 	cosmos::Init cosmos_init;
-	DefLogger logger;
+	cosmos::StdLogger logger;
 	xpp::Init init(&logger);
 	xpp::RootWin root_win;
 
