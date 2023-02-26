@@ -15,10 +15,13 @@ RootWin::RootWin(XDisplay &p_display, int screen) :
 
 	// the event mask influences which X clients will receive the event.
 	// For the root window to react to our requests these masks seem to be
-	// helpful. 0 value doesn't work. I'm not sure if this is not too
-	// broad but there is no clear documentation which specific value
+	// helpful. NoEvent value doesn't work. I'm not sure if this is not
+	// too broad but there is no clear documentation which specific value
 	// might be correct for our use cases
-	m_send_event_mask = SubstructureRedirectMask | SubstructureNotifyMask;
+	m_send_event_mask.set({
+		EventMask::SubstructureRedirect,
+		EventMask::SubstructureNotify
+	});
 }
 
 RootWin::RootWin() :

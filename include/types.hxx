@@ -164,7 +164,7 @@ enum class WindowAttr : unsigned long {
 	Cursor           = CWCursor
 };
 
-typedef cosmos::BitMask<WindowAttr> WindowAttrMask;
+using WindowAttrMask = cosmos::BitMask<WindowAttr>;
 
 /// XEvent structure type differentiation
 /**
@@ -190,6 +190,37 @@ enum class EventType : int {
 	Ev_SelectionNotify  = SelectionNotify,
 	Ev_SelectionRequest = SelectionRequest
 };
+
+enum class EventMask : long {
+	NoEvent              = NoEventMask,
+	KeyPresses           = KeyPressMask,
+	KeyReleases          = KeyReleaseMask,
+	ButtonPresses        = ButtonPressMask,
+	ButtonReleases       = ButtonReleaseMask,
+	EnterWindow          = EnterWindowMask,
+	LeaveWindow          = LeaveWindowMask,
+	PointerMotion        = PointerMotionMask,
+	PointerMotionHint    = PointerMotionHintMask,
+	Button1Motion        = Button1MotionMask,
+	Button2Motion        = Button2MotionMask,
+	Button3Motion        = Button3MotionMask,
+	Button4Motion        = Button4MotionMask,
+	Button5Motion        = Button5MotionMask,
+	ButtonMotion         = ButtonMotionMask,
+	KeymapState          = KeymapStateMask,
+	Exposure             = ExposureMask,
+	VisibilityChange     = VisibilityChangeMask,
+	StructureNotify      = StructureNotifyMask,
+	ResizeRedirect       = ResizeRedirectMask,
+	SubstructureNotify   = SubstructureNotifyMask,
+	SubstructureRedirect = SubstructureRedirectMask,
+	FocusChange          = FocusChangeMask,
+	PropertyChange       = PropertyChangeMask,
+	ColormapChange       = ColormapChangeMask,
+	OwnerGrabButton      = OwnerGrabButtonMask
+};
+
+using EventSelectionMask = cosmos::BitMask<EventMask>;
 
 } // end ns
 

@@ -369,7 +369,7 @@ public: // functions
 		// Thus if we don't want grandchildren Windows of the root
 		// window then we need to filter on the event receiving side
 		// within our process
-		selectEvent(SubstructureNotifyMask);
+		selectEvent(EventMask::SubstructureNotify);
 	}
 
 	/// Inform the X server that we want to be notified of window destruction events.
@@ -378,7 +378,7 @@ public: // functions
 	 * your X application.
 	 **/
 	void selectDestroyEvent() const {
-		selectEvent(StructureNotifyMask);
+		selectEvent(EventMask::StructureNotify);
 	}
 
 	/// Inform the X server that we want to be notified if properties of the current window change.
@@ -387,7 +387,7 @@ public: // functions
 	 * are added, changed or deleted.
 	 **/
 	void selectPropertyNotifyEvent() const {
-		selectEvent(PropertyChangeMask);
+		selectEvent(EventMask::PropertyChange);
 	}
 
 	/// transparently cast the object into the raw WinID identifier.
@@ -441,7 +441,7 @@ public: // functions
 protected: // functions
 
 	/// Adds the given event(s) to the set of window events we want to be notified about.
-	void selectEvent(const long new_event) const;
+	void selectEvent(const EventMask new_event) const;
 
 	/// Sends a request to the window with a single long parameter as data.
 	void sendRequest(const AtomID message, long data, const XWindow *window = nullptr) {
@@ -490,9 +490,9 @@ protected: // data
 	WindowSet m_children;
 
 	/// The X11 input event mask currently associated with this window
-	mutable long m_input_event_mask = 0;
-	/// The X11 send event mask currently associated with this window
-	mutable long m_send_event_mask = NoEventMask;
+	mutable EventSelectionMask m_input_event_mask;
+	/// The X11 event mask used for sending out events via sendEvent()
+	EventSelectionMask m_send_event_mask;
 };
 
 } // end ns

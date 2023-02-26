@@ -310,7 +310,7 @@ void XWindow::sendEvent(const XEvent &event) {
 		display,
 		rawID(),
 		False,
-		m_send_event_mask,
+		m_send_event_mask.raw(),
 		const_cast<XEvent*>(&event)
 	);
 
@@ -322,12 +322,11 @@ void XWindow::sendEvent(const XEvent &event) {
 	display.flush();
 }
 
-void XWindow::selectEvent(const long new_event) const {
-	m_input_event_mask |= new_event;
+void XWindow::selectEvent(const EventMask new_event) const {
+	m_input_event_mask.set(new_event);
 
-	const int res = ::XSelectInput(display, rawID(), m_input_event_mask);
+	const int res = ::XSelectInput(display, rawID(), m_input_event_mask.raw());
 
-	// stupid return codes again
 	if (res == 0) {
 		cosmos_throw (X11Exception("XSelectInput failed"));
 	}
