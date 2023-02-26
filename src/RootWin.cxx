@@ -8,8 +8,8 @@
 
 namespace xpp {
 
-RootWin::RootWin(XDisplay &display, int screen) :
-		XWindow{WinID{XRootWindow(display, screen)}} {
+RootWin::RootWin(XDisplay &p_display, int screen) :
+		XWindow{WinID{XRootWindow(p_display, screen)}} {
 		
 	Xpp::getLogger().debug() << "root window has id: " << *this << "\n";
 
@@ -22,7 +22,7 @@ RootWin::RootWin(XDisplay &display, int screen) :
 }
 
 RootWin::RootWin() :
-		RootWin{XDisplay::getInstance(), XDisplay::getInstance().getDefaultScreen()}
+		RootWin{display, display.getDefaultScreen()}
 {}
 
 void RootWin::queryWindows() {
@@ -132,7 +132,6 @@ void RootWin::queryTree() {
 		}
 		throw;
 	}
-
 }
 
 } // end ns

@@ -99,9 +99,7 @@ public: // types
 public: // functions
 
 	/// Create an object without binding to a window
-	XWindow() :
-			m_display(XDisplay::getInstance())
-	{}
+	XWindow() = default;
 
 	XWindow(const XWindow &other) :
 			XWindow{}
@@ -302,7 +300,7 @@ public: // functions
 	 **/
 	template <typename PROPTYPE>
 	void getProperty(const std::string_view name, Property<PROPTYPE> &p) const {
-		getProperty(m_display.getAtom(name), p);
+		getProperty(display.getAtom(name), p);
 	}
 
 	/// Gets a property for an already mapped atom.
@@ -324,7 +322,7 @@ public: // functions
 	 **/
 	template <typename PROPTYPE>
 	void setProperty(const std::string_view name, const Property<PROPTYPE> &p) {
-		setProperty(m_display.getAtom(name), p);
+		setProperty(display.getAtom(name), p);
 	}
 
 	/// Set a property for an already mapped atom.
@@ -337,7 +335,7 @@ public: // functions
 
 	/// Removes the property of the given name identifier from the window.
 	void delProperty(const std::string &name) {
-		delProperty(m_display.getAtom(name));
+		delProperty(display.getAtom(name));
 	}
 
 	/// Removes the property of the given atom identifier from the window.
@@ -479,7 +477,6 @@ protected: // functions
 
 protected: // data
 
-	XDisplay &m_display;
 	/// The X11 window ID this object represents
 	WinID m_win = WinID::INVALID;
 	/// The X11 window ID of the parent of this window

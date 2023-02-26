@@ -9,7 +9,7 @@
 #include "cosmos/formatting.hxx"
 
 void testDisplay() {
-	auto &display = xpp::XDisplay::getInstance();
+	auto &display = xpp::display;
 	auto window = display.createWindow({0, 0, 100, 100}, 0);
 	auto depth = display.getDefaultDepth();
 	std::cout << "default depth: " << depth << std::endl;
@@ -21,7 +21,7 @@ void testDisplay() {
 }
 
 void testGC() {
-	auto &display = xpp::XDisplay::getInstance();
+	auto &display = xpp::display;
 	XGCValues vals;
 	auto gc_ptr = display.createGraphicsContext(
 			xpp::to_drawable(xpp::RootWin().id()), xpp::GcOptMask(), vals);

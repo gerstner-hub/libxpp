@@ -9,6 +9,9 @@
 
 namespace xpp {
 
+// global display instance
+XDisplay display;
+
 XDisplay::~XDisplay() {
 	::XCloseDisplay(m_dis);
 	m_dis = nullptr;
@@ -70,12 +73,6 @@ void XDisplay::mapWindow(const XWindow &win) {
 void XDisplay::setSynchronized(bool on_off) {
 	// this returns a callback function pointer we don't need
 	(void)::XSynchronize (m_dis, on_off ? True : False);
-}
-
-XDisplay& XDisplay::getInstance() {
-	static XDisplay dis;
-
-	return dis;
 }
 
 XDisplay::AtomMappingError::AtomMappingError(Display *dis, const int errcode, const std::string_view s) :

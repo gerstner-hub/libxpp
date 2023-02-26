@@ -13,7 +13,8 @@ class XDisplay;
 
 /// This class represents the special root window.
 /**
- * The root window contains information about all other existing windows.
+ * The root window contains information about all other existing windows and
+ * the window manager.
  **/
 class XPP_API RootWin :
 		public XWindow {
@@ -38,19 +39,30 @@ public: // functions
 
 	/// Returns the complete hierarchy of windows, actively queried.
 	/**
-	 * While getWindowList() returns only windows that are propagated by
+	 * While windowList() returns only windows that are propagated by
 	 * the window manager, this function actively queries the hierarchy of
 	 * X windows from the root window onwards.
 	 * 
 	 * Thus this list also contains hidden windows, decoration windows
 	 * etc.
+	 *
+	 * You need to call queryTree() to get actual data from this call.
 	 **/
-	const auto& getWindowTree() const { return m_tree; }
+	const auto& windowTree() const { return m_tree; }
 
-	/// Queries all existing windows from the WM and stores them in m_windows.
+	/// Returns the list of active application main windows.
+	/**
+	 * You need to call queryWindows() to get actual data from this call.
+	 **/
+	const auto& windowList() const { return m_windows; }
+
+	/// Queries all existing windows from the WM and stores them in the object.
 	void queryWindows();
 
-	/// Queries the complete window tree and stores the windows in m_tree.
+	/// Queries the complete window tree and stores the windows in the object.
+	/**
+	 * This includes also hidden and decoration windows.
+	 **/
 	void queryTree();
 
 protected: // data

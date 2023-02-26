@@ -41,7 +41,7 @@ const std::string& AtomMapper::getName(const AtomID atom) const {
 }
 
 const std::string& AtomMapper::cacheMiss(const AtomID atom) const {
-	const auto name = XDisplay::getInstance().getName(atom);
+	const auto name = display.getName(atom);
 
 	{
 		cosmos::WriteLockGuard g(m_mappings_lock);
@@ -53,7 +53,7 @@ const std::string& AtomMapper::cacheMiss(const AtomID atom) const {
 
 AtomID AtomMapper::cacheMiss(const std::string_view s) const {
 	auto &logger = Xpp::getLogger();
-	AtomID ret{XDisplay::getInstance().getAtom(s)};
+	AtomID ret{display.getAtom(s)};
 
 	logger.debug() << "Resolved atom id for '" << s << "' is " << raw_atom(ret) << std::endl;
 

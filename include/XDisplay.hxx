@@ -31,12 +31,13 @@ class XWindow;
  * importantly the Display provides the actual atom mapping operations and is
  * also required to create instances of the XWindow type.
  * 
- * I decided to make this type a singleton as the one and only Display
- * instance is required at a lot of places and passing it from one place to
- * another becomes very annoying.
+ * A global xpp::display instance allows simple access to the default display
+ * which is opened based on environment variables.
  *
- * Making it possible to operate on the non-default Display should be not too
- * hard to implement, if ever needed.
+ * Making it possible to operate on the a non-default Display should be not
+ * too hard to implement in the future, if every needed. The xpp::display
+ * could e.g. be constructed differently based on xpp library initialization
+ * parameters.
  **/
 class XPP_API XDisplay {
 public: // types
@@ -59,6 +60,10 @@ public: // types
 
 public: // functions
 
+	/// Opens the default display
+	XDisplay();
+
+	/// Closes the display handle again
 	~XDisplay();
 
 	/// returns a file descriptor representing the connection to the X server
@@ -267,20 +272,9 @@ public: // functions
 	/// transparently casts the instance to the Xlib Display primitive
 	operator Display*() { return m_dis; }
 
-	/// Returns a reference to the single XDisplay instance.
-	/**
-	 * \note
-	 * 	The first access to this function (construction) can generate
-	 * 	errors that will be propagated by means of exceptions.
-	 **/
-	static XDisplay& getInstance();
-
 protected: // functions
 
-	/// Opens the default display, protected due to singleton pattern
-	XDisplay();
-
-	// disallow copy of the singleton XDisplay
+	// disallow copying since the class has ownership semantics
 	XDisplay(const XDisplay &other) = delete;
 
 protected: // data
@@ -288,6 +282,10 @@ protected: // data
 	/// The Xlib primitive for the Display
 	mutable Display *m_dis = nullptr;
 };
+
+/// An instance to access the default display
+extern XPP_API XDisplay display;
+
 
 } // end ns
 
