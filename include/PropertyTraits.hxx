@@ -7,7 +7,7 @@
 
 // X++
 #include "X++/XDisplay.hxx"
-#include "X++/XAtom.hxx"
+#include "X++/AtomMapper.hxx"
 #include "X++/utf8_string.hxx"
 
 namespace xpp {
@@ -41,21 +41,19 @@ class PropertyTraits {
 public: // constants
 
 	/// Xlib atom data type corresponding to PROPTYPE that is passed to the X functions for identification.
-	static const Atom x_type = XA_CARDINAL;
+	static constexpr AtomID x_type = AtomID{XA_CARDINAL};
 	/// if PROPTYPE has got a fixed size then this constant denotes that size in bytes, otherwise set to zero.
-	static const unsigned long fixed_size = 0;
-	/// A pointer to PROPTYPE that can be passed to the X functions
-	/// for retrieving / passing data.
-	typedef float* XPtrType;
+	static constexpr unsigned long fixed_size = 0;
 	/// The format in X terms, determines the width of a single sequence
 	/// item in bits (e.g. for arrays of 8-bit, 16-bit or 32-bit items).
-	static const char format = 0;
+	static constexpr char format = 0;
+	/// A pointer to PROPTYPE that can be passed to the X functions for retrieving / passing data.
+	using XPtrType =  float*;
 
 public: // functions
 
 	/// Returns the number of elements the given property has in X terms
-	static
-	int getNumElements(const PROPTYPE &val) { return 0; }
+	static int getNumElements(const PROPTYPE &val) { return 0; }
 
 	/// Set the current value of the native PROPTYPE from the given raw X data.
 	/**
@@ -69,15 +67,13 @@ public: // functions
 	 * determines the number of sequence items that can be found in the
 	 * second parameter, if applicable.
 	 **/
-	static
-	void x2native(PROPTYPE &i, XPtrType data, unsigned int count) {
+	static void x2native(PROPTYPE &i, XPtrType data, unsigned int count) {
 		// prevent the generic template from being instantiated
 		static_assert(sizeof(PROPTYPE) < 0);
 	}
 
-	//! Transform the current value of the native PROPTYPE into raw X data
-	static
-	void native2x(const PROPTYPE &s, XPtrType &data) {}
+	/// Transform the current value of the native PROPTYPE into raw X data
+	static void native2x(const PROPTYPE &s, XPtrType &data) {}
 
 	// never instantiate this type
 	PropertyTraits() = delete;
@@ -87,56 +83,49 @@ template <>
 class PropertyTraits<int> {
 public: // constants
 
-	static const Atom x_type = XA_CARDINAL;
-	static const unsigned long fixed_size = sizeof(int);
-	typedef long* XPtrType;
-	static const char format = 32;
+	static constexpr AtomID x_type = AtomID{XA_CARDINAL};
+	static constexpr unsigned long fixed_size = sizeof(int);
+	static constexpr char format = 32;
+	using XPtrType = long*;
 
 public: // functions
 
-	static
-	int getNumElements(const int&) { return 1; }
+	static int getNumElements(const int&) { return 1; }
 
 
-	static
-	void x2native(int &i, const XPtrType data, unsigned int count) {
+	static void x2native(int &i, const XPtrType data, unsigned int count) {
 		i = static_cast<int>(*data);
 		(void)count;
 	}
 
-	static
-	void native2x(const int &s, XPtrType &data) {
-		// We simply set the pointer to the PROPTYPE item as a flat
-		// copy.
+	static void native2x(const int &s, XPtrType &data) {
+		// We simply set the pointer to the PROPTYPE item as a flat copy.
 		data = (XPtrType)&s;
 	}
 };
 
 template <>
-class PropertyTraits<XAtom> {
+class PropertyTraits<AtomID> {
 public: // constants
 
-	static const Atom x_type = XA_ATOM;
-	static const unsigned long fixed_size = sizeof(Atom);
-	typedef long* XPtrType;
-	static const char format = 32;
+	static constexpr AtomID x_type = AtomID{XA_ATOM};
+	static constexpr unsigned long fixed_size = sizeof(AtomID);
+	static constexpr char format = 32;
+	using XPtrType = long*;
 
 public: // functions
 
-	static
-	int getNumElements(const int &) { return 1; }
+	static int getNumElements(const AtomID&) { return 1; }
 
 
-	static
-	void x2native(XAtom &a, const XPtrType data, unsigned int count) {
-		a = static_cast<Atom>(*data);
+	static void x2native(AtomID &a, const XPtrType data, unsigned int count) {
+		a = AtomID{static_cast<Atom>(*data)};
 		(void)count;
 	}
 
-	static
-	void native2x(const XAtom &a, XPtrType &data) {
+	static void native2x(const AtomID &a, XPtrType &data) {
 		// We simply set the pointer to the PROPTYPE item as a flat copy.
-		data = (XPtrType)a.getPtr();
+		data = (XPtrType)&a;
 	}
 };
 
@@ -144,26 +133,23 @@ template <>
 class PropertyTraits<const char*> {
 public: // constants
 
-	static const Atom x_type = XA_STRING;
-	static const unsigned long fixed_size = 0;
-	static const char format = 8;
-	typedef const char* XPtrType;
+	static constexpr AtomID x_type = AtomID{XA_STRING};
+	static constexpr unsigned long fixed_size = 0;
+	static constexpr char format = 8;
+	using XPtrType = const char*;
 
 public: // functions
 
-	static
-	void x2native(const char *&s, XPtrType data, unsigned int count) {
+	static void x2native(const char *&s, XPtrType data, unsigned int count) {
 		(void)count;
 		s = data;
 	}
 
-	static
-	void native2x(const char *& s, XPtrType &data) {
+	static void native2x(const char *& s, XPtrType &data) {
 		data = s;
 	}
 
-	static
-	int getNumElements(const char* const s) {
+	static int getNumElements(const char* const s) {
 		// strings in X are transferred without null terminator, the
 		// library always provides a terminating null byte in
 		// transferred data, however
@@ -175,17 +161,16 @@ template <>
 class PropertyTraits<WinID> {
 public: // constants
 
-	static const Atom x_type = XA_WINDOW;
-	static const unsigned long fixed_size = sizeof(WinID);
-	static const char format = 32;
-	typedef long* XPtrType;
+	static constexpr AtomID x_type = AtomID{XA_WINDOW};
+	static constexpr unsigned long fixed_size = sizeof(WinID);
+	static constexpr char format = 32;
+	using XPtrType = long*;
 
 public: // functions
 
-	static
-	void x2native(WinID &w, XPtrType data, unsigned int count) {
-		(void)count;
+	static void x2native(WinID &w, XPtrType data, unsigned int count) {
 		w = WinID{static_cast<Window>(*data)};
+		(void)count;
 	}
 };
 
@@ -193,33 +178,29 @@ template <>
 class PropertyTraits<utf8_string> {
 public: // constants
 
-	static XAtom x_type;
-	static const unsigned long fixed_size = 0;
-	static const char format = 8;
-	typedef const char* XPtrType;
+	static AtomID x_type;
+	static constexpr unsigned long fixed_size = 0;
+	static constexpr char format = 8;
+	using XPtrType = const char*;
 
 public: // functions
 
-	static
-	void init() {
+	static void init() {
 		// this XLib property type atom is not available as a constant
 		// in the Xlib headers but needs to be queried at runtime.
 		x_type = StandardProps::instance().atom_ewmh_utf8_string;
 	}
 
-	static
-	void x2native(utf8_string &s, XPtrType data, unsigned int count) {
-		(void)count;
+	static void x2native(utf8_string &s, XPtrType data, unsigned int count) {
 		s.str = data;
+		(void)count;
 	}
 
-	static
-	void native2x(const utf8_string &s, XPtrType &data) {
+	static void native2x(const utf8_string &s, XPtrType &data) {
 		data = s.str.c_str();
 	}
 
-	static
-	int getNumElements(const utf8_string &s) {
+	static int getNumElements(const utf8_string &s) {
 		// I suppose this is just for the X protocol the number of
 		// bytes, not the number unicode characters
 		return s.str.size();
@@ -232,15 +213,14 @@ template <typename ELEM>
 class PropertyTraits<std::vector<ELEM>> {
 public: // constants
 
-	static const Atom x_type = PropertyTraits<ELEM>::x_type;
-	static const unsigned long fixed_size = 0;
-	static const char format = PropertyTraits<ELEM>::format;
-	typedef typename PropertyTraits<ELEM>::XPtrType XPtrType;
+	static constexpr AtomID x_type = PropertyTraits<ELEM>::x_type;
+	static constexpr unsigned long fixed_size = 0;
+	static constexpr char format = PropertyTraits<ELEM>::format;
+	using XPtrType = typename PropertyTraits<ELEM>::XPtrType;
 
 public: // functions
 
-	static
-	void x2native(std::vector<ELEM> &v, XPtrType data, unsigned int count) {
+	static void x2native(std::vector<ELEM> &v, XPtrType data, unsigned int count) {
 		for (unsigned int e = 0; e < count; e++) {
 			v.push_back(data[e]);
 		}
@@ -251,22 +231,20 @@ template <>
 class PropertyTraits< std::vector<utf8_string>> {
 public: // constants
 
-	static XAtom x_type;
-	static const unsigned long fixed_size = 0;
-	static const char format = PropertyTraits<utf8_string>::format;
-	typedef const char* XPtrType;
+	static AtomID x_type;
+	static constexpr unsigned long fixed_size = 0;
+	static constexpr char format = PropertyTraits<utf8_string>::format;
+	using XPtrType = const char*;
 
 public: // functions
 
-	static
-	void init() {
+	static void init() {
 		// beware: correct order of runtime initialization is
 		// necessary in xpp::early_init().
 		x_type = PropertyTraits<utf8_string>::x_type;
 	}
 
-	static
-	void x2native(std::vector<utf8_string> &v, XPtrType data, unsigned int count) {
+	static void x2native(std::vector<utf8_string> &v, XPtrType data, unsigned int count) {
 		// we get a char* sequence of zero-terminated strings here
 		v.clear();
 
@@ -284,15 +262,14 @@ template <>
 class PropertyTraits<std::vector<int>> {
 public: // constants
 
-	static const Atom x_type = XA_CARDINAL;
-	static const unsigned long fixed_size = 0;
-	static const char format = 32;
-	typedef long* XPtrType;
+	static constexpr AtomID x_type = AtomID{XA_CARDINAL};
+	static constexpr unsigned long fixed_size = 0;
+	static constexpr char format = 32;
+	using XPtrType = long*;
 
 public: // functions
 
-	static
-	void x2native(std::vector<int> &v, XPtrType data, unsigned int count) {
+	static void x2native(std::vector<int> &v, XPtrType data, unsigned int count) {
 		v.clear();
 
 		for (unsigned int e = 0; e < count; e++) {
@@ -302,20 +279,19 @@ public: // functions
 };
 
 template <>
-class PropertyTraits<std::vector<XAtom>> {
+class PropertyTraits<std::vector<AtomID>> {
 public: // constants
 
-	static const Atom x_type = XA_ATOM;
-	static const unsigned long fixed_size = 0;
-	static const char format = 32;
-	typedef long* XPtrType;
+	static constexpr AtomID x_type = AtomID{XA_ATOM};
+	static constexpr unsigned long fixed_size = 0;
+	static constexpr char format = 32;
+	using XPtrType = long*;
 
 public: // functions
 
-	static
-	void x2native(std::vector<XAtom> &v, XPtrType data, unsigned int count) {
+	static void x2native(std::vector<AtomID> &v, XPtrType data, unsigned int count) {
 		for (unsigned int e = 0; e < count; e++) {
-			v.push_back(XAtom(data[e]));
+			v.push_back(AtomID{static_cast<Atom>(data[e])});
 		}
 	}
 };

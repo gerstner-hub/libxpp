@@ -3,7 +3,7 @@
 
 namespace xpp {
 
-XAtom PropertyTraits<utf8_string>::x_type = XAtom{0};
-XAtom PropertyTraits<std::vector<utf8_string>>::x_type = XAtom{0};
+AtomID PropertyTraits<utf8_string>::x_type = AtomID::INVALID;
+AtomID PropertyTraits<std::vector<utf8_string>>::x_type = AtomID::INVALID;
 
 } // end ns

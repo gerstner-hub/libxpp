@@ -17,8 +17,8 @@ public:
 
 };
 
-void printInfo(const xpp::XWindow::PropertyInfo &info, xpp::XAtomMapper &mapper) {
-	std::cout << "property type: " << mapper.getName(xpp::XAtom(info.type)) << std::endl;
+void printInfo(const xpp::XWindow::PropertyInfo &info, xpp::AtomMapper &mapper) {
+	std::cout << "property type: " << mapper.getName(xpp::AtomID{info.type}) << std::endl;
 	std::cout << "number of items: " << info.items << std::endl;
 	std::cout << "format: " << info.format << std::endl;
 	std::cout << "bytes: " << info.numBytes() << std::endl;
@@ -30,7 +30,7 @@ void test() {
 	xpp::Init init(&logger);
 	xpp::RootWin root_win;
 
-	xpp::XAtomVector atoms;
+	xpp::AtomIDVector atoms;
 	root_win.getPropertyList(atoms);
 
 	if (atoms.empty()) {
@@ -43,7 +43,7 @@ void test() {
 	xpp::XWindow::PropertyInfo info;
 	root_win.getPropertyInfo(first_prop, info);
 
-	auto &mapper = xpp::XAtomMapper::getInstance();
+	auto &mapper = xpp::AtomMapper::getInstance();
 	auto first_prop_name = mapper.getName(first_prop);
 
 	std::cout << "Got info about " << first_prop_name << std::endl;

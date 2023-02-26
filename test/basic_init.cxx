@@ -44,7 +44,7 @@ void test() {
 	xpp::Init init(&logger);
 	xpp::RootWin root_win;
 
-	xpp::XAtomVector props;
+	xpp::AtomIDVector props;
 	root_win.getPropertyList(props);
 
 	std::cout << "list of properties on root window: " << std::endl;

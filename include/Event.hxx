@@ -49,7 +49,7 @@ public: // functions
 		// if it *is* modified then only if filtering applies in which
 		// case the event shouldn't be processed by the caller anyway
 		return XFilterEvent(const_cast<XEvent*>(&m_ev),
-				w ? cosmos::to_integral(w->id()) : None) == True;
+				w ? raw_win(w->id()) : None) == True;
 	}
 
 	bool isConfigureNotify() const  { return m_ev.type == ConfigureNotify; }

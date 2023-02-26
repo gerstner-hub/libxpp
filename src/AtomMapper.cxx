@@ -6,14 +6,14 @@
 #include "cosmos/thread/RWLock.hxx"
 
 // X++
-#include "X++/XAtom.hxx"
+#include "X++/AtomMapper.hxx"
 #include "X++/XDisplay.hxx"
 #include "X++/private/Xpp.hxx"
 
 namespace xpp {
 
-XAtomMapper& XAtomMapper::getInstance() {
-	static XAtomMapper inst;
+AtomMapper& AtomMapper::getInstance() {
+	static AtomMapper inst;
 
 	return inst;
 }
@@ -26,7 +26,7 @@ const StandardProps& StandardProps::instance() {
 
 StandardProps::StandardProps() {
 	try {
-		auto &mapper = XAtomMapper::getInstance();
+		auto &mapper = AtomMapper::getInstance();
 		atom_ewmh_window_name        = mapper.getAtom("_NET_WM_NAME");
 		atom_ewmh_window_desktop     = mapper.getAtom("_NET_WM_DESKTOP");
 		atom_ewmh_window_pid         = mapper.getAtom("_NET_WM_PID");
@@ -59,19 +59,19 @@ StandardProps::StandardProps() {
 	}
 }
 
-XAtom XAtomMapper::getAtom(const std::string_view s) const {
+AtomID AtomMapper::getAtom(const std::string_view s) const {
 	{
 		cosmos::ReadLockGuard g{m_mappings_lock};
 
 		if (auto it = m_mappings.find(std::string{s}); it != m_mappings.end()) {
-			return XAtom{it->second};
+			return AtomID{it->second};
 		}
 	}
 
 	return cacheMiss(s);
 }
 
-const std::string& XAtomMapper::getName(const XAtom atom) const {
+const std::string& AtomMapper::getName(const AtomID atom) const {
 	{
 		cosmos::ReadLockGuard g{m_mappings_lock};
 
@@ -85,7 +85,7 @@ const std::string& XAtomMapper::getName(const XAtom atom) const {
 	return cacheMiss(atom);
 }
 
-const std::string& XAtomMapper::cacheMiss(const XAtom atom) const {
+const std::string& AtomMapper::cacheMiss(const AtomID atom) const {
 	const auto name = XDisplay::getInstance().getName(atom);
 
 	{
@@ -96,16 +96,15 @@ const std::string& XAtomMapper::cacheMiss(const XAtom atom) const {
 	}
 }
 
-XAtom XAtomMapper::cacheMiss(const std::string_view s) const {
+AtomID AtomMapper::cacheMiss(const std::string_view s) const {
 	auto &logger = Xpp::getLogger();
-	XAtom ret{XDisplay::getInstance().getAtom(s)};
+	AtomID ret{XDisplay::getInstance().getAtom(s)};
 
-	logger.debug() << "Resolved atom id for '" << s << "' is "
-		<< std::dec << ret.get() << std::endl;
+	logger.debug() << "Resolved atom id for '" << s << "' is " << raw_atom(ret) << std::endl;
 
 	{
 		cosmos::WriteLockGuard g{m_mappings_lock};
-		m_mappings.insert(std::make_pair(s, ret.get()));
+		m_mappings.insert(std::make_pair(s, ret));
 	}
 
 	return ret;
@@ -113,10 +112,10 @@ XAtom XAtomMapper::cacheMiss(const std::string_view s) const {
 
 } // end ns
 
-std::ostream& operator<<(std::ostream &o, const xpp::XAtom &atom) {
-	auto &mapper = xpp::XAtomMapper::getInstance();
+std::ostream& operator<<(std::ostream &o, const xpp::AtomID atom) {
+	auto &mapper = xpp::AtomMapper::getInstance();
 
-	o << atom.get() << " (" << mapper.getName(atom) << ")";
+	o << xpp::raw_atom(atom) << " (" << mapper.getName(atom) << ")";
 
 	return o;
 }

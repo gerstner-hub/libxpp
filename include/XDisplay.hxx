@@ -12,12 +12,14 @@
 #include <X11/Xatom.h>
 
 // cosmos
+#include "cosmos/algs.hxx"
 #include "cosmos/fs/FileDescriptor.hxx"
 
 // X++
+#include "X++/helpers.hxx"
 #include "X++/types.hxx"
 #include "X++/X11Exception.hxx"
-#include "X++/XAtom.hxx"
+#include "X++/AtomMapper.hxx"
 
 namespace xpp {
 
@@ -27,7 +29,7 @@ class XWindow;
 /// Wrapper around the Xlib Display type.
 /**
  * This class associates the Xlib Display type with relevant operations. Most
- * importantly the Display provides the actual Atom mapping operations and is
+ * importantly the Display provides the actual atom mapping operations and is
  * also required to create instances of the XWindow type.
  * 
  * I decided to make this type a singleton as the one and only Display
@@ -40,7 +42,7 @@ class XWindow;
 class XPP_API XDisplay {
 public: // types
 
-	/// Specialized X11Exception for Atom Mapping Errors.
+	/// Specialized X11Exception for atom Mapping Errors.
 	struct AtomMappingError :
 			public xpp::X11Exception {
 		AtomMappingError(Display *dis, const int errcode, const std::string_view s);
@@ -82,23 +84,23 @@ public: // functions
 
  	/// Creates an X atom for the given string and returns it.
 	/**
-	 * The function always returns a valid Atom, even if it first needs to
+	 * The function always returns a valid atom, even if it first needs to
 	 * be created by X11.
 	 * 
 	 * Can throw AtomMappingError.
 	 **/
-	XAtom getAtom(const std::string_view name) {
-		Atom ret = XInternAtom(m_dis, name.data(), False);
+	AtomID getAtom(const std::string_view name) {
+		auto ret = XInternAtom(m_dis, name.data(), False);
 
 		if (ret == BadAlloc || ret == BadValue || ret == None) {
 			cosmos_throw (AtomMappingError(m_dis, ret, name));
 		}
 
-		return XAtom{ret};
+		return AtomID{ret};
 	}
 
-	std::string getName(const XAtom atom) {
-		auto str = XGetAtomName(m_dis, atom.get());
+	std::string getName(const AtomID atom) {
+		auto str = XGetAtomName(m_dis, raw_atom(atom));
 		std::string ret{str};
 		XFree(str);
 		return ret;
@@ -261,7 +263,7 @@ public: // functions
 	 * If \c selection is invalid or the given selection has no owner then
 	 * no value is.
 	 **/
-	std::optional<WinID> getSelectionOwner(const XAtom &selection) const;
+	std::optional<WinID> getSelectionOwner(const AtomID selection) const;
 
 	/// transparently casts the instance to the Xlib Display primitive
 	operator Display*() { return m_dis; }

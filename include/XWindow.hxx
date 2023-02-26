@@ -54,7 +54,7 @@ public: // types
 	/// Exception used for the case when property types don't match.
 	struct PropertyTypeMismatch :
 			public cosmos::CosmosError {
-		PropertyTypeMismatch(Atom expected, Atom encountered);
+		PropertyTypeMismatch(AtomID expected, AtomID encountered);
 
 		COSMOS_ERROR_IMPL;
 	};
@@ -82,7 +82,7 @@ public: // types
 	/// Keeps metadata about a property.
 	struct PropertyInfo {
 		/// the property's type
-		XAtom type;
+		AtomID type;
 		/// the number of items of the given format
 		size_t items = 0;
 		/// the format of the property 8/16/32
@@ -186,16 +186,16 @@ public: // functions
 	 * The returned value is an atom of a predefined set of values like
 	 * _NET_WM_WINDOW_TYPE_NORMAL.
 	 **/
-	XAtom getWindowType() const;
+	AtomID getWindowType() const;
 
 	/// Returns the array of atoms representing the protocols supported by the window
-	void getProtocols(XAtomVector &protocols) const;
+	void getProtocols(AtomIDVector &protocols) const;
 
 	/// Sets the array of atoms representing the protocols supported by the window
 	/**
 	 * This can throw an exception on error.
 	 **/
-	void setProtocols(const XAtomVector &protocols);
+	void setProtocols(const AtomIDVector &protocols);
 
 	/// returns the currently set XWMHints for the window.
 	/**
@@ -243,9 +243,9 @@ public: // functions
 	 * 	The target property the selection should be copied to
 	 **/
 	void convertSelection(
-		const XAtom &selection,
-		const XAtom &target_type,
-		const XAtom &target_prop
+		const AtomID selection,
+		const AtomID target_type,
+		const AtomID target_prop
 	);
 
 	/// Makes the current window the owner of the given selection type.
@@ -253,7 +253,7 @@ public: // functions
 	 * This means that other clients on the XServer can in the future
 	 * request the selection from this window.
 	 **/
-	void makeSelectionOwner(const XAtom &selection, const Time &t = CurrentTime);
+	void makeSelectionOwner(const AtomID selection, const Time &t = CurrentTime);
 
 	/// Requests the targeted window to close itself.
 	/**
@@ -269,7 +269,7 @@ public: // functions
 	 * filled with the atoms identifying the properties existing on this
 	 * window.
 	 **/
-	void getPropertyList(XAtomVector &atoms);
+	void getPropertyList(AtomIDVector &atoms);
 
 	/// Retrieves property metadata about the given property present on this window.
 	/**
@@ -277,7 +277,7 @@ public: // functions
 	 * way without knowing their type in advance. For example to be used
 	 * together with getPropertyList().
 	 **/
-	void getPropertyInfo(const XAtom &property, PropertyInfo &info);
+	void getPropertyInfo(const AtomID property, PropertyInfo &info);
 
 	/// Retrieves raw property data without interpreting type and format.
 	/**
@@ -290,7 +290,7 @@ public: // functions
 	 * 32-bit boundaries, otherwise an exception is thrown. This is due to
 	 * the design of the X API.
 	 **/
-	void getRawProperty(const XAtom &property, PropertyInfo &info, RawProperty &out);
+	void getRawProperty(const AtomID property, PropertyInfo &info, RawProperty &out);
 
 	/// Retrieve a property from this window object.
 	/**
@@ -306,7 +306,7 @@ public: // functions
 		getProperty(m_display.getAtom(name), p);
 	}
 
-	/// Gets a property for an already mapped Atom.
+	/// Gets a property for an already mapped atom.
 	/**
 	 * \see getProperty(copnst std::string &name, ...)
 	 * \param[in] info
@@ -314,7 +314,7 @@ public: // functions
 	 * 	helping determining the correct size to retrieve
 	 **/
 	template <typename PROPTYPE>
-	void getProperty(const XAtom name_atom, Property<PROPTYPE> &p, const PropertyInfo *info = nullptr) const;
+	void getProperty(const AtomID name_atom, Property<PROPTYPE> &p, const PropertyInfo *info = nullptr) const;
 
 	/// Store a property in this window object.
 	/**
@@ -328,12 +328,12 @@ public: // functions
 		setProperty(m_display.getAtom(name), p);
 	}
 
-	/// Set a property for an already mapped Atom.
+	/// Set a property for an already mapped atom.
 	/**
 	 * \see setProperty(const std::string&, const Property<PROPTYPE>&)
 	 **/
 	template <typename PROPTYPE>
-	void setProperty(const XAtom name_atom, const Property<PROPTYPE> &p);
+	void setProperty(const AtomID name_atom, const Property<PROPTYPE> &p);
 
 
 	/// Removes the property of the given name identifier from the window.
@@ -342,7 +342,7 @@ public: // functions
 	}
 
 	/// Removes the property of the given atom identifier from the window.
-	void delProperty(const XAtom name_atom);
+	void delProperty(const AtomID name_atom);
 
 	/// compares the WinIDs for equality.
 	bool operator==(const XWindow &o) const { return m_win == o.m_win; }
@@ -442,7 +442,7 @@ protected: // functions
 	void selectEvent(const long new_event) const;
 
 	/// Sends a request to the window with a single long parameter as data.
-	void sendRequest(const XAtom &message, long data, const XWindow *window = nullptr) {
+	void sendRequest(const AtomID message, long data, const XWindow *window = nullptr) {
 		return sendRequest(message, (const char*)&data, sizeof(data), window);
 	}
 
@@ -468,7 +468,7 @@ protected: // functions
 	 * 	specify another window upon which should be acted.
 	 **/
 	void sendRequest(
-		const XAtom &message,
+		const AtomID message,
 		const char *data = nullptr,
 		const size_t len = 0,
 		const XWindow *window = nullptr

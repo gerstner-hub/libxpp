@@ -32,20 +32,20 @@ public: // types
 
 public: // functions
 
-	/// construct an empty/default property value
-	Property() : m_native() {}
+	/// Construct an empty/default property value
+	Property() : m_native{} {}
 
-	/// forbid copying to avoid trouble with memory mgm.
+	/// Forbid copying to avoid trouble with memory handling.
 	Property(const Property&) = delete;
 
-	//! construct a property holding the value from \c p
+	/// Construct a property holding the value from \c p
 	explicit Property(const PROPTYPE &p) :
-			m_native() {
+			m_native{} {
 		// the assignment operator knows how to deal with this
 		*this = p;
 	}
 
-	//! frees unneeded memory, if required
+	/// frees unneeded memory, if necessary
 	~Property() { checkDelete(); }
 
 	/// Retrieves a reference to the currently stored property value.
@@ -81,8 +81,7 @@ public: // functions
 
 protected: // functions
 
-	/// Set the current value of the stored native PROPTYPE from the given
-	/// X data found in \c data.
+	/// Set the current value of the stored native PROPTYPE from the given X data found in \c data.
 	/**
 	 * \c data is a pointer to the data received from Xlib. It needs
 	 * to be freed at an appropriate time via XFree().
@@ -106,11 +105,10 @@ protected: // functions
 		);
 	}
 
-	/// Retrieves the associated XAtom type from the traits of PROPTYPE
-	static Atom getXType() { return Traits::x_type; }
+	/// Retrieves the associated AtomID from the traits of PROPTYPE.
+	static AtomID getXType() { return Traits::x_type; }
 
-	/// If the current Property instance contains data allocated by
-	/// Xlib then it is deleted.
+	/// If the current Property instance contains data allocated by Xlib then it is deleted.
 	void checkDelete() {
 		// frees the ptr data if it comes from xlib
 		if (m_data_is_from_x) {

@@ -50,14 +50,6 @@ struct Coord {
  **/
 typedef std::shared_ptr<struct _XGC> GcSharedPtr;
 
-/// A vector of primitive Atom values
-using AtomVector = std::vector<Atom>;
-
-class XAtom; // fwd. decl.
-
-/// A vector of strongly typed XAtom values
-using XAtomVector = std::vector<XAtom>;
-
 /// constant for an invalid XID value
 /**
  * Many primitive X types like Window or Pixmap are actually just typedefs for
@@ -68,10 +60,30 @@ using XAtomVector = std::vector<XAtom>;
  **/
 constexpr unsigned long INVALID_XID = ~0UL;
 
+/// Strong type representation for X11 Window handles
 enum class WinID : Window {
 	INVALID = INVALID_XID
 };
 
+/// Strong type representation for X11 Atom handles
+/**
+ * In the Xlib world we have Atoms which are unique identifiers for:
+ *
+ * - property names
+ * - property types
+ *
+ *  Properties are attached to windows. For example WM_NAME is the name of a
+ *  window property that contains a STRING data type that makes up the title
+ *  of a window.
+ *
+ *  The property names and types are Latin1 encoded strings (at least the
+ *  manual says so). Xlib uses Atoms as alternative representations for
+ *  these strings. This is for efficiency reasons as it is cheaper than
+ *  passing strings around.
+ *
+ *  In the Xlib the Atom type is some integer-like type that doesn't provide
+ *  much type safety. This this enum class makes this safer within libX++.
+ **/
 enum class AtomID : Atom {
 	INVALID = None
 };
@@ -82,7 +94,14 @@ enum class PixMapID : Pixmap {
 
 /// can be both a WinID or a PixMapID
 enum class DrawableID : Drawable {
+	INVALID = INVALID_XID
 };
+
+/// A vector of primitive Atom values
+using AtomVector = std::vector<Atom>;
+
+/// A vector of strongly typed AtomID values
+using AtomIDVector = std::vector<AtomID>;
 
 /// represents a raw window property
 struct RawProperty {

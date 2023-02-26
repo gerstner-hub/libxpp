@@ -12,7 +12,7 @@ namespace xpp {
 
 std::string to_string(const WinID id) {
 	std::stringstream ss;
-	ss << cosmos::to_integral(id);
+	ss << xpp::raw_win(id);
 
 	return ss.str();
 }

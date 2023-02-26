@@ -46,7 +46,7 @@ WinID XDisplay::createWindow(
 
 	auto res = ::XCreateWindow(
 		m_dis,
-		cosmos::to_integral(parent.value_or(&root_win)->id()),
+		raw_win(parent.value_or(&root_win)->id()),
 		spec.x, spec.y, spec.width, spec.height,
 		border_width,
 		depth ? *depth : getDefaultDepth(),
@@ -62,7 +62,7 @@ WinID XDisplay::createWindow(
 void XDisplay::mapWindow(const XWindow &win) {
 	// this should never fail looking at current libX11 code, but you
 	// never know ...
-	if (::XMapWindow(m_dis, cosmos::to_integral(win.id())) != 1) {
+	if (::XMapWindow(m_dis, raw_win(win.id())) != 1) {
 		cosmos_throw (cosmos::RuntimeError("failed to map window"));
 	}
 }
@@ -97,7 +97,7 @@ PixMapID XDisplay::createPixmap(
 		const std::optional<int> depth) const {
 
 	auto pm = ::XCreatePixmap(
-			m_dis, cosmos::to_integral(win), extent.width, extent.height,
+			m_dis, raw_win(win), extent.width, extent.height,
 			depth ? *depth : getDefaultDepth());
 	return PixMapID{pm};
 }
@@ -117,8 +117,8 @@ XDisplay::createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCVa
 	return GcSharedPtr{gc, [this](GC c){ ::XFreeGC(*this, c); }};
 }
 
-std::optional<WinID> XDisplay::getSelectionOwner(const XAtom &selection) const {
-	auto win = ::XGetSelectionOwner(m_dis, selection);
+std::optional<WinID> XDisplay::getSelectionOwner(const AtomID selection) const {
+	auto win = ::XGetSelectionOwner(m_dis, raw_atom(selection));
 
 	if (win == None)
 		return {};

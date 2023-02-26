@@ -1,5 +1,5 @@
-#ifndef XPP_XATOM_HXX
-#define XPP_XATOM_HXX
+#ifndef XPP_ATOMMAPPER_HXX
+#define XPP_ATOMMAPPER_HXX
 
 // C++
 #include <map>
@@ -11,71 +11,12 @@
 #include "cosmos/thread/RWLock.hxx"
 
 // X++
+#include "X++/types.hxx"
 #include "X++/X11Exception.hxx"
 
 namespace xpp {
 
-/// Wrapper for the Xlib C-type 'Atom'.
-/**
- * This class is a type safe wrapper around the Xlib Atom primitive.
- * 
- * The class provides a conversion operator that allows to cast the type
- * directly to the Xlib C-type to pass into Xlib interfaces.
- *
- * \note
- *
- * In the Xlib world we have Atoms which are unique identifiers for:
- *
- * - property names
- * - property types
- *
- *  Properties are attached to windows. For example WM_NAME is the name of a
- *  window property that contains a STRING data type that makes up the title
- *  of a window.
- *
- *  The property names and types are Latin1 encoded strings (at least the
- *  manual says so). Xlib provides Atoms as alternative for these strings.
- *  This is for efficiency reasons as it is cheaper than passing strings
- *  around.
- *
- *  In the Xlib the Atom type is some integer-like type that doesn't provide
- *  much type safety. Thus I introduced this C++ type that wraps the C type.
- **/
-class XAtom {
-public: // functions
-
-	XAtom() {}
-
-	XAtom(const XAtom &atom) : m_atom(atom.m_atom) {}
-
-	explicit constexpr XAtom(const Atom atom) : m_atom(atom) {}
-
-	XAtom& operator=(const Atom atom) {
-		m_atom = atom;
-		return *this;
-	}
-
-	XAtom& operator=(const XAtom &atom) {
-		m_atom = atom.m_atom;
-		return *this;
-	}
-
-	operator Atom() const { return m_atom; }
-
-	Atom get() const { return m_atom; }
-
-	const Atom* getPtr() const { return &m_atom; }
-
-	bool valid() const { return m_atom != None; }
-
-	void reset() { m_atom = None; }
-
-protected: // data
-
-	Atom m_atom = None;
-};
-
-/// Caching of Property name/type to Atom Mappings.
+/// Caching of Property name/type to AtomID Mappings.
 /**
  * This class allows to cache Xlib atom mappings that can be quickly retrieved
  * in the future. If a mapping is not cached already then it is retrieved via
@@ -84,52 +25,53 @@ protected: // data
  * This class is thread safe by means of a read-write lock. Read-access can
  * occur in parallel, write accesses (due to cache misses) are exclusive.
  * 
- * This class is currently implemented as a singleton type. Get the global
- * instance of the mapper via the getInstance() function.
+ * This class is implemented as a singleton type. Get the global instance of
+ * the mapper via the getInstance() function.
  *
  * \note
  *
  *  There are Xlib functions that allow to map strings to atoms and vice
- *  versa. However I'm not yet sure how efficient that mapping is done.  One
+ *  versa. However I'm not sure how efficient that mapping is done. One
  *  should assume that any mappings established should be efficiently cached
  *  locally within Xlib. Thus when we request the same mapping again the
  *  lookup will be very fast.
  *
- * I decided to provide an own caching facility, however, to be on the safe
- * side. Also the interface of this class allows for more C++-like usage.
+ *  I decided to provide an own caching facility, however, to be on the safe
+ *  side. Also the interface of this class allows for more C++-like usage.
  **/
-class XPP_API XAtomMapper {
+class XPP_API AtomMapper {
 public: // functions
 
 	/// Retrieves the global mapper instance
-	static XAtomMapper& getInstance();
+	static AtomMapper& getInstance();
 
 	/// Returns the atom representation of the given property name
 	/**
 	 * The function performs caching of resolved atom values to avoid
 	 * having to excessively talk to the XServer
 	 **/
-	XAtom getAtom(const std::string_view s) const;
+	AtomID getAtom(const std::string_view s) const;
 
 	/// tries to do a reverse lookup to get the name of \c atom
-	const std::string& getName(const XAtom atom) const;
+	const std::string& getName(const AtomID atom) const;
 
 protected: // functions
 
 	/// protected constructor to enforce singleton usage
-	XAtomMapper() {};
+	AtomMapper() {};
+	AtomMapper(const AtomMapper&) = delete;
 
-	const std::string& cacheMiss(const XAtom atom) const;
-	XAtom cacheMiss(const std::string_view s) const;
+	const std::string& cacheMiss(const AtomID atom) const;
+	AtomID cacheMiss(const std::string_view s) const;
 
 protected: // types
 
 	/// The map container that maps strings to X atoms
-	typedef std::map<std::string, Atom> AtomMapping;
+	using AtomMapping = std::map<std::string, AtomID>;
 
 protected: // data
 
-	/// contains the actual mappings
+	/// contains the actual cached mappings
 	mutable AtomMapping m_mappings;
 	/// synchronizes parallel read and update of \c m_mappings
 	cosmos::RWLock m_mappings_lock;
@@ -146,52 +88,52 @@ protected: // data
  */
 struct XPP_API StandardProps {
 	//! window name property (EWMH)
-	XAtom atom_ewmh_window_name;
+	AtomID atom_ewmh_window_name;
 	//! desktop on which a window is currently on
-	XAtom atom_ewmh_window_desktop;
+	AtomID atom_ewmh_window_desktop;
 	//! PID associated with a window
-	XAtom atom_ewmh_window_pid;
+	AtomID atom_ewmh_window_pid;
 	//! name of UTF8 string type
-	XAtom atom_ewmh_utf8_string;
+	AtomID atom_ewmh_utf8_string;
 	//! property of EWMH comp. wm on root window
-	XAtom atom_ewmh_support_check;
+	AtomID atom_ewmh_support_check;
 	//! property containing EWMH comp. wm PID
-	XAtom atom_ewmh_wm_pid;
+	AtomID atom_ewmh_wm_pid;
 	//! property indicating that EWMH comp. wm is set to show the desktop
-	XAtom atom_ewmh_wm_desktop_shown;
+	AtomID atom_ewmh_wm_desktop_shown;
 	//! property giving the number of desktops available
-	XAtom atom_ewmh_wm_nr_desktops;
+	AtomID atom_ewmh_wm_nr_desktops;
 	//! property containing a list of utf8 strings denoting the desktops names
-	XAtom atom_ewmh_wm_desktop_names;
+	AtomID atom_ewmh_wm_desktop_names;
 	//! property denoting the currently active desktop number
-	XAtom atom_ewmh_wm_cur_desktop;
+	AtomID atom_ewmh_wm_cur_desktop;
 	//! property denoting EWMH comp. wm desktop number for a window
-	XAtom atom_ewmh_desktop_nr;
+	AtomID atom_ewmh_desktop_nr;
 	//! property containing an array of windows managed by EWMH comp. WM
-	XAtom atom_ewmh_wm_window_list;
+	AtomID atom_ewmh_wm_window_list;
 	//! property containing the ID of the currently active window
-	XAtom atom_ewmh_wm_active_window;
+	AtomID atom_ewmh_wm_active_window;
 	//! the type of the window
-	XAtom atom_ewmh_wm_window_type;
+	AtomID atom_ewmh_wm_window_type;
 	//! name of the machine running the client as seen from server
-	XAtom atom_icccm_client_machine;
+	AtomID atom_icccm_client_machine;
 	//! window name property acc. to ICCCM spec.
-	XAtom atom_icccm_window_name;
+	AtomID atom_icccm_window_name;
 	//! contains and defines x11 protocols to be supported by clients or not
-	XAtom atom_icccm_wm_protocols;
+	AtomID atom_icccm_wm_protocols;
 	//! a WM_PROTOCOLS request to delete a window
-	XAtom atom_icccm_wm_delete_window;
+	AtomID atom_icccm_wm_delete_window;
 	//! contains the name of the machine a window is running on
-	XAtom atom_icccm_wm_client_machine;
+	AtomID atom_icccm_wm_client_machine;
 	//! contains the name of application instance and class as two
 	//! consecutive, null terminated strings
-	XAtom atom_icccm_wm_class;
+	AtomID atom_icccm_wm_class;
 	//! contains the command line used to create the window
-	XAtom atom_icccm_wm_command;
+	AtomID atom_icccm_wm_command;
 	//! contains the locale used by a window's application
-	XAtom atom_icccm_wm_locale;
+	AtomID atom_icccm_wm_locale;
 	//! contains the ID of the client leader window
-	XAtom atom_icccm_wm_client_leader;
+	AtomID atom_icccm_wm_client_leader;
 
 	static const StandardProps& instance();
 
@@ -203,6 +145,6 @@ private: // functions
 } // end ns
 
 /// Output operator that prints the human readable name of an atom.
-XPP_API std::ostream& operator<<(std::ostream &o, const xpp::XAtom &atom);
+XPP_API std::ostream& operator<<(std::ostream &o, const xpp::AtomID atom);
 
 #endif // inc. guard

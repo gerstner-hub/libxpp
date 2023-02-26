@@ -41,6 +41,10 @@ inline DrawableID to_drawable(WinID id) {
 	return DrawableID{cosmos::to_integral(id)};
 }
 
+inline auto raw_atom = cosmos::to_integral<AtomID>;
+inline auto raw_win = cosmos::to_integral<WinID>;
+
+
 } // end ns
 
 #endif // inc. guard
