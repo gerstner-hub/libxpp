@@ -166,6 +166,31 @@ enum class WindowAttr : unsigned long {
 
 typedef cosmos::BitMask<WindowAttr> WindowAttrMask;
 
+/// XEvent structure type differentiation
+/**
+ * XEvent is a C union type. The interpretation of which depends on the type
+ * value modeled in this enum.
+ *
+ * NOTE: the constants use Ev prefixes, because the X11 constants *don_t* use
+ * them, and since they're preprocessor defines, we'd get into trouble reusing
+ * them.
+ **/
+enum class EventType : int {
+	INVALID             = 0, /* zero seems unused in the X11 headers */
+	Ev_ConfigureNotify  = ConfigureNotify,
+	Ev_MapNotify        = MapNotify,
+	Ev_VisibilityNotify = VisibilityNotify,
+	Ev_FocusIn          = FocusIn,
+	Ev_FocusOut         = FocusOut,
+	Ev_KeyPress         = KeyPress,
+	Ev_ClientMessage    = ClientMessage,
+	Ev_ButtonRelease    = ButtonRelease,
+	Ev_ButtonPress      = ButtonPress,
+	Ev_PropertyNotify   = PropertyNotify,
+	Ev_SelectionNotify  = SelectionNotify,
+	Ev_SelectionRequest = SelectionRequest
+};
+
 } // end ns
 
 #endif // inc. guard
