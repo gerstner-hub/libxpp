@@ -26,25 +26,18 @@ namespace xpp {
  * This class is thread safe by means of a read-write lock. Read-access can
  * occur in parallel, write accesses (due to cache misses) are exclusive.
  * 
- * This class is implemented as a singleton type. Get the global instance of
- * the mapper via the getInstance() function.
+ * There is a global instance of this type `xpp::atom_mapper` that should be
+ * used for centralized access to atom mapping features.
  *
  * \note
  *
- *  There are Xlib functions that allow to map strings to atoms and vice
- *  versa. However I'm not sure how efficient that mapping is done. One
- *  should assume that any mappings established should be efficiently cached
- *  locally within Xlib. Thus when we request the same mapping again the
- *  lookup will be very fast.
- *
- *  I decided to provide an own caching facility, however, to be on the safe
- *  side. Also the interface of this class allows for more C++-like usage.
+ *  I'm not sure about the efficiency of the Xlib functions that map strings
+ *  to atoms and vice versa. I decided to provide this dedicated caching
+ *  facility, to be on the safe side. Also the interface of this class allows
+ *  for more C++-like usage.
  **/
 class XPP_API AtomMapper {
 public: // functions
-
-	/// Retrieves the global mapper instance
-	static AtomMapper& getInstance();
 
 	/// Returns the atom representation of the given property name
 	/**
@@ -56,11 +49,11 @@ public: // functions
 	/// tries to do a reverse lookup to get the name of \c atom
 	const std::string& getName(const AtomID atom) const;
 
-protected: // functions
-
-	/// protected constructor to enforce singleton usage
-	AtomMapper() {};
+	AtomMapper() = default;
+	// the cache should not be copied for performance reasons
 	AtomMapper(const AtomMapper&) = delete;
+
+protected: // functions
 
 	const std::string& cacheMiss(const AtomID atom) const;
 	AtomID cacheMiss(const std::string_view s) const;
@@ -77,6 +70,9 @@ protected: // data
 	/// synchronizes parallel read and update of \c m_mappings
 	cosmos::RWLock m_mappings_lock;
 };
+
+/// Global AtomMapper instance in libX++ for centralized caching.
+extern XPP_API AtomMapper atom_mapper;
 
 } // end ns
 

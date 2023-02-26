@@ -12,11 +12,7 @@
 
 namespace xpp {
 
-AtomMapper& AtomMapper::getInstance() {
-	static AtomMapper inst;
-
-	return inst;
-}
+AtomMapper atom_mapper;
 
 AtomID AtomMapper::getAtom(const std::string_view s) const {
 	{
@@ -72,9 +68,7 @@ AtomID AtomMapper::cacheMiss(const std::string_view s) const {
 } // end ns
 
 std::ostream& operator<<(std::ostream &o, const xpp::AtomID atom) {
-	auto &mapper = xpp::AtomMapper::getInstance();
-
-	o << xpp::raw_atom(atom) << " (" << mapper.getName(atom) << ")";
+	o << xpp::raw_atom(atom) << " (" << xpp::atom_mapper.getName(atom) << ")";
 
 	return o;
 }

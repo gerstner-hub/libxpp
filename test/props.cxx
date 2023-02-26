@@ -32,7 +32,7 @@ void test() {
 	xpp::XWindow::PropertyInfo info;
 	root_win.getPropertyInfo(first_prop, info);
 
-	auto &mapper = xpp::AtomMapper::getInstance();
+	auto &mapper = xpp::atom_mapper;
 	auto first_prop_name = mapper.getName(first_prop);
 
 	std::cout << "Got info about " << first_prop_name << std::endl;
