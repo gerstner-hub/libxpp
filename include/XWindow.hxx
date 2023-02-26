@@ -9,7 +9,7 @@
 #include <utility>
 #include <vector>
 
-// Xlib
+// X
 #include <X11/Xatom.h> // declaration of various atom types like XA_WINDOW
 #include <X11/Xlib.h>
 #include <X11/Xutil.h> // XWMHints
@@ -93,39 +93,49 @@ public: // types
 		}
 	};
 
-	typedef std::set<WinID> WindowSet;
-	typedef std::pair<std::string, std::string> ClassStringPair;
+	using WindowSet = std::set<WinID>;
+	using ClassStringPair = std::pair<std::string, std::string>;
 
 public: // functions
 
 	/// Create an object without binding to a window
 	XWindow() = default;
 
-	XWindow(const XWindow &other) :
-			XWindow{}
-	{ *this = other; }
+	/// Plain copy
+	XWindow(const XWindow &other) = default;
 
-	/// Create an object representing \c win on the current Display
+	/// Create an object representing \c win on the default Display
 	explicit XWindow(WinID win);
 
-	/// returns whether the object holds a valid XWindow
+	/// returns whether the object is bound to window
 	bool valid() const { return m_win != WinID::INVALID; }
 
 	/// returns the Xlib primitive Window identifier
 	WinID id() const { return m_win; }
 
-	/// Retrieve the name of the represented window via EWMH property
+	/// Retrieve the name of the represented window.
 	/**
-	 * An X window does not have an integral name attached to it.  Instead
+	 * An X window does not have an integral name attached to it. Instead
 	 * there are properties the window manager can set according to
 	 * standards or to its own discretion.
 	 *
 	 * This function tries to retrieve the property as defined by the EWMH
-	 * standard.
+	 * standard or the ICCCM standard as a fallback.
 	 *
 	 * If the name cannot be determined an exception is thrown.
 	 **/
 	std::string getName() const;
+
+	/// Set \c name as the new name of the current window.
+	/**
+	 * If the window name cannot be set then an exception is thrown.
+	 *
+	 * This sets both the EMWH and ICCCM name attributes of the window.
+	 *
+	 * On success the window manager should update the visible window
+	 * title accordingly.
+	 **/
+	void setName(const std::string_view name);
 
 	/// Retrieve the PID that owns the represented window.
 	/**
@@ -140,15 +150,6 @@ public: // functions
 	 * If the desktop nr. cannot be determined an exception is thrown.
 	 **/
 	int getDesktop() const;
-
-	/// Set \c name as the new name of the current window.
-	/**
-	 * If the window name cannot be set then an exception is thrown.
-	 *
-	 * On success the window manager should update the visible window
-	 * title accordingly.
-	 **/
-	void setName(const std::string_view name);
 
 	/// returns the client machine the window is associated with.
 	std::string getClientMachine() const;
@@ -185,7 +186,7 @@ public: // functions
 	 **/
 	AtomID getWindowType() const;
 
-	/// Returns the array of atoms representing the protocols supported by the window
+	/// Returns the array of atoms representing the protocols supported by the window.
 	void getProtocols(AtomIDVector &protocols) const;
 
 	/// Sets the array of atoms representing the protocols supported by the window
@@ -242,7 +243,8 @@ public: // functions
 	void convertSelection(
 		const AtomID selection,
 		const AtomID target_type,
-		const AtomID target_prop
+		const AtomID target_prop,
+		const Time t = CurrentTime
 	);
 
 	/// Makes the current window the owner of the given selection type.
@@ -250,7 +252,7 @@ public: // functions
 	 * This means that other clients on the XServer can in the future
 	 * request the selection from this window.
 	 **/
-	void makeSelectionOwner(const AtomID selection, const Time &t = CurrentTime);
+	void makeSelectionOwner(const AtomID selection, const Time t = CurrentTime);
 
 	/// Requests the targeted window to close itself.
 	/**
@@ -289,7 +291,7 @@ public: // functions
 	 **/
 	void getRawProperty(const AtomID property, PropertyInfo &info, RawProperty &out);
 
-	/// Retrieve a property from this window object.
+	/// Retrieve a property for this window object by name.
 	/**
 	 * The property \c name will be queried from the current window and
 	 * stored in \c p.
@@ -303,17 +305,17 @@ public: // functions
 		getProperty(display.mapAtom(name), p);
 	}
 
-	/// Gets a property for an already mapped atom.
+	/// Gets a property for this window object by AtomID.
 	/**
-	 * \see getProperty(copnst std::string &name, ...)
+	 * \see getProperty(copnst std::string_view name, ...)
 	 * \param[in] info
 	 * 	An optional pointer to the PropertyInfo for the given atom for
-	 * 	helping determining the correct size to retrieve
+	 * 	helping determining the correct amount of data to retrieve.
 	 **/
 	template <typename PROPTYPE>
 	void getProperty(const AtomID name_atom, Property<PROPTYPE> &p, const PropertyInfo *info = nullptr) const;
 
-	/// Store a property in this window object.
+	/// Store a property in this window object by name.
 	/**
 	 * Sets the property \c name for the current window to the value
 	 * stored in \c p.
@@ -325,7 +327,7 @@ public: // functions
 		setProperty(display.mapAtom(name), p);
 	}
 
-	/// Set a property for an already mapped atom.
+	/// Store a property in this window object by AtomID.
 	/**
 	 * \see setProperty(const std::string&, const Property<PROPTYPE>&)
 	 **/
@@ -341,9 +343,8 @@ public: // functions
 	/// Removes the property of the given atom identifier from the window.
 	void delProperty(const AtomID name_atom);
 
-	/// compares the WinIDs for equality.
+	/// compares the WinIDs of the given window objects for equality.
 	bool operator==(const XWindow &o) const { return m_win == o.m_win; }
-
 	bool operator!=(const XWindow &o) const { return !operator==(o); }
 
 	/// Returns the next queued window event that matches the given event mask.
@@ -351,7 +352,7 @@ public: // functions
 	 * If no matching event is currently pending for the window then this
 	 * call flushes the output buffer and blocks until an event is received.
 	 **/
-	void getNextEvent(XEvent &event, const long event_mask);
+	void nextEvent(XEvent &event, const long event_mask);
 
 	/// Inform the X server that we want to be notified of window creation events.
 	/**
@@ -389,8 +390,7 @@ public: // functions
 		selectEvent(PropertyChangeMask);
 	}
 
-	XWindow& operator=(const XWindow &other);
-
+	/// transparently cast the object into the raw WinID identifier.
 	operator WinID() const { return m_win; }
 
 	/// Retrieve the attributes for this window.
@@ -413,7 +413,12 @@ public: // functions
 
 	WinID getParent() const { return m_parent; }
 
-	const WindowSet& getChildren() const { return m_children; }
+	/// Returns a set of the known child windows
+	/**
+	 * call updateFamily() to get ia snapshort of the current set of sub
+	 * windows.
+	 **/
+	const WindowSet& children() const { return m_children; }
 
 	void addChild(const XWindow &child) { m_children.insert(child.id()); }
 	void delChild(const XWindow &child) { m_children.erase(child.id()); }
@@ -443,7 +448,7 @@ protected: // functions
 		return sendRequest(message, (const char*)&data, sizeof(data), window);
 	}
 
-	/// Sends a request to the window
+	/// Sends a request to the window.
 	/**
 	 * To have the window (manager) actively do something on our request
 	 * we need to send it an event.

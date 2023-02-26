@@ -66,6 +66,22 @@ std::string XWindow::getName() const {
 	return name.get();
 }
 
+void XWindow::setName(const std::string_view name) {
+	try {
+		xpp::Property<utf8_string> utf8_name;
+		utf8_name = utf8_string{name};
+
+		this->setProperty(atoms::ewmh_window_name, utf8_name);
+
+		return;
+	} catch(...) {}
+
+	xpp::Property<const char*> name_prop(name.data());
+
+	this->setProperty(atoms::icccm_window_name, name_prop);
+}
+
+
 cosmos::ProcessID XWindow::getPID() const {
 	xpp::Property<int> pid;
 
@@ -81,21 +97,6 @@ int XWindow::getDesktop() const {
 
 	auto ret = desktop_nr.get();
 	return ret;
-}
-
-void XWindow::setName(const std::string_view name) {
-	try {
-		xpp::Property<utf8_string> utf8_name;
-		utf8_name = utf8_string{name};
-
-		this->setProperty(atoms::ewmh_window_name, utf8_name);
-
-		return;
-	} catch(...) {}
-
-	xpp::Property<const char*> name_prop(name.data());
-
-	this->setProperty(atoms::icccm_window_name, name_prop);
 }
 
 std::string XWindow::getClientMachine() const {
@@ -240,7 +241,8 @@ WinID XWindow::createChild() {
 void XWindow::convertSelection(
 		const AtomID selection,
 		const AtomID target_type,
-		const AtomID target_prop) {
+		const AtomID target_prop,
+		const Time t) {
 
 	if (::XConvertSelection(
 			display,
@@ -248,14 +250,14 @@ void XWindow::convertSelection(
 			raw_atom(target_type),
 			raw_atom(target_prop),
 			rawID(),
-			CurrentTime) != 1) {
+			t) != 1) {
 		cosmos_throw (X11Exception("Failed to request selecton conversion"));
 	}
 
 	display.flush();
 }
 
-void XWindow::makeSelectionOwner(const AtomID selection, const Time &t) {
+void XWindow::makeSelectionOwner(const AtomID selection, const Time t) {
 	// libX11 always returns 1 here, so ignore it
 	::XSetSelectionOwner(display, raw_atom(selection), rawID(), t);
 }
@@ -522,11 +524,11 @@ void XWindow::delProperty(const AtomID name_atom) {
 	display.flush();
 }
 
-void XWindow::getNextEvent(XEvent &event, const long event_mask) {
+void XWindow::nextEvent(XEvent &event, const long event_mask) {
 	const auto status = ::XWindowEvent(display, rawID(), event_mask, &event);
 
 	if (status == 0) {
-		cosmos_throw(X11Exception(display, status));
+		cosmos_throw (X11Exception(display, status));
 	}
 }
 
@@ -586,15 +588,6 @@ void XWindow::copyArea(const GcSharedPtr &gc, const PixMapID px,
 		src_pos.x, src_pos.y,
 		ext.width, ext.height,
 		dst_pos.x, dst_pos.y);
-}
-
-XWindow& XWindow::operator=(const XWindow &other) {
-	m_win = other.m_win;
-	m_parent = other.m_parent;
-	m_children = other.m_children;
-	m_input_event_mask = other.m_input_event_mask;
-	m_send_event_mask = other.m_send_event_mask;
-	return *this;
 }
 
 /*
