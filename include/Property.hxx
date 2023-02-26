@@ -1,5 +1,5 @@
-#ifndef XPP_PROPERTY
-#define XPP_PROPERTY
+#ifndef XPP_PROPERTY_HXX
+#define XPP_PROPERTY_HXX
 
 // cosmos
 #include "cosmos/error/UsageError.hxx"
@@ -11,10 +11,10 @@ namespace xpp {
 
 /// X11 property representation.
 /**
- * Based on the PropertyTraits definitions this class allows to
- * have C++ Property objects that can get and set data
- * transparently from/to the X server and transform the data from
- * the native C++ world into the X world and vice versa.
+ * Based on the PropertyTraits definitions this class allows to have C++
+ * Property objects that can get and set data transparently from/to the X
+ * server and transform the data from the native C++ world into the X world
+ * and vice versa with some type safety.
  **/
 template <typename PROPTYPE>
 class Property {
@@ -91,8 +91,8 @@ protected: // functions
 	void takeData(unsigned char *data, unsigned long size) {
 		checkDelete();
 
-		if (Traits::fixed_size && size > Traits::fixed_size) {
-			cosmos_throw (cosmos::UsageError("size is larger than fixed_size"));
+		if (Traits::FIXED_SIZE && size > Traits::FIXED_SIZE) {
+			cosmos_throw (cosmos::UsageError("size is larger than FIXED_SIZE"));
 		}
 
 		m_data_is_from_x = true;
@@ -101,7 +101,7 @@ protected: // functions
 		Traits::x2native(
 			m_native,
 			m_data,
-			size / (Traits::format / 8)
+			size / (Traits::FORMAT / 8)
 		);
 	}
 

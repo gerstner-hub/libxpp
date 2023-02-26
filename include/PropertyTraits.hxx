@@ -1,19 +1,20 @@
-#ifndef XPP_PROPERTY_TRAITS
-#define XPP_PROPERTY_TRAITS
+#ifndef XPP_PROPERTY_TRAITS_HXX
+#define XPP_PROPERTY_TRAITS_HXX
 
 // C++
 #include <cstring>
 #include <vector>
 
+// X11
+#include <X11/Xatom.h>
+
 // X++
-#include "X++/XDisplay.hxx"
-#include "X++/AtomMapper.hxx"
 #include "X++/atoms.hxx"
 #include "X++/utf8_string.hxx"
 
 namespace xpp {
 
-/// Type traits for X properties
+/// Type traits for X properties.
 /**
  * This is a generic template class for getting and setting X properties.
  * 
@@ -44,17 +45,17 @@ public: // constants
 	/// Xlib atom data type corresponding to PROPTYPE that is passed to the X functions for identification.
 	static constexpr AtomID x_type = AtomID{XA_CARDINAL};
 	/// if PROPTYPE has got a fixed size then this constant denotes that size in bytes, otherwise set to zero.
-	static constexpr unsigned long fixed_size = 0;
+	static constexpr unsigned long FIXED_SIZE = 0;
 	/// The format in X terms, determines the width of a single sequence
 	/// item in bits (e.g. for arrays of 8-bit, 16-bit or 32-bit items).
-	static constexpr char format = 0;
-	/// A pointer to PROPTYPE that can be passed to the X functions for retrieving / passing data.
-	using XPtrType =  float*;
+	static constexpr char FORMAT = 0;
+	/// A pointer to PROPTYPE that can be passed to the X11 functions for retrieving / passing data.
+	using XPtrType = float*;
 
 public: // functions
 
 	/// Returns the number of elements the given property has in X terms
-	static int getNumElements(const PROPTYPE &val) { return 0; }
+	static int numElements(const PROPTYPE &val) { return 0; }
 
 	/// Set the current value of the native PROPTYPE from the given raw X data.
 	/**
@@ -85,13 +86,13 @@ class PropertyTraits<int> {
 public: // constants
 
 	static constexpr AtomID x_type = AtomID{XA_CARDINAL};
-	static constexpr unsigned long fixed_size = sizeof(int);
-	static constexpr char format = 32;
+	static constexpr unsigned long FIXED_SIZE = sizeof(int);
+	static constexpr char FORMAT = 32;
 	using XPtrType = long*;
 
 public: // functions
 
-	static int getNumElements(const int&) { return 1; }
+	static int numElements(const int&) { return 1; }
 
 
 	static void x2native(int &i, const XPtrType data, unsigned int count) {
@@ -110,13 +111,13 @@ class PropertyTraits<AtomID> {
 public: // constants
 
 	static constexpr AtomID x_type = AtomID{XA_ATOM};
-	static constexpr unsigned long fixed_size = sizeof(AtomID);
-	static constexpr char format = 32;
+	static constexpr unsigned long FIXED_SIZE = sizeof(AtomID);
+	static constexpr char FORMAT = 32;
 	using XPtrType = long*;
 
 public: // functions
 
-	static int getNumElements(const AtomID&) { return 1; }
+	static int numElements(const AtomID&) { return 1; }
 
 
 	static void x2native(AtomID &a, const XPtrType data, unsigned int count) {
@@ -135,8 +136,8 @@ class PropertyTraits<const char*> {
 public: // constants
 
 	static constexpr AtomID x_type = AtomID{XA_STRING};
-	static constexpr unsigned long fixed_size = 0;
-	static constexpr char format = 8;
+	static constexpr unsigned long FIXED_SIZE = 0;
+	static constexpr char FORMAT = 8;
 	using XPtrType = const char*;
 
 public: // functions
@@ -150,7 +151,7 @@ public: // functions
 		data = s;
 	}
 
-	static int getNumElements(const char* const s) {
+	static int numElements(const char* const s) {
 		// strings in X are transferred without null terminator, the
 		// library always provides a terminating null byte in
 		// transferred data, however
@@ -163,8 +164,8 @@ class PropertyTraits<WinID> {
 public: // constants
 
 	static constexpr AtomID x_type = AtomID{XA_WINDOW};
-	static constexpr unsigned long fixed_size = sizeof(WinID);
-	static constexpr char format = 32;
+	static constexpr unsigned long FIXED_SIZE = sizeof(WinID);
+	static constexpr char FORMAT = 32;
 	using XPtrType = long*;
 
 public: // functions
@@ -180,8 +181,8 @@ class PropertyTraits<utf8_string> {
 public: // constants
 
 	static AtomID x_type;
-	static constexpr unsigned long fixed_size = 0;
-	static constexpr char format = 8;
+	static constexpr unsigned long FIXED_SIZE = 0;
+	static constexpr char FORMAT = 8;
 	using XPtrType = const char*;
 
 public: // functions
@@ -201,7 +202,7 @@ public: // functions
 		data = s.str.c_str();
 	}
 
-	static int getNumElements(const utf8_string &s) {
+	static int numElements(const utf8_string &s) {
 		// I suppose this is just for the X protocol the number of
 		// bytes, not the number unicode characters
 		return s.str.size();
@@ -215,8 +216,8 @@ class PropertyTraits<std::vector<ELEM>> {
 public: // constants
 
 	static constexpr AtomID x_type = PropertyTraits<ELEM>::x_type;
-	static constexpr unsigned long fixed_size = 0;
-	static constexpr char format = PropertyTraits<ELEM>::format;
+	static constexpr unsigned long FIXED_SIZE = 0;
+	static constexpr char FORMAT = PropertyTraits<ELEM>::FORMAT;
 	using XPtrType = typename PropertyTraits<ELEM>::XPtrType;
 
 public: // functions
@@ -233,8 +234,8 @@ class PropertyTraits< std::vector<utf8_string>> {
 public: // constants
 
 	static AtomID x_type;
-	static constexpr unsigned long fixed_size = 0;
-	static constexpr char format = PropertyTraits<utf8_string>::format;
+	static constexpr unsigned long FIXED_SIZE = 0;
+	static constexpr char FORMAT = PropertyTraits<utf8_string>::FORMAT;
 	using XPtrType = const char*;
 
 public: // functions
@@ -264,8 +265,8 @@ class PropertyTraits<std::vector<int>> {
 public: // constants
 
 	static constexpr AtomID x_type = AtomID{XA_CARDINAL};
-	static constexpr unsigned long fixed_size = 0;
-	static constexpr char format = 32;
+	static constexpr unsigned long FIXED_SIZE = 0;
+	static constexpr char FORMAT = 32;
 	using XPtrType = long*;
 
 public: // functions
@@ -284,8 +285,8 @@ class PropertyTraits<std::vector<AtomID>> {
 public: // constants
 
 	static constexpr AtomID x_type = AtomID{XA_ATOM};
-	static constexpr unsigned long fixed_size = 0;
-	static constexpr char format = 32;
+	static constexpr unsigned long FIXED_SIZE = 0;
+	static constexpr char FORMAT = 32;
 	using XPtrType = long*;
 
 public: // functions

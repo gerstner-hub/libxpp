@@ -462,7 +462,7 @@ void XWindow::getProperty(const AtomID name_atom, Property<PROPTYPE> &prop, cons
 			cosmos_throw (cosmos::InternalError("Bytes remaining during property read"));
 		}
 
-		assert (actual_format == THIS_PROP::Traits::format);
+		assert (actual_format == THIS_PROP::Traits::FORMAT);
 
 		// ret_items gives the number of items acc. to actual_format that have been returned
 		prop.takeData(data, ret_items * (actual_format / 8));
@@ -485,14 +485,14 @@ void XWindow::setProperty(const AtomID name_atom, const Property<PROPTYPE> &prop
 	auto x_type = THIS_PROP::getXType();
 	assert (x_type != AtomID::INVALID);
 
-	const int siz = THIS_PROP::Traits::getNumElements(prop.get());
+	const int siz = THIS_PROP::Traits::numElements(prop.get());
 
 	const int res = ::XChangeProperty(
 		m_display,
 		rawID(),
 		raw_atom(name_atom),
 		raw_atom(x_type),
-		THIS_PROP::Traits::format,
+		THIS_PROP::Traits::FORMAT,
 		PropModeReplace,
 		(unsigned char*)prop.raw(),
 		siz
