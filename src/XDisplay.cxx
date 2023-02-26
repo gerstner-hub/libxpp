@@ -26,7 +26,7 @@ XDisplay::XDisplay() {
 	}
 }
 
-void XDisplay::getNextEvent(Event &event) {
+void XDisplay::nextEvent(Event &event) {
 	// xlib unconditionally returns 0 here (not documented)
 	(void)::XNextEvent(m_dis, event.raw());
 }
@@ -52,9 +52,9 @@ WinID XDisplay::createWindow(
 		raw_win(parent.value_or(&root_win)->id()),
 		spec.x, spec.y, spec.width, spec.height,
 		border_width,
-		depth ? *depth : getDefaultDepth(),
+		depth ? *depth : defaultDepth(),
 		clazz,
-		visual ? *visual : getDefaultVisual(),
+		visual ? *visual : defaultVisual(),
 		value_mask ? *value_mask : 0,
 		attrs ? *attrs : nullptr
 	);
@@ -95,7 +95,7 @@ PixMapID XDisplay::createPixmap(
 
 	auto pm = ::XCreatePixmap(
 			m_dis, raw_win(win), extent.width, extent.height,
-			depth ? *depth : getDefaultDepth());
+			depth ? *depth : defaultDepth());
 	return PixMapID{pm};
 }
 
@@ -114,7 +114,7 @@ XDisplay::createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCVa
 	return GcSharedPtr{gc, [this](GC c){ ::XFreeGC(*this, c); }};
 }
 
-std::optional<WinID> XDisplay::getSelectionOwner(const AtomID selection) const {
+std::optional<WinID> XDisplay::selectionOwner(const AtomID selection) const {
 	auto win = ::XGetSelectionOwner(m_dis, raw_atom(selection));
 
 	if (win == None)

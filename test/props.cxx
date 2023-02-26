@@ -7,7 +7,7 @@
 #include "cosmos/cosmos.hxx"
 
 void printInfo(const xpp::XWindow::PropertyInfo &info, xpp::AtomMapper &mapper) {
-	std::cout << "property type: " << mapper.getName(xpp::AtomID{info.type}) << std::endl;
+	std::cout << "property type: " << mapper.mapName(xpp::AtomID{info.type}) << std::endl;
 	std::cout << "number of items: " << info.items << std::endl;
 	std::cout << "format: " << info.format << std::endl;
 	std::cout << "bytes: " << info.numBytes() << std::endl;
@@ -33,7 +33,7 @@ void test() {
 	root_win.getPropertyInfo(first_prop, info);
 
 	auto &mapper = xpp::atom_mapper;
-	auto first_prop_name = mapper.getName(first_prop);
+	auto first_prop_name = mapper.mapName(first_prop);
 
 	std::cout << "Got info about " << first_prop_name << std::endl;
 	printInfo(info, mapper);

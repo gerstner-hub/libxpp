@@ -5,7 +5,7 @@
 namespace xpp {
 
 void CachedAtom::resolve() const {
-	m_id = atom_mapper.getAtom(m_name);
+	m_id = atom_mapper.mapAtom(m_name);
 }
 
 } // end ns

@@ -44,10 +44,10 @@ public: // functions
 	 * The function performs caching of resolved atom values to avoid
 	 * having to excessively talk to the XServer
 	 **/
-	AtomID getAtom(const std::string_view s) const;
+	AtomID mapAtom(const std::string_view s) const;
 
 	/// tries to do a reverse lookup to get the name of \c atom
-	const std::string& getName(const AtomID atom) const;
+	const std::string& mapName(const AtomID atom) const;
 
 	AtomMapper() = default;
 	// the cache should not be copied for performance reasons

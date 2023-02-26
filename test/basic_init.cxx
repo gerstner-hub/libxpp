@@ -11,7 +11,7 @@
 void testDisplay() {
 	auto &display = xpp::display;
 	auto window = display.createWindow({0, 0, 100, 100}, 0);
-	auto depth = display.getDefaultDepth();
+	auto depth = display.defaultDepth();
 	std::cout << "default depth: " << depth << std::endl;
 	if (depth < 8 || depth > 32) {
 		throw std::runtime_error("strange depth");

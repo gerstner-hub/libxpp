@@ -300,7 +300,7 @@ public: // functions
 	 **/
 	template <typename PROPTYPE>
 	void getProperty(const std::string_view name, Property<PROPTYPE> &p) const {
-		getProperty(display.getAtom(name), p);
+		getProperty(display.mapAtom(name), p);
 	}
 
 	/// Gets a property for an already mapped atom.
@@ -322,7 +322,7 @@ public: // functions
 	 **/
 	template <typename PROPTYPE>
 	void setProperty(const std::string_view name, const Property<PROPTYPE> &p) {
-		setProperty(display.getAtom(name), p);
+		setProperty(display.mapAtom(name), p);
 	}
 
 	/// Set a property for an already mapped atom.
@@ -335,7 +335,7 @@ public: // functions
 
 	/// Removes the property of the given name identifier from the window.
 	void delProperty(const std::string &name) {
-		delProperty(display.getAtom(name));
+		delProperty(display.mapAtom(name));
 	}
 
 	/// Removes the property of the given atom identifier from the window.

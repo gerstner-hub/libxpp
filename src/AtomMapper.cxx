@@ -14,7 +14,7 @@ namespace xpp {
 
 AtomMapper atom_mapper;
 
-AtomID AtomMapper::getAtom(const std::string_view s) const {
+AtomID AtomMapper::mapAtom(const std::string_view s) const {
 	{
 		cosmos::ReadLockGuard g{m_mappings_lock};
 
@@ -26,7 +26,7 @@ AtomID AtomMapper::getAtom(const std::string_view s) const {
 	return cacheMiss(s);
 }
 
-const std::string& AtomMapper::getName(const AtomID atom) const {
+const std::string& AtomMapper::mapName(const AtomID atom) const {
 	{
 		cosmos::ReadLockGuard g{m_mappings_lock};
 
@@ -41,7 +41,7 @@ const std::string& AtomMapper::getName(const AtomID atom) const {
 }
 
 const std::string& AtomMapper::cacheMiss(const AtomID atom) const {
-	const auto name = display.getName(atom);
+	const auto name = display.mapName(atom);
 
 	{
 		cosmos::WriteLockGuard g(m_mappings_lock);
@@ -53,7 +53,7 @@ const std::string& AtomMapper::cacheMiss(const AtomID atom) const {
 
 AtomID AtomMapper::cacheMiss(const std::string_view s) const {
 	auto &logger = Xpp::getLogger();
-	AtomID ret{display.getAtom(s)};
+	AtomID ret{display.mapAtom(s)};
 
 	logger.debug() << "Resolved atom id for '" << s << "' is " << raw_atom(ret) << std::endl;
 
@@ -68,7 +68,7 @@ AtomID AtomMapper::cacheMiss(const std::string_view s) const {
 } // end ns
 
 std::ostream& operator<<(std::ostream &o, const xpp::AtomID atom) {
-	o << xpp::raw_atom(atom) << " (" << xpp::atom_mapper.getName(atom) << ")";
+	o << xpp::raw_atom(atom) << " (" << xpp::atom_mapper.mapName(atom) << ")";
 
 	return o;
 }

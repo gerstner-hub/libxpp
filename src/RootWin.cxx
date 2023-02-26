@@ -22,7 +22,7 @@ RootWin::RootWin(XDisplay &p_display, int screen) :
 }
 
 RootWin::RootWin() :
-		RootWin{display, display.getDefaultScreen()}
+		RootWin{display, display.defaultScreen()}
 {}
 
 void RootWin::queryWindows() {

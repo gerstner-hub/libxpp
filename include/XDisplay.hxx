@@ -67,14 +67,14 @@ public: // functions
 	~XDisplay();
 
 	/// returns a file descriptor representing the connection to the X server
-	cosmos::FileDescriptor getConnectionNumber() {
-		auto fd = cosmos::FileNum{XConnectionNumber(m_dis)};
+	cosmos::FileDescriptor connectionNumber() {
+		auto fd = cosmos::FileNum{::XConnectionNumber(m_dis)};
 		return cosmos::FileDescriptor{fd};
 	}
 
 	/// returns the numbers of events currently queued but not yet processes
 	size_t getPendingEvents() const {
-		auto ret = XPending(m_dis);
+		auto ret = ::XPending(m_dis);
 		if (ret < 0) {
 			cosmos_throw (X11Exception("XPending() failed"));
 		}
@@ -93,8 +93,8 @@ public: // functions
 	 * 
 	 * Can throw AtomMappingError.
 	 **/
-	AtomID getAtom(const std::string_view name) {
-		auto ret = XInternAtom(m_dis, name.data(), False);
+	AtomID mapAtom(const std::string_view name) {
+		auto ret = ::XInternAtom(m_dis, name.data(), False);
 
 		if (ret == BadAlloc || ret == BadValue || ret == None) {
 			cosmos_throw (AtomMappingError(m_dis, ret, name));
@@ -103,10 +103,10 @@ public: // functions
 		return AtomID{ret};
 	}
 
-	std::string getName(const AtomID atom) {
-		auto str = XGetAtomName(m_dis, raw_atom(atom));
+	std::string mapName(const AtomID atom) {
+		auto str = ::XGetAtomName(m_dis, raw_atom(atom));
 		std::string ret{str};
-		XFree(str);
+		::XFree(str);
 		return ret;
 	}
 
@@ -121,7 +121,7 @@ public: // functions
 	 * takes place right now you can call this function.
 	 **/
 	void flush() {
-		if (XFlush(m_dis) == 0) {
+		if (::XFlush(m_dis) == 0) {
 			cosmos_throw (X11Exception("XFlush failed"));
 		}
 	}
@@ -137,7 +137,7 @@ public: // functions
 	 * This call does not pass on error conditions, it will always
 	 * succeed.
 	 **/
-	void getNextEvent(Event &event);
+	void nextEvent(Event &event);
 
 	/// Creates a new window with the given properties.
 	/**
@@ -177,7 +177,7 @@ public: // functions
 	 * this at some point in time.
 	 **/
 	void sync() {
-		if (XSync(m_dis, False) == 0) {
+		if (::XSync(m_dis, False) == 0) {
 			cosmos_throw (X11Exception("XSync failed"));
 		}
 	}
@@ -197,28 +197,28 @@ public: // functions
 	 **/
 	void setSynchronized(bool on_off);
 
-	int getDefaultScreen() const {
-		return XDefaultScreen(m_dis);
+	int defaultScreen() const {
+		return ::XDefaultScreen(m_dis);
 	}
 
-	Visual* getDefaultVisual(const std::optional<int> screen = std::nullopt) const {
-		return XDefaultVisual(m_dis, screen ? *screen : getDefaultScreen());
+	Visual* defaultVisual(const std::optional<int> screen = std::nullopt) const {
+		return ::XDefaultVisual(m_dis, screen ? *screen : defaultScreen());
 	}
 
-	int getDefaultDepth(const std::optional<int> screen = std::nullopt) const {
-		return XDefaultDepth(m_dis, screen ? *screen : getDefaultScreen());
+	int defaultDepth(const std::optional<int> screen = std::nullopt) const {
+		return ::XDefaultDepth(m_dis, screen ? *screen : defaultScreen());
 	}
 
-	Colormap getDefaultColormap(const std::optional<int> screen = std::nullopt) const {
-		return XDefaultColormap(m_dis, screen ? *screen : getDefaultScreen());
+	Colormap defaultColormap(const std::optional<int> screen = std::nullopt) const {
+		return ::XDefaultColormap(m_dis, screen ? *screen : defaultScreen());
 	}
 
-	int getDisplayWidth(const std::optional<int> screen = std::nullopt) const {
-		return DisplayWidth(m_dis, screen ? *screen : getDefaultScreen());
+	int displayWidth(const std::optional<int> screen = std::nullopt) const {
+		return DisplayWidth(m_dis, screen ? *screen : defaultScreen());
 	}
 
-	int getDisplayHeight(const std::optional<int> screen = std::nullopt) const {
-		return DisplayHeight(m_dis, screen ? *screen : getDefaultScreen());
+	int displayHeight(const std::optional<int> screen = std::nullopt) const {
+		return DisplayHeight(m_dis, screen ? *screen : defaultScreen());
 	}
 
 	/// creates a pixmap for the given window and of the given size
@@ -267,7 +267,7 @@ public: // functions
 	 * If \c selection is invalid or the given selection has no owner then
 	 * no value is.
 	 **/
-	std::optional<WinID> getSelectionOwner(const AtomID selection) const;
+	std::optional<WinID> selectionOwner(const AtomID selection) const;
 
 	/// transparently casts the instance to the Xlib Display primitive
 	operator Display*() { return m_dis; }
@@ -285,7 +285,6 @@ protected: // data
 
 /// An instance to access the default display
 extern XPP_API XDisplay display;
-
 
 } // end ns
 
