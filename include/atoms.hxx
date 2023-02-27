@@ -1,6 +1,10 @@
 #ifndef XPP_ATOMS_HXX
 #define XPP_ATOMS_HXX
 
+// X11
+#include <X11/Xatom.h>
+
+// X++
 #include "X++/CachedAtom.hxx"
 
 /**
@@ -27,6 +31,8 @@ namespace xpp::atoms {
 
 /// Window name property (EWMH).
 inline constexpr CachedAtom ewmh_window_name{"_NET_WM_NAME"};
+/// Window icon name property (EWMH).
+inline constexpr CachedAtom ewmh_icon_name{"_NET_WM_ICON_NAME"};
 /// Name of UTF8 string type.
 inline constexpr CachedAtom ewmh_utf8_string{"UTF8_STRING"};
 /// Property containing an array of windows managed by EWMH comp. WM.
@@ -71,6 +77,13 @@ inline constexpr CachedAtom icccm_wm_command{"WM_COMMAND"};
 inline constexpr CachedAtom icccm_wm_locale{"WM_LOCALE_NAME"};
 /// Contains the ID of the client leader window.
 inline constexpr CachedAtom icccm_wm_client_leader{"WM_CLIENT_LEADER"};
+/// clipboard selection identifier
+inline constexpr CachedAtom clipboard{"CLIPBOARD"};
+/// primary selection identifier
+inline constexpr CachedAtom primary_selection{AtomID{XA_PRIMARY}};
+/// non-UTF8 ASCII string type
+inline constexpr CachedAtom string_type{AtomID{XA_STRING}};
+inline constexpr CachedAtom wm_icon_name{AtomID{XA_WM_ICON_NAME}};
 
 } // end ns
 
