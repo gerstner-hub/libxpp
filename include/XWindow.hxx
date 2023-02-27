@@ -106,6 +106,11 @@ public: // functions
 	/// Create an object representing \c win on the default Display
 	explicit XWindow(WinID win);
 
+	XWindow& operator=(const WinID &win) {
+		*this = XWindow{win};
+		return *this;
+	}
+
 	/// returns whether the object is bound to window
 	bool valid() const { return m_win != WinID::INVALID; }
 
