@@ -177,18 +177,39 @@ using WindowAttrMask = cosmos::BitMask<WindowAttr>;
  **/
 enum class EventType : int {
 	INVALID             = 0, /* zero seems unused in the X11 headers */
-	Ev_ConfigureNotify  = ConfigureNotify,
-	Ev_MapNotify        = MapNotify,
-	Ev_VisibilityNotify = VisibilityNotify,
+	Ev_KeyPress         = KeyPress,
+	Ev_KeyRelease       = KeyRelease,
+	Ev_ButtonPress      = ButtonPress,
+	Ev_ButtonRelease    = ButtonRelease,
+	Ev_MotionNotify     = MotionNotify,
+	Ev_EnterNotify      = EnterNotify,
+	Ev_LeaveNotify      = LeaveNotify,
 	Ev_FocusIn          = FocusIn,
 	Ev_FocusOut         = FocusOut,
-	Ev_KeyPress         = KeyPress,
-	Ev_ClientMessage    = ClientMessage,
-	Ev_ButtonRelease    = ButtonRelease,
-	Ev_ButtonPress      = ButtonPress,
+	Ev_KeymapNotify     = KeymapNotify,
+	Ev_Expose           = Expose,
+	Ev_GraphicsExpose   = GraphicsExpose,
+	Ev_NoExpose         = NoExpose,
+	Ev_VisibilityNotify = VisibilityNotify,
+	Ev_CreateNotify     = CreateNotify,
+	Ev_DestroyNotify    = DestroyNotify,
+	Ev_UnmapNotify      = UnmapNotify,
+	Ev_MapNotify        = MapNotify,
+	Ev_MapRequest       = MapRequest,
+	Ev_ReparentNotify   = ReparentNotify,
+	Ev_ConfigureNotify  = ConfigureNotify,
+	Ev_ConfigureRequest = ConfigureRequest,
+	Ev_GravityNotify    = GravityNotify,
+	Ev_ResizeRequest    = ResizeRequest,
+	Ev_CirculateNotify  = CirculateNotify,
+	Ev_CirculateRequest = CirculateRequest,
 	Ev_PropertyNotify   = PropertyNotify,
+	Ev_SelectionClear   = SelectionClear,
+	Ev_SelectionRequest = SelectionRequest,
 	Ev_SelectionNotify  = SelectionNotify,
-	Ev_SelectionRequest = SelectionRequest
+	Ev_ColormapNotify   = ColormapNotify,
+	Ev_ClientMessage    = ClientMessage,
+	Ev_MappingNotify    = MappingNotify
 };
 
 enum class EventMask : long {
