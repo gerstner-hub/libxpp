@@ -55,7 +55,10 @@ public: // constants
 public: // functions
 
 	/// Returns the number of elements the given property has in X terms
-	static int numElements(const PROPTYPE &val) { return 0; }
+	static int numElements(const PROPTYPE &val) {
+		(void)val;
+		return 0;
+	}
 
 	/// Set the current value of the native PROPTYPE from the given raw X data.
 	/**
@@ -70,12 +73,15 @@ public: // functions
 	 * second parameter, if applicable.
 	 **/
 	static void x2native(PROPTYPE &i, XPtrType data, unsigned int count) {
+		(void)i; (void)data; (void)count;
 		// prevent the generic template from being instantiated
 		static_assert(sizeof(PROPTYPE) < 0);
 	}
 
 	/// Transform the current value of the native PROPTYPE into raw X data
-	static void native2x(const PROPTYPE &s, XPtrType &data) {}
+	static void native2x(const PROPTYPE &s, XPtrType &data) {
+		(void)s; (void)data;
+	}
 
 	// never instantiate this type
 	PropertyTraits() = delete;
