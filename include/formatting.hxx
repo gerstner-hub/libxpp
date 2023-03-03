@@ -9,7 +9,7 @@
 #include "X++/types.hxx"
 
 namespace xpp {
-	class utf8_string;
+	struct utf8_string;
 	class XWindow;
 }
 

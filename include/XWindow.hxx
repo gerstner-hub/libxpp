@@ -24,7 +24,7 @@
 
 namespace xpp {
 
-class XWindowAttrs;
+struct XWindowAttrs;
 
 /// Wrapper for the X Window primitive
 /**
