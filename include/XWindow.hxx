@@ -499,6 +499,19 @@ protected: // data
 	EventSelectionMask m_send_event_mask;
 };
 
+extern template XPP_API void XWindow::getProperty(const AtomID, Property<int>&, const PropertyInfo*) const;
+extern template XPP_API void XWindow::getProperty(const AtomID, Property<const char*>&, const PropertyInfo*) const;
+extern template XPP_API void XWindow::getProperty(const AtomID, Property<AtomID>&, const PropertyInfo*) const;
+extern template XPP_API void XWindow::getProperty(const AtomID, Property<WinID>&, const PropertyInfo*) const;
+extern template XPP_API void XWindow::getProperty(const AtomID, Property<std::vector<AtomID> >&, const PropertyInfo*) const;
+extern template XPP_API void XWindow::getProperty(const AtomID, Property<std::vector<WinID> >&, const PropertyInfo*) const;
+extern template XPP_API void XWindow::getProperty(const AtomID, Property<std::vector<int> >&, const PropertyInfo*) const;
+extern template XPP_API void XWindow::getProperty(const AtomID, Property<std::vector<utf8_string> >&, const PropertyInfo*) const;
+extern template XPP_API void XWindow::setProperty(const AtomID, const Property<const char*>&);
+extern template XPP_API void XWindow::setProperty(const AtomID, const Property<int>&);
+extern template XPP_API void XWindow::setProperty(const AtomID, const Property<utf8_string>&);
+extern template XPP_API void XWindow::setProperty(const AtomID, const Property<AtomID>&);
+
 } // end ns
 
 #endif // inc. guard

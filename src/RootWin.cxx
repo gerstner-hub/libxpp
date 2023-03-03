@@ -3,6 +3,7 @@
 #include "cosmos/string.hxx"
 
 // X++
+#include "X++/helpers.hxx"
 #include "X++/formatting.hxx"
 #include "X++/private/Xpp.hxx"
 #include "X++/RootWin.hxx"
@@ -48,16 +49,16 @@ void RootWin::queryWindows() {
 	 * probably from ICCCM
 	 */
 	try {
-		Property<std::vector<Window>> windows;
+		Property<std::vector<WinID>> windows;
 		this->getProperty(atoms::ewmh_wm_window_list, windows);
 
-		const std::vector<Window> &wins = windows.get();
+		const auto &wins = windows.get();
 
 		logger.debug() << "window list acquired:\n";
 
 		for (const auto &win: wins) {
 			m_windows.push_back(WinID{win});
-			logger.debug() << "- " << win << "\n";
+			logger.debug() << "- " << raw_win(win) << "\n";
 		}
 
 	} catch (const cosmos::CosmosError &ex) {

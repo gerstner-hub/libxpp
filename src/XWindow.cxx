@@ -597,8 +597,10 @@ void XWindow::copyArea(const GcSharedPtr &gc, const PixMapID px,
  */
 template void XWindow::getProperty(const AtomID, Property<int>&, const PropertyInfo*) const;
 template void XWindow::getProperty(const AtomID, Property<const char*>&, const PropertyInfo*) const;
+template void XWindow::getProperty(const AtomID, Property<AtomID>&, const PropertyInfo*) const;
+template void XWindow::getProperty(const AtomID, Property<WinID>&, const PropertyInfo*) const;
 template void XWindow::getProperty(const AtomID, Property<std::vector<AtomID> >&, const PropertyInfo*) const;
-template void XWindow::getProperty(const AtomID, Property<std::vector<unsigned long> >&, const PropertyInfo*) const;
+template void XWindow::getProperty(const AtomID, Property<std::vector<WinID> >&, const PropertyInfo*) const;
 template void XWindow::getProperty(const AtomID, Property<std::vector<int> >&, const PropertyInfo*) const;
 template void XWindow::getProperty(const AtomID, Property<std::vector<utf8_string> >&, const PropertyInfo*) const;
 template void XWindow::setProperty(const AtomID, const Property<const char*>&);

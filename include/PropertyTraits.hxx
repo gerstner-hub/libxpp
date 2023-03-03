@@ -230,13 +230,13 @@ public: // functions
 
 	static void x2native(std::vector<ELEM> &v, XPtrType data, unsigned int count) {
 		for (unsigned int e = 0; e < count; e++) {
-			v.push_back(data[e]);
+			v.push_back(ELEM(data[e]));
 		}
 	}
 };
 
 template <>
-class PropertyTraits< std::vector<utf8_string>> {
+class PropertyTraits<std::vector<utf8_string>> {
 public: // constants
 
 	static AtomID x_type;
