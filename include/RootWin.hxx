@@ -5,6 +5,7 @@
 #include <vector>
 
 // X++
+#include "X++/types.hxx"
 #include "X++/XWindow.hxx"
 
 namespace xpp {
@@ -35,7 +36,7 @@ public: // functions
 	RootWin();
 
 	/// Creates a root window representation for the given display/screen.
-	explicit RootWin(XDisplay &display, int screen);
+	explicit RootWin(XDisplay &display, ScreenID screen);
 
 	/// Returns the complete hierarchy of windows, actively queried.
 	/**

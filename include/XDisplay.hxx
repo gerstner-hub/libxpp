@@ -197,28 +197,28 @@ public: // functions
 	 **/
 	void setSynchronized(bool on_off);
 
-	int defaultScreen() const {
-		return ::XDefaultScreen(m_dis);
+	ScreenID defaultScreen() const {
+		return ScreenID{::XDefaultScreen(m_dis)};
 	}
 
-	Visual* defaultVisual(const std::optional<int> screen = std::nullopt) const {
-		return ::XDefaultVisual(m_dis, screen ? *screen : defaultScreen());
+	Visual* defaultVisual(const std::optional<ScreenID> screen = std::nullopt) const {
+		return ::XDefaultVisual(m_dis, raw_screen(screen ? *screen : defaultScreen()));
 	}
 
-	int defaultDepth(const std::optional<int> screen = std::nullopt) const {
-		return ::XDefaultDepth(m_dis, screen ? *screen : defaultScreen());
+	int defaultDepth(const std::optional<ScreenID> screen = std::nullopt) const {
+		return ::XDefaultDepth(m_dis, raw_screen(screen ? *screen : defaultScreen()));
 	}
 
-	Colormap defaultColormap(const std::optional<int> screen = std::nullopt) const {
-		return ::XDefaultColormap(m_dis, screen ? *screen : defaultScreen());
+	Colormap defaultColormap(const std::optional<ScreenID> screen = std::nullopt) const {
+		return ::XDefaultColormap(m_dis, raw_screen(screen ? *screen : defaultScreen()));
 	}
 
-	int displayWidth(const std::optional<int> screen = std::nullopt) const {
-		return DisplayWidth(m_dis, screen ? *screen : defaultScreen());
+	int displayWidth(const std::optional<ScreenID> screen = std::nullopt) const {
+		return DisplayWidth(m_dis, raw_screen(screen ? *screen : defaultScreen()));
 	}
 
-	int displayHeight(const std::optional<int> screen = std::nullopt) const {
-		return DisplayHeight(m_dis, screen ? *screen : defaultScreen());
+	int displayHeight(const std::optional<ScreenID> screen = std::nullopt) const {
+		return DisplayHeight(m_dis, raw_screen(screen ? *screen : defaultScreen()));
 	}
 
 	/// creates a pixmap for the given window and of the given size

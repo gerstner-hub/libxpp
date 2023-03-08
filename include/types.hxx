@@ -50,6 +50,11 @@ struct Coord {
  **/
 using GcSharedPtr = std::shared_ptr<struct _XGC>;
 
+/// Strongly typed enum to represent a Screen number on a Display
+enum class ScreenID : int {
+	INVALID = -1
+};
+
 /// constant for an invalid XID value
 /**
  * Many primitive X types like Window or Pixmap are actually just typedefs for
