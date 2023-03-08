@@ -209,8 +209,9 @@ public: // functions
 		return ::XDefaultDepth(m_dis, raw_screen(screen ? *screen : defaultScreen()));
 	}
 
-	Colormap defaultColormap(const std::optional<ScreenID> screen = std::nullopt) const {
-		return ::XDefaultColormap(m_dis, raw_screen(screen ? *screen : defaultScreen()));
+	ColorMapID defaultColormap(const std::optional<ScreenID> screen = std::nullopt) const {
+		auto res = ::XDefaultColormap(m_dis, raw_screen(screen ? *screen : defaultScreen()));
+		return ColorMapID{res};
 	}
 
 	int displayWidth(const std::optional<ScreenID> screen = std::nullopt) const {
