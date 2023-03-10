@@ -252,6 +252,20 @@ enum class EventMask : long {
 
 using EventSelectionMask = cosmos::BitMask<EventMask>;
 
+enum class Gravity {
+	Forget    = ForgetGravity,
+	NorthWest = NorthWestGravity,
+	North     = NorthGravity,
+	NorthEast = NorthEastGravity,
+	West      = WestGravity,
+	Center    = CenterGravity,
+	East      = EastGravity,
+	SouthWest = SouthWestGravity,
+	South     = SouthGravity,
+	SouthEast = SouthEastGravity,
+	Static    = StaticGravity
+};
+
 } // end ns
 
 #endif // inc. guard
