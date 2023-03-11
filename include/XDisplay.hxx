@@ -13,6 +13,7 @@
 // cosmos
 #include "cosmos/algs.hxx"
 #include "cosmos/fs/FileDescriptor.hxx"
+#include "cosmos/types.hxx"
 
 // X++
 #include "X++/helpers.hxx"
@@ -58,10 +59,16 @@ public: // types
 		COSMOS_ERROR_IMPL;
 	};
 
+	using Initialize = cosmos::NamedBool<struct init_t, true>;
+
 public: // functions
 
-	/// Opens the default display
-	XDisplay();
+	/// Opens the default display.
+	/**
+	 * If \c init is \c false then an empty display object will be
+	 * created. This is only use for special use cases.
+	 **/
+	XDisplay(const Initialize init = Initialize{true});
 
 	XDisplay(XDisplay &&other) {
 		*this = std::move(other);

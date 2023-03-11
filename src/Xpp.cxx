@@ -8,6 +8,7 @@
 #include "cosmos/error/InternalError.hxx"
 
 // X++
+#include "X++/XDisplay.hxx"
 #include "X++/PropertyTraits.hxx"
 #include "X++/Xpp.hxx"
 #include "X++/private/Xpp.hxx"
@@ -24,8 +25,11 @@ void init(std::optional<cosmos::ILogger*> logger) {
 	// be careful that this must be the first Xlib call in the process
 	// otherwise it won't work!
 	if (!::XInitThreads()) {
-		cosmos_throw (cosmos::InternalError("Error initialiizing libX11 threads"));
+		cosmos_throw (cosmos::InternalError("Error initializing libX11 threads"));
 	}
+
+	// only now initialize global convenience variables
+	xpp::display = XDisplay{};
 
 	PropertyTraits<utf8_string>::init();
 	PropertyTraits<std::vector<utf8_string>>::init();

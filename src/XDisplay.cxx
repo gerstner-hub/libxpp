@@ -9,20 +9,24 @@
 
 namespace xpp {
 
-// global display instance
-XDisplay display;
+// only initialize this in xpp::init, otherwise we conflict with XInitThreads()
+XDisplay display{XDisplay::Initialize{false}};
 
 XDisplay::~XDisplay() {
-	::XCloseDisplay(m_dis);
-	m_dis = nullptr;
+	if (m_dis) {
+		::XCloseDisplay(m_dis);
+		m_dis = nullptr;
+	}
 }
 
-XDisplay::XDisplay() {
-	// if nullptr is specified, then the value of DISPLAY environment will be used
-	m_dis = ::XOpenDisplay(nullptr);
+XDisplay::XDisplay(const Initialize init) {
+	if (init) {
+		// if nullptr is specified, then the value of DISPLAY environment will be used
+		m_dis = ::XOpenDisplay(nullptr);
 
-	if (!m_dis) {
-		cosmos_throw (DisplayOpenError());
+		if (!m_dis) {
+			cosmos_throw (DisplayOpenError());
+		}
 	}
 }
 
