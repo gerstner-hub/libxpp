@@ -63,6 +63,16 @@ public: // functions
 	/// Opens the default display
 	XDisplay();
 
+	XDisplay(XDisplay &&other) {
+		*this = std::move(other);
+	}
+
+	XDisplay& operator=(XDisplay &&other) {
+		m_dis = other.m_dis;
+		other.m_dis = nullptr;
+		return *this;
+	}
+
 	/// Closes the display handle again
 	~XDisplay();
 
@@ -277,6 +287,7 @@ protected: // functions
 
 	// disallow copying since the class has ownership semantics
 	XDisplay(const XDisplay &other) = delete;
+	XDisplay& operator=(const XDisplay &other) = delete;
 
 protected: // data
 
