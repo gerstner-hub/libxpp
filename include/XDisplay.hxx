@@ -304,6 +304,10 @@ protected: // data
 
 /// An instance to access the default display
 extern XPP_API XDisplay display;
+/// A pointer to the default Visual
+extern XPP_API Visual *visual;
+/// The default colormap
+extern XPP_API ColorMapID colormap;
 
 } // end ns
 

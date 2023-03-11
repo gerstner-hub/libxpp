@@ -11,6 +11,8 @@ namespace xpp {
 
 // only initialize this in xpp::init, otherwise we conflict with XInitThreads()
 XDisplay display{XDisplay::Initialize{false}};
+Visual *visual = nullptr;
+ColorMapID colormap = ColorMapID::INVALID;
 
 XDisplay::~XDisplay() {
 	if (m_dis) {
@@ -41,7 +43,7 @@ WinID XDisplay::createWindow(
 		unsigned int clazz,
 		const std::optional<XWindow*> parent,
 		const std::optional<int> &depth,
-		const std::optional<Visual*> &visual,
+		const std::optional<Visual*> &p_visual,
 		const std::optional<unsigned long> &value_mask,
 		const std::optional<XSetWindowAttributes*> &attrs) {
 
@@ -58,7 +60,7 @@ WinID XDisplay::createWindow(
 		border_width,
 		depth ? *depth : defaultDepth(),
 		clazz,
-		visual ? *visual : defaultVisual(),
+		p_visual ? *p_visual : defaultVisual(),
 		value_mask ? *value_mask : 0,
 		attrs ? *attrs : nullptr
 	);
