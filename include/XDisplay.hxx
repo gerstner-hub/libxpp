@@ -308,6 +308,8 @@ extern XPP_API XDisplay display;
 extern XPP_API Visual *visual;
 /// The default colormap
 extern XPP_API ColorMapID colormap;
+/// The default screen
+extern XPP_API ScreenID screen;
 
 } // end ns
 

@@ -13,6 +13,7 @@ namespace xpp {
 XDisplay display{XDisplay::Initialize{false}};
 Visual *visual = nullptr;
 ColorMapID colormap = ColorMapID::INVALID;
+ScreenID screen = ScreenID::INVALID;
 
 XDisplay::~XDisplay() {
 	if (m_dis) {

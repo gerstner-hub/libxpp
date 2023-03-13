@@ -10,8 +10,8 @@
 
 namespace xpp {
 
-RootWin::RootWin(XDisplay &p_display, ScreenID screen) :
-		XWindow{WinID{XRootWindow(p_display, raw_screen(screen))}} {
+RootWin::RootWin(XDisplay &p_display, ScreenID p_screen) :
+		XWindow{WinID{XRootWindow(p_display, raw_screen(p_screen))}} {
 		
 	Xpp::getLogger().debug() << "root window has id: " << *this << "\n";
 

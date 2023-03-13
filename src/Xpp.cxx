@@ -32,6 +32,7 @@ void init(std::optional<cosmos::ILogger*> logger) {
 	xpp::display = XDisplay{};
 	xpp::visual = xpp::display.defaultVisual();
 	xpp::colormap = xpp::display.defaultColormap();
+	xpp::screen = xpp::display.defaultScreen();
 
 	PropertyTraits<utf8_string>::init();
 	PropertyTraits<std::vector<utf8_string>>::init();
