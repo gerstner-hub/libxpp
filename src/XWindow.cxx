@@ -590,6 +590,11 @@ void XWindow::copyArea(const GcSharedPtr &gc, const PixMapID px,
 		dst_pos.x, dst_pos.y);
 }
 
+void XWindow::defineCursor(const XCursor &cursor) {
+	// does not return synchronous errors
+	(void)::XDefineCursor(display, raw_win(m_win), cosmos::to_integral(cursor.id()));
+}
+
 /*
  * explicit template instantiations
  *

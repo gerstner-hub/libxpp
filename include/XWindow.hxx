@@ -442,6 +442,9 @@ public: // functions
 	void copyArea(const GcSharedPtr &gc, const PixMapID px,
 			const Extent &ext, const Coord &src_pos = Coord{0,0}, const Coord &dst_pos = Coord{0,0});
 
+	/// Use the given XCursor type as cursor in the associated window.
+	void defineCursor(const XCursor &cursor);
+
 protected: // functions
 
 	/// Adds the given event(s) to the set of window events we want to be notified about.

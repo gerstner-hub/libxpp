@@ -5,6 +5,7 @@
 // X++
 #include "X++/Event.hxx"
 #include "X++/RootWin.hxx"
+#include "X++/XColor.hxx"
 #include "X++/XDisplay.hxx"
 
 namespace xpp {
@@ -119,6 +120,27 @@ XDisplay::createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCVa
 	}
 
 	return GcSharedPtr{gc, [this](GC c){ ::XFreeGC(*this, c); }};
+}
+
+XCursor XDisplay::createFontCursor(CursorFont which) {
+	auto res = ::XCreateFontCursor(m_dis, cosmos::to_integral(which));
+
+	if (res == None) {
+		cosmos_throw (cosmos::RuntimeError("failed to create font cursor"));
+	}
+
+	return XCursor{this, CursorID{res}};
+}
+
+void XDisplay::parseColor(XColor &out, std::string_view name, const std::optional<ColorMapID> p_colormap) {
+	auto res = ::XParseColor(m_dis,
+			raw_cmap(p_colormap ? *p_colormap : xpp::colormap),
+			name.empty() ? nullptr : name.data(),
+			&out);
+
+	if (res == None) {
+		cosmos_throw (cosmos::RuntimeError("failed to parse color"));
+	}
 }
 
 std::optional<WinID> XDisplay::selectionOwner(const AtomID selection) const {

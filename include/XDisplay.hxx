@@ -20,6 +20,7 @@
 #include "X++/types.hxx"
 #include "X++/X11Exception.hxx"
 #include "X++/AtomMapper.hxx"
+#include "X++/XCursor.hxx"
 
 namespace xpp {
 
@@ -280,10 +281,19 @@ public: // functions
 	 **/
 	GcSharedPtr createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCValues &vals);
 
+	/// Creates a new font based cursor of the given type.
+	XCursor createFontCursor(CursorFont which);
+
+	/// Parses a color name and fills \c out with the associated color values.
+	/**
+	 * If parsing the color fails then a cosmos::RuntimeError is thrown.
+	 **/
+	void parseColor(XColor &out, std::string_view name, const std::optional<ColorMapID> colormap = std::nullopt);
+
 	/// return the window ID owning the given selection type
 	/**
 	 * If \c selection is invalid or the given selection has no owner then
-	 * no value is.
+	 * no value is returned.
 	 **/
 	std::optional<WinID> selectionOwner(const AtomID selection) const;
 

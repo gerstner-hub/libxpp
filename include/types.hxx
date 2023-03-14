@@ -106,6 +106,10 @@ enum class ColorMapID : Colormap {
 	INVALID = INVALID_XID
 };
 
+enum class CursorID : Cursor {
+	INVALID = INVALID_XID
+};
+
 /// A vector of primitive Atom values
 using AtomVector = std::vector<Atom>;
 
