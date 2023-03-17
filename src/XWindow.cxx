@@ -177,14 +177,14 @@ void XWindow::setProtocols(const AtomIDVector &protocols) {
 	}
 }
 
-std::shared_ptr<XWMHints> XWindow::getWMHints() const {
+WindowManagerHints XWindow::getWMHints() const {
 	auto hints = ::XGetWMHints(display, rawID());
 
 	if (!hints) {
-		return nullptr;
+		return WindowManagerHints{nullptr};
 	}
 
-	return make_shared_xptr(hints);
+	return WindowManagerHints{make_shared_xptr(hints)};
 }
 
 void XWindow::setWMHints(const XWMHints &hints) {

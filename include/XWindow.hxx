@@ -19,6 +19,7 @@
 
 // X++
 #include "X++/Property.hxx"
+#include "X++/WindowManagerHints.hxx"
 #include "X++/X11Exception.hxx"
 #include "X++/XDisplay.hxx"
 
@@ -201,10 +202,10 @@ public: // functions
 
 	/// returns the currently set XWMHints for the window.
 	/**
-	 * This can also return a nullptr in case there are no hints set for
-	 * the current window.
+	 * This can also return an invalid object in case there are no hints
+	 * set for the current window.
 	 **/
-	std::shared_ptr<XWMHints> getWMHints() const;
+	WindowManagerHints getWMHints() const;
 
 	/// Sets new XWMHints for the window.
 	void setWMHints(const XWMHints &hints);
