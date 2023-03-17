@@ -270,6 +270,15 @@ enum class Gravity {
 	Static    = StaticGravity
 };
 
+enum class WindowClass : long {
+	/// take over the parent window's class
+	CopyParent = CopyFromParent,
+	/// A regular I/O window that can also do drawing operations
+	InOut = InputOutput,
+	/// An invisible window that only deals with things like input events, grabbing and cursors
+	InOnly = InputOnly
+};
+
 } // end ns
 
 #endif // inc. guard

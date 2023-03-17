@@ -16,10 +16,11 @@
 #include "cosmos/types.hxx"
 
 // X++
+#include "X++/AtomMapper.hxx"
 #include "X++/helpers.hxx"
 #include "X++/types.hxx"
+#include "X++/SetWindowAttributes.hxx"
 #include "X++/X11Exception.hxx"
-#include "X++/AtomMapper.hxx"
 #include "X++/XCursor.hxx"
 
 namespace xpp {
@@ -165,17 +166,18 @@ public: // functions
 	 * If visual is not provided then the default visual will be be used.
 	 * 
 	 * If attrs and value_mask are not provided then default attributes
-	 * apply. If one is supplied then the other needs to be supplied, too.
+	 * apply. If one is supplied then the other needs to be supplied, too,
+	 * since the \c value_mask defines which fields in \c attrs are set.
 	 **/
 	WinID createWindow(
 		const WindowSpec &spec,
 		unsigned int border_width,
-		unsigned int clazz = CopyFromParent,
+		const WindowClass clazz = WindowClass::CopyParent,
 		const std::optional<XWindow*> parent = std::nullopt,
-		const std::optional<int> &depth = std::nullopt,
-		const std::optional<Visual*> &visual = std::nullopt,
-		const std::optional<unsigned long> &value_mask = std::nullopt,
-		const std::optional<XSetWindowAttributes*> &attrs = std::nullopt
+		const std::optional<int> depth = std::nullopt,
+		const std::optional<Visual*> visual = std::nullopt,
+		const std::optional<WindowAttrMask> value_mask = std::nullopt,
+		const std::optional<SetWindowAttributes*> attrs = std::nullopt
 	);
 
 	/// requests to map the given window to make is visible on the screen

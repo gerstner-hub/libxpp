@@ -42,15 +42,15 @@ void XDisplay::nextEvent(Event &event) {
 WinID XDisplay::createWindow(
 		const WindowSpec &spec,
 		unsigned int border_width,
-		unsigned int clazz,
+		const WindowClass clazz,
 		const std::optional<XWindow*> parent,
-		const std::optional<int> &depth,
-		const std::optional<Visual*> &p_visual,
-		const std::optional<unsigned long> &value_mask,
-		const std::optional<XSetWindowAttributes*> &attrs) {
+		const std::optional<int> depth,
+		const std::optional<Visual*> p_visual,
+		const std::optional<WindowAttrMask> value_mask,
+		const std::optional<SetWindowAttributes*> attrs) {
 
 	if (value_mask && !attrs) {
-		cosmos_throw (cosmos::UsageError("attrs cannot be nullptr if value_mask is given"));
+		cosmos_throw (cosmos::UsageError("attrs cannot be unset if value_mask is set"));
 	}
 
 	static RootWin root_win;
@@ -61,9 +61,9 @@ WinID XDisplay::createWindow(
 		spec.x, spec.y, spec.width, spec.height,
 		border_width,
 		depth ? *depth : defaultDepth(),
-		clazz,
+		cosmos::to_integral(clazz),
 		p_visual ? *p_visual : defaultVisual(),
-		value_mask ? *value_mask : 0,
+		value_mask ? value_mask->raw() : 0,
 		attrs ? *attrs : nullptr
 	);
 
