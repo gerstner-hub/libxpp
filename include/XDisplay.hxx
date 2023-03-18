@@ -229,9 +229,9 @@ public: // functions
 		return ::XDefaultDepth(m_dis, raw_screen(screen ? *screen : defaultScreen()));
 	}
 
-	ColorMapID defaultColormap(const std::optional<ScreenID> screen = std::nullopt) const {
+	ColormapID defaultColormap(const std::optional<ScreenID> screen = std::nullopt) const {
 		auto res = ::XDefaultColormap(m_dis, raw_screen(screen ? *screen : defaultScreen()));
-		return ColorMapID{res};
+		return ColormapID{res};
 	}
 
 	int displayWidth(const std::optional<ScreenID> screen = std::nullopt) const {
@@ -251,13 +251,13 @@ public: // functions
 	 * \param[in] depth the depth of the pixmap, if given, otherwise the
 	 *            default depth for the display and window involved.
 	 **/
-	PixMapID createPixmap(
+	PixmapID createPixmap(
 		const WinID win,
 		const Extent &extent,
 		const std::optional<int> depth = std::nullopt) const;
 
 	/// frees a pixmap previously obtained via createPixmap()
-	void freePixmap(PixMapID pm) const;
+	void freePixmap(PixmapID pm) const;
 
 	/// Creates a new graphics context using the given settings
 	/**
@@ -290,7 +290,7 @@ public: // functions
 	/**
 	 * If parsing the color fails then a cosmos::RuntimeError is thrown.
 	 **/
-	void parseColor(XColor &out, std::string_view name, const std::optional<ColorMapID> colormap = std::nullopt);
+	void parseColor(XColor &out, std::string_view name, const std::optional<ColormapID> colormap = std::nullopt);
 
 	/// return the window ID owning the given selection type
 	/**
@@ -319,7 +319,7 @@ extern XPP_API XDisplay display;
 /// A pointer to the default Visual
 extern XPP_API Visual *visual;
 /// The default colormap
-extern XPP_API ColorMapID colormap;
+extern XPP_API ColormapID colormap;
 /// The default screen
 extern XPP_API ScreenID screen;
 

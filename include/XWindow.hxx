@@ -446,13 +446,13 @@ public: // functions
 	/// Sends the given XEvent structure to the represented X11 window.
 	void sendEvent(const XEvent &event);
 
-	/// Copies image data from the given PixMap into the window.
+	/// Copies image data from the given Pixmap into the window.
 	/**
 	 * \param[in] ext The extent of the area to copy
 	 * \param[in] src_pos The upper-left coordinate of the copy area in the source pixmap
 	 * \param[in] dst_pos The upper-left coordinate of the copy area in the dest window
 	 **/
-	void copyArea(const GcSharedPtr &gc, const PixMapID px,
+	void copyArea(const GcSharedPtr &gc, const PixmapID px,
 			const Extent &ext, const Coord &src_pos = Coord{0,0}, const Coord &dst_pos = Coord{0,0});
 
 	/// Use the given XCursor type as cursor in the associated window.

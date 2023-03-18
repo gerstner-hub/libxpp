@@ -35,7 +35,7 @@ public:
 		}
 	}
 
-	void setColormap(const ColorMapID cmap) {
+	void setColormap(const ColormapID cmap) {
 		this->colormap = raw_cmap(cmap);
 	}
 };

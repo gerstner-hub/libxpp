@@ -13,7 +13,7 @@ namespace xpp {
 // only initialize this in xpp::init, otherwise we conflict with XInitThreads()
 XDisplay display{XDisplay::Initialize{false}};
 Visual *visual = nullptr;
-ColorMapID colormap = ColorMapID::INVALID;
+ColormapID colormap = ColormapID::INVALID;
 ScreenID screen = ScreenID::INVALID;
 
 XDisplay::~XDisplay() {
@@ -96,7 +96,7 @@ XDisplay::DisplayOpenError::DisplayOpenError() :
 	m_msg += "\". ";
 }
 
-PixMapID XDisplay::createPixmap(
+PixmapID XDisplay::createPixmap(
 		const WinID win,
 		const Extent &extent,
 		const std::optional<int> depth) const {
@@ -104,10 +104,10 @@ PixMapID XDisplay::createPixmap(
 	auto pm = ::XCreatePixmap(
 			m_dis, raw_win(win), extent.width, extent.height,
 			depth ? *depth : defaultDepth());
-	return PixMapID{pm};
+	return PixmapID{pm};
 }
 
-void XDisplay::freePixmap(PixMapID pm) const {
+void XDisplay::freePixmap(PixmapID pm) const {
 	::XFreePixmap(m_dis, cosmos::to_integral(pm));
 }
 
@@ -132,7 +132,7 @@ XCursor XDisplay::createFontCursor(CursorFont which) {
 	return XCursor{this, CursorID{res}};
 }
 
-void XDisplay::parseColor(XColor &out, std::string_view name, const std::optional<ColorMapID> p_colormap) {
+void XDisplay::parseColor(XColor &out, std::string_view name, const std::optional<ColormapID> p_colormap) {
 	auto res = ::XParseColor(m_dis,
 			raw_cmap(p_colormap ? *p_colormap : xpp::colormap),
 			name.empty() ? nullptr : name.data(),

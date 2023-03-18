@@ -6,7 +6,7 @@
 
 namespace xpp {
 
-XCursor::~XCursor() {
+void XCursor::destroy() {
 	if (valid()) {
 		XFreeCursor(*m_display, cosmos::to_integral(m_id));
 	}

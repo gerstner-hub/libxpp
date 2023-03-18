@@ -38,11 +38,15 @@ public: // functions
 		return *this;
 	}
 
-	~XCursor();
+	~XCursor() {
+		destroy();
+	}
 
 	bool valid() const {
 		return m_id != CursorID::INVALID;
 	}
+
+	void destroy();
 
 	/// Defines new foreground and background colors to the used for the cursor
 	void recolorCursor(const XColor &fg, const XColor &bg);

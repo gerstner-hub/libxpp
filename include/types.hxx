@@ -93,16 +93,16 @@ enum class AtomID : Atom {
 	INVALID = None
 };
 
-enum class PixMapID : Pixmap {
+enum class PixmapID : Pixmap {
 	INVALID = INVALID_XID
 };
 
-/// can be both a WinID or a PixMapID
+/// can be both a WinID or a PixmapID
 enum class DrawableID : Drawable {
 	INVALID = INVALID_XID
 };
 
-enum class ColorMapID : Colormap {
+enum class ColormapID : Colormap {
 	INVALID = INVALID_XID
 };
 

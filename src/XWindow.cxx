@@ -594,7 +594,7 @@ void XWindow::updateFamily() {
 	::XFree(children);
 }
 
-void XWindow::copyArea(const GcSharedPtr &gc, const PixMapID px,
+void XWindow::copyArea(const GcSharedPtr &gc, const PixmapID px,
 		const Extent &ext, const Coord &src_pos, const Coord &dst_pos) {
 	// does not return synchronous errors
 	(void)::XCopyArea(
