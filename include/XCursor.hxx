@@ -5,66 +5,13 @@
 #include <X11/cursorfont.h>
 
 // X++
-#include "X++/types.hxx"
 #include "X++/dso_export.h"
+#include "X++/types.hxx"
+#include "X++/XDisplay.hxx"
 
 namespace xpp {
 
-class XDisplay;
 struct XColor;
-
-/// Represents an XCursor definition obtained from /// XDisplay::createFontCursor().
-/**
- * This is a move-only type with ownership semantics. Upon destruction the
- * cursor will be freed. Even after freeing the cursor will still be usable in
- * objects (windows) that use it. After all users of the cursor have vanished
- * the cursor will be freed automatically then.
- **/
-class XPP_API XCursor {
-	friend class XDisplay;
-	XCursor(const XCursor&) = delete;
-	XCursor& operator=(const XCursor&) = delete;
-public: // functions
-	
-	XCursor(XCursor &&o) {
-		*this = std::move(o);
-	}
-
-	XCursor& operator=(XCursor &&o) {
-		m_id = o.m_id;
-		m_display = o.m_display;
-		o.m_id = CursorID::INVALID;
-		o.m_display = nullptr;
-		return *this;
-	}
-
-	~XCursor() {
-		destroy();
-	}
-
-	bool valid() const {
-		return m_id != CursorID::INVALID;
-	}
-
-	void destroy();
-
-	/// Defines new foreground and background colors to the used for the cursor
-	void recolorCursor(const XColor &fg, const XColor &bg);
-
-	auto id() const { return m_id; }
-
-protected: // functions
-	   
-	explicit XCursor(XDisplay *display, CursorID id) :
-			m_display(display),
-			m_id{id} {
-	}
-
-protected: // data
-
-	XDisplay *m_display = nullptr;
-	CursorID m_id = CursorID::INVALID;
-};
 
 /// Different cursor font types that can be used to create an XCursor.
 enum class CursorFont : unsigned int {
@@ -145,6 +92,60 @@ enum class CursorFont : unsigned int {
 	UrAngle = XC_ur_angle,
 	Watch = XC_watch,
 	Xterm = XC_xterm,
+};
+
+/// Represents an XCursor definition obtained from XDisplay::createFontCursor().
+/**
+ * This is a move-only type with ownership semantics. Upon destruction the
+ * cursor will be freed. Even after freeing the cursor will still be usable in
+ * objects (windows) that use it. After all users of the cursor have vanished
+ * the cursor will be freed automatically then.
+ **/
+class XPP_API XCursor {
+	XCursor(const XCursor&) = delete;
+	XCursor& operator=(const XCursor&) = delete;
+public: // functions
+
+	/// Creates a new font based cursor of the given type.
+	explicit XCursor(const CursorFont which, XDisplay &disp = xpp::display);
+
+	XCursor(XCursor &&o) {
+		*this = std::move(o);
+	}
+
+	XCursor& operator=(XCursor &&o) {
+		m_id = o.m_id;
+		m_display = o.m_display;
+		o.invalidate();
+		return *this;
+	}
+
+	~XCursor() {
+		destroy();
+	}
+
+	bool valid() const {
+		return m_id != CursorID::INVALID;
+	}
+
+	void destroy();
+
+	/// Defines new foreground and background colors to the used for the cursor
+	void recolorCursor(const XColor &fg, const XColor &bg);
+
+	auto id() const { return m_id; }
+
+protected: // functions
+
+	void invalidate() {
+		m_id = CursorID::INVALID;
+		m_display = nullptr;
+	}
+
+protected: // data
+
+	XDisplay *m_display = nullptr;
+	CursorID m_id = CursorID::INVALID;
 };
 
 } // end ns

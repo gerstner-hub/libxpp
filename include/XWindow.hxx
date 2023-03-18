@@ -28,6 +28,7 @@
 namespace xpp {
 
 struct XWindowAttrs;
+class XCursor;
 
 /// Wrapper for the X Window primitive
 /**
@@ -204,17 +205,12 @@ public: // functions
 
 	/// returns the currently set XWMHints for the window.
 	/**
-	 * This can also return an invalid object in case there are no hints
-	 * set for the current window.
+	 * This can also return a nullptr in case there are no hints set for
+	 * the current window.
 	 **/
-	WindowManagerHints getWMHints() const;
+	std::shared_ptr<WindowManagerHints> getWMHints() const;
 
-	/// Sets new XWMHints for the window.
-	void setWMHints(const XWMHints &hints);
-
-	void setWMHints(const WindowManagerHints &hints) {
-		return setWMHints(hints.raw());
-	}
+	void setWMHints(const WindowManagerHints &hints);
 
 	/// Sets new window class and name hints for the window.
 	void setClassHints(const ClassHints hints);

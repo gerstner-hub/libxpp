@@ -13,6 +13,7 @@
 #include "X++/formatting.hxx"
 #include "X++/helpers.hxx"
 #include "X++/private/Xpp.hxx"
+#include "X++/XCursor.hxx"
 #include "X++/XWindowAttrs.hxx"
 #include "X++/XWindow.hxx"
 
@@ -177,19 +178,20 @@ void XWindow::setProtocols(const AtomIDVector &protocols) {
 	}
 }
 
-WindowManagerHints XWindow::getWMHints() const {
+std::shared_ptr<WindowManagerHints> XWindow::getWMHints() const {
 	auto hints = ::XGetWMHints(display, rawID());
 
 	if (!hints) {
-		return WindowManagerHints{nullptr};
+		return nullptr;
 	}
 
-	return WindowManagerHints{make_shared_xptr(hints)};
+	return make_shared_xptr(reinterpret_cast<WindowManagerHints*>(hints));
 }
 
-void XWindow::setWMHints(const XWMHints &hints) {
+void XWindow::setWMHints(const WindowManagerHints &hints) {
+	const XWMHints *base = &hints;
 	// currently always returns 1, hints aren't modified in the lib
-	(void)::XSetWMHints(display, rawID(), const_cast<XWMHints*>(&hints));
+	(void)::XSetWMHints(display, rawID(), const_cast<XWMHints*>(base));
 }
 
 void XWindow::setClassHints(const ClassHints hints) {

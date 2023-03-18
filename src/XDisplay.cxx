@@ -96,21 +96,6 @@ XDisplay::DisplayOpenError::DisplayOpenError() :
 	m_msg += "\". ";
 }
 
-PixmapID XDisplay::createPixmap(
-		const WinID win,
-		const Extent &extent,
-		const std::optional<int> depth) const {
-
-	auto pm = ::XCreatePixmap(
-			m_dis, raw_win(win), extent.width, extent.height,
-			depth ? *depth : defaultDepth());
-	return PixmapID{pm};
-}
-
-void XDisplay::freePixmap(PixmapID pm) const {
-	::XFreePixmap(m_dis, cosmos::to_integral(pm));
-}
-
 std::shared_ptr<struct _XGC>
 XDisplay::createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCValues &vals) {
 	auto gc = ::XCreateGC(m_dis, cosmos::to_integral(d), mask.raw(), const_cast<XGCValues*>(&vals));
@@ -120,16 +105,6 @@ XDisplay::createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCVa
 	}
 
 	return GcSharedPtr{gc, [this](GC c){ ::XFreeGC(*this, c); }};
-}
-
-XCursor XDisplay::createFontCursor(CursorFont which) {
-	auto res = ::XCreateFontCursor(m_dis, cosmos::to_integral(which));
-
-	if (res == None) {
-		cosmos_throw (cosmos::RuntimeError("failed to create font cursor"));
-	}
-
-	return XCursor{this, CursorID{res}};
 }
 
 void XDisplay::parseColor(XColor &out, std::string_view name, const std::optional<ColormapID> p_colormap) {

@@ -18,10 +18,10 @@
 // X++
 #include "X++/AtomMapper.hxx"
 #include "X++/helpers.hxx"
-#include "X++/types.hxx"
 #include "X++/SetWindowAttributes.hxx"
+#include "X++/types.hxx"
 #include "X++/X11Exception.hxx"
-#include "X++/XCursor.hxx"
+#include "X++/XColor.hxx"
 
 namespace xpp {
 
@@ -242,23 +242,6 @@ public: // functions
 		return DisplayHeight(m_dis, raw_screen(screen ? *screen : defaultScreen()));
 	}
 
-	/// creates a pixmap for the given window and of the given size
-	/**
-	 * The returned object is only a simple wrapper for type safety.
-	 * Resource management is still explicit i.e. you have to free the
-	 * Pixmap when no longer needed via freePixmap().
-	 *
-	 * \param[in] depth the depth of the pixmap, if given, otherwise the
-	 *            default depth for the display and window involved.
-	 **/
-	PixmapID createPixmap(
-		const WinID win,
-		const Extent &extent,
-		const std::optional<int> depth = std::nullopt) const;
-
-	/// frees a pixmap previously obtained via createPixmap()
-	void freePixmap(PixmapID pm) const;
-
 	/// Creates a new graphics context using the given settings
 	/**
 	 * A graphics context is used for specifying options when operating on
@@ -283,14 +266,11 @@ public: // functions
 	 **/
 	GcSharedPtr createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCValues &vals);
 
-	/// Creates a new font based cursor of the given type.
-	XCursor createFontCursor(CursorFont which);
-
 	/// Parses a color name and fills \c out with the associated color values.
 	/**
 	 * If parsing the color fails then a cosmos::RuntimeError is thrown.
 	 **/
-	void parseColor(XColor &out, std::string_view name, const std::optional<ColormapID> colormap = std::nullopt);
+	void parseColor(xpp::XColor &out, std::string_view name, const std::optional<ColormapID> colormap = std::nullopt);
 
 	/// return the window ID owning the given selection type
 	/**

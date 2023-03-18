@@ -1,6 +1,9 @@
 #ifndef XPP_WINDOWMANAGERHINTS_HXX
 #define XPP_WINDOWMANAGERHINTS_HXX
 
+// C++
+#include <type_traits>
+
 // X11
 #include <X11/Xutil.h>
 
@@ -15,7 +18,8 @@ namespace xpp {
  * This wrapper adds a couple of helper functions to operate on the struct's
  * members using libX++ strong types.
  **/
-struct WindowManagerHints {
+struct WindowManagerHints :
+		public XWMHints {
 public: // types
 
 	enum class Flags : long {
@@ -33,46 +37,26 @@ public: // types
 
 public: // functions
 
-	WindowManagerHints() :
-			m_hints(new XWMHints) {
-		cosmos::zero_object(*m_hints);
+	void clear() {
+		static_assert(sizeof(WindowManagerHints) == sizeof(XWMHints));
+		cosmos::zero_object(*this);
 	}
 
-	explicit WindowManagerHints(std::shared_ptr<XWMHints> hints) :
-			m_hints(hints)
-	{}
-
 	void setFlags(const Mask hint_mask) {
-		m_hints->flags = hint_mask.raw();
+		this->flags = hint_mask.raw();
 	}
 
 	void changeFlag(const Flags flag, const bool on_off) {
 		if (on_off) {
-			m_hints->flags |= cosmos::to_integral(flag);
+			this->flags |= cosmos::to_integral(flag);
 		} else {
-			m_hints->flags &= ~cosmos::to_integral(flag);
+			this->flags &= ~cosmos::to_integral(flag);
 		}
 	}
 
 	void setWMInputHandling(const bool on_off) {
-		m_hints->input = on_off;
+		this->input = on_off;
 	}
-
-	operator XWMHints*() {
-		return &*m_hints;
-	}
-
-	bool valid() const {
-		return m_hints.get() != nullptr;
-	}
-
-	auto raw() const {
-		return *m_hints;
-	}
-
-protected:
-
-	std::shared_ptr<XWMHints> m_hints;
 };
 
 } // end ns
