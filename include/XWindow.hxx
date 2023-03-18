@@ -18,7 +18,9 @@
 #include "cosmos/ostypes.hxx"
 
 // X++
+#include "X++/ClassHints.hxx"
 #include "X++/Property.hxx"
+#include "X++/SizeHints.hxx"
 #include "X++/WindowManagerHints.hxx"
 #include "X++/X11Exception.hxx"
 #include "X++/XDisplay.hxx"
@@ -209,6 +211,16 @@ public: // functions
 
 	/// Sets new XWMHints for the window.
 	void setWMHints(const XWMHints &hints);
+
+	void setWMHints(const WindowManagerHints &hints) {
+		return setWMHints(hints.raw());
+	}
+
+	/// Sets new window class and name hints for the window.
+	void setClassHints(const ClassHints hints);
+
+	/// Sets normal window manager size hints for the window.
+	void setWMNormalHints(const SizeHints &hints);
 
 	/// Requests the X server to destroy the represented window and all sub-windows.
 	/**

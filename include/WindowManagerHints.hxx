@@ -10,26 +10,29 @@
 
 namespace xpp {
 
-enum class HintFlags : long {
-	Input = InputHint,
-	State = StateHint,
-	IconPixmap = IconPixmapHint,
-	IconWindow = IconWindowHint,
-	IconPosition = IconPositionHint,
-	IconMask = IconMaskHint,
-	WindowGroup = WindowGroupHint,
-	Urgency = XUrgencyHint
-};
-
-using HintMask = cosmos::BitMask<HintFlags>;
-
 /// Wrapper around the XWMHints structure.
 /**
  * This wrapper adds a couple of helper functions to operate on the struct's
  * members using libX++ strong types.
  **/
 struct WindowManagerHints {
-public:
+public: // types
+
+	enum class Flags : long {
+		Input        = InputHint,
+		State        = StateHint,
+		IconPixmap   = IconPixmapHint,
+		IconWindow   = IconWindowHint,
+		IconPosition = IconPositionHint,
+		IconMask     = IconMaskHint,
+		WindowGroup  = WindowGroupHint,
+		Urgency      = XUrgencyHint
+	};
+
+	using Mask = cosmos::BitMask<Flags>;
+
+public: // functions
+
 	WindowManagerHints() :
 			m_hints(new XWMHints) {
 		cosmos::zero_object(*m_hints);
@@ -39,11 +42,11 @@ public:
 			m_hints(hints)
 	{}
 
-	void setFlags(const HintMask hint_mask) {
+	void setFlags(const Mask hint_mask) {
 		m_hints->flags = hint_mask.raw();
 	}
 
-	void changeFlag(const HintFlags flag, const bool on_off) {
+	void changeFlag(const Flags flag, const bool on_off) {
 		if (on_off) {
 			m_hints->flags |= cosmos::to_integral(flag);
 		} else {
@@ -61,6 +64,10 @@ public:
 
 	bool valid() const {
 		return m_hints.get() != nullptr;
+	}
+
+	auto raw() const {
+		return *m_hints;
 	}
 
 protected:

@@ -192,6 +192,20 @@ void XWindow::setWMHints(const XWMHints &hints) {
 	(void)::XSetWMHints(display, rawID(), const_cast<XWMHints*>(&hints));
 }
 
+void XWindow::setClassHints(const ClassHints hints) {
+	// no negative returns codes ever occur
+	// the hints parameter is declared non-const but the structure is
+	// never modified in the implementation.
+	const XClassHint *base = &hints;
+	(void)::XSetClassHint(display, rawID(), const_cast<XClassHint*>(base));
+}
+
+void XWindow::setWMNormalHints(const SizeHints &hints) {
+	const XSizeHints *base = &hints;
+	// has no return code, doesn't modify the hints structure
+	::XSetWMNormalHints(display, rawID(), const_cast<XSizeHints*>(base));
+}
+
 XWindow::ClassStringPair XWindow::getClass() const {
 	/*
 	 * there's a special pair of functions X{Set,Get}ClassHint but that
