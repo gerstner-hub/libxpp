@@ -18,6 +18,7 @@
 #include "cosmos/ostypes.hxx"
 
 // X++
+#include "X++/fwd.hxx"
 #include "X++/ClassHints.hxx"
 #include "X++/Property.hxx"
 #include "X++/SizeHints.hxx"

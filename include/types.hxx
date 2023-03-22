@@ -12,7 +12,6 @@
 
 // Cosmos
 #include "cosmos/BitMask.hxx"
-#include "cosmos/error/RuntimeError.hxx"
 
 /**
  * @file
@@ -66,7 +65,7 @@ enum class ScreenID : int {
 constexpr unsigned long INVALID_XID = ~0UL;
 
 /// Strong type representation for X11 Window handles
-enum class WinID : Window {
+enum class WinID : ::Window {
 	INVALID = INVALID_XID
 };
 
@@ -89,24 +88,24 @@ enum class WinID : Window {
  *  In the Xlib the Atom type is some integer-like type that doesn't provide
  *  much type safety. This this enum class makes this safer within libX++.
  **/
-enum class AtomID : Atom {
+enum class AtomID : ::Atom {
 	INVALID = None
 };
 
-enum class PixmapID : Pixmap {
+enum class PixmapID : ::Pixmap {
 	INVALID = INVALID_XID
 };
 
 /// can be both a WinID or a PixmapID
-enum class DrawableID : Drawable {
+enum class DrawableID : ::Drawable {
 	INVALID = INVALID_XID
 };
 
-enum class ColormapID : Colormap {
+enum class ColormapID : ::Colormap {
 	INVALID = INVALID_XID
 };
 
-enum class CursorID : Cursor {
+enum class CursorID : ::Cursor {
 	INVALID = INVALID_XID
 };
 

@@ -1,3 +1,6 @@
+// Cosmos
+#include "cosmos/error/RuntimeError.hxx"
+
 // X++
 #include "X++/helpers.hxx"
 #include "X++/XColor.hxx"
