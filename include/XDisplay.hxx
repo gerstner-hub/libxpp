@@ -242,30 +242,6 @@ public: // functions
 		return DisplayHeight(m_dis, raw_screen(screen ? *screen : defaultScreen()));
 	}
 
-	/// Creates a new graphics context using the given settings
-	/**
-	 * A graphics context is used for specifying options when operating on
-	 * a target drawable. It is allocated internally to Xlib, therefore it
-	 * also has to be explicitly freed. This is simplified by returning a
-	 * shared_ptr wrapper that does the right thing and the right time to
-	 * free the resource.
-	 *
-	 * \param[in] d The drawable object that is the target or a parent of
-	 * the target drawable with which this context is to be used. The
-	 * target drawable needs to have the same depth as the drawable
-	 * specified here, otherwise operational errors will occur.
-	 *
-	 * \param[in] mask Specifies the elements of \c vals that should be
-	 * evaluated.
-	 *
-	 * \param[in] vals The settings that should be in effect for the new
-	 * graphics context. Only the values marked in \c mask will be
-	 * evaluated.
-	 *
-	 * \return The managed graphics context resource
-	 **/
-	GcSharedPtr createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCValues &vals);
-
 	/// Parses a color name and fills \c out with the associated color values.
 	/**
 	 * If parsing the color fails then a cosmos::RuntimeError is thrown.

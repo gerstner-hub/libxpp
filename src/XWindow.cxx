@@ -11,6 +11,7 @@
 // X++
 #include "X++/AtomMapper.hxx"
 #include "X++/formatting.hxx"
+#include "X++/GraphicsContext.hxx"
 #include "X++/helpers.hxx"
 #include "X++/private/Xpp.hxx"
 #include "X++/XCursor.hxx"
@@ -596,11 +597,11 @@ void XWindow::updateFamily() {
 	::XFree(children);
 }
 
-void XWindow::copyArea(const GcSharedPtr &gc, const PixmapID px,
+void XWindow::copyArea(const GraphicsContext &gc, const PixmapID px,
 		const Extent &ext, const Coord &src_pos, const Coord &dst_pos) {
 	// does not return synchronous errors
 	(void)::XCopyArea(
-		display, cosmos::to_integral(px), rawID(), &(*gc),
+		display, cosmos::to_integral(px), rawID(), gc,
 		src_pos.x, src_pos.y,
 		ext.width, ext.height,
 		dst_pos.x, dst_pos.y);

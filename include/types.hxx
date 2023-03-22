@@ -41,14 +41,6 @@ struct Coord {
 	int y = 0;
 };
 
-/// smart pointer for GC graphics context
-/**
- * The `GC` specified in Xlib method signatures is actually a pointer
- * preprocessor define, thus we have to use the internal name of the struct
- * behind this to create a valid shared_ptr around it.
- **/
-using GcSharedPtr = std::shared_ptr<struct _XGC>;
-
 /// Strongly typed enum to represent a Screen number on a Display
 enum class ScreenID : int {
 	INVALID = -1
@@ -125,38 +117,6 @@ struct RawProperty {
 	/// returns a read-only string_view object representing the data
 	auto view() const { return std::string_view(reinterpret_cast<const char*>(data.get()), length); }
 };
-
-/// type safe wrapper enum for GC* constants found in X headers
-/**
- * These are bitmask values, see X.h
- **/
-enum class GcOpts : long {
-	Function          = GCFunction,
-	PlaneMask         = GCPlaneMask,
-	Foreground        = GCFunction,
-	Background        = GCBackground,
-	LineWidth         = GCLineWidth,
-	LineStyle         = GCLineStyle,
-	CapStyle          = GCCapStyle,
-	JoinStyle         = GCJoinStyle,
-	FillStyle         = GCFillStyle,
-	FillRule          = GCFillRule,
-	Tile              = GCTile,
-	Stipple           = GCStipple,
-	TileStipXOrigin   = GCTileStipXOrigin,
-	TileStipYOrigin   = GCTileStipYOrigin,
-	Font              = GCFont,
-	SubwindowMode     = GCSubwindowMode,
-	GraphicsExposures = GCGraphicsExposures,
-	ClipXOrigin       = GCClipXOrigin,
-	ClipYOrigin       = GCClipYOrigin,
-	ClipMask          = GCClipMask,
-	DashOffset        = GCDashOffset,
-	DashList          = GCDashList,
-	ArcMode           = GCArcMode
-};
-
-using GcOptMask = cosmos::BitMask<GcOpts>;
 
 enum class WindowAttr : unsigned long {
 	BackPixmap       = CWBackPixmap,

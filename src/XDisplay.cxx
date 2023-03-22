@@ -97,17 +97,6 @@ XDisplay::DisplayOpenError::DisplayOpenError() :
 	m_msg += "\". ";
 }
 
-std::shared_ptr<struct _XGC>
-XDisplay::createGraphicsContext(DrawableID d, const GcOptMask &mask, const XGCValues &vals) {
-	auto gc = ::XCreateGC(m_dis, cosmos::to_integral(d), mask.raw(), const_cast<XGCValues*>(&vals));
-
-	if (!gc) {
-		cosmos_throw (cosmos::RuntimeError("failed to allocate GC"));
-	}
-
-	return GcSharedPtr{gc, [this](GC c){ ::XFreeGC(*this, c); }};
-}
-
 void XDisplay::parseColor(XColor &out, std::string_view name, const std::optional<ColormapID> p_colormap) {
 	auto res = ::XParseColor(m_dis,
 			raw_cmap(p_colormap ? *p_colormap : xpp::colormap),

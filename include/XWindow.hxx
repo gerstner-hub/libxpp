@@ -449,7 +449,7 @@ public: // functions
 	 * \param[in] src_pos The upper-left coordinate of the copy area in the source pixmap
 	 * \param[in] dst_pos The upper-left coordinate of the copy area in the dest window
 	 **/
-	void copyArea(const GcSharedPtr &gc, const PixmapID px,
+	void copyArea(const GraphicsContext &gc, const PixmapID px,
 			const Extent &ext, const Coord &src_pos = Coord{0,0}, const Coord &dst_pos = Coord{0,0});
 
 	/// Use the given XCursor type as cursor in the associated window.

@@ -6,6 +6,9 @@
  **/
 
 namespace xpp {
-	class XDisplay;
+	class GraphicsContext;
 	class Pixmap;
+	class XDisplay;
+
+	extern XDisplay display;
 }
