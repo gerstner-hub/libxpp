@@ -97,6 +97,10 @@ enum class ColormapID : ::Colormap {
 	INVALID = INVALID_XID
 };
 
+/// Represents a color index with respect to an active colormap.
+enum class ColormapIndex : unsigned long {
+};
+
 enum class CursorID : ::Cursor {
 	INVALID = INVALID_XID
 };

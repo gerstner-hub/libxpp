@@ -98,6 +98,10 @@ public: // functions
 		return *this;
 	}
 
+	void setForeground(const ColormapIndex index);
+
+	void setBackground(const ColormapIndex index);
+
 	bool valid() const { return m_gc != nullptr; }
 
 	operator GC() const { return m_gc; }

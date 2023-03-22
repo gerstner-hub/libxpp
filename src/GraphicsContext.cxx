@@ -23,4 +23,12 @@ void GraphicsContext::destroy() {
 	}
 }
 
+void GraphicsContext::setForeground(const ColormapIndex index) {
+	::XSetForeground(*m_display, m_gc, cosmos::to_integral(index));
+}
+
+void GraphicsContext::setBackground(const ColormapIndex index) {
+	::XSetBackground(*m_display, m_gc, cosmos::to_integral(index));
+}
+
 } // end ns
