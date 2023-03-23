@@ -76,47 +76,47 @@ public: // functions
 			raiseMismatch();
 	}
 
-	auto toConfigureNotify() const {
+	auto& toConfigureNotify() const {
 		onMismatch(isConfigureNotify());
 		return m_ev.xconfigure;
 	}
 
-	auto toVisibilityNotify() const {
+	auto& toVisibilityNotify() const {
 		onMismatch(isVisibilityNotify());
 		return m_ev.xvisibility;
 	}
 
-	auto toFocusChangeEvent() const {
+	auto& toFocusChangeEvent() const {
 		onMismatch(isFocusChange());
 		return m_ev.xfocus;
 	}
 
-	auto toKeyEvent() const {
+	auto& toKeyEvent() const {
 		onMismatch(isKeyPress());
 		return m_ev.xkey;
 	}
 
-	auto toClientMessage() const {
+	auto& toClientMessage() const {
 		onMismatch(isClientMessage());
 		return m_ev.xclient;
 	}
 
-	auto toButtonEvent() const {
+	auto& toButtonEvent() const {
 		onMismatch(isButtonEvent());
 		return m_ev.xbutton;
 	}
 
-	auto toProperty() const {
+	auto& toProperty() const {
 		onMismatch(isPropertyNotify());
 		return m_ev.xproperty;
 	}
 
-	auto toSelectionRequest() const {
+	auto& toSelectionRequest() const {
 		onMismatch(isSelectionRequest());
 		return m_ev.xselectionrequest;
 	}
 
-	auto toSelectionNotify() const {
+	auto& toSelectionNotify() const {
 		onMismatch(isSelectionNotify());
 		return m_ev.xselection;
 	}
