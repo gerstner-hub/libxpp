@@ -8,9 +8,9 @@ namespace xpp {
 
 /// Strong state type for possible VisibilityEvent status reports.
 enum class VisibilityState : int {
-	Unobscured = VisibilityUnobscured,
-	PartiallyObscured = VisibilityPartiallyObscured,
-	FullyObscured = VisibilityFullyObscured
+	UNOBSCURED = VisibilityUnobscured,
+	PARTIALLY_OBSCURED = VisibilityPartiallyObscured,
+	FULLY_OBSCURED = VisibilityFullyObscured
 };
 
 /// Wrapper around the XVisibilityEvent type.

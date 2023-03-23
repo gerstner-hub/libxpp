@@ -58,16 +58,16 @@ public: // functions
 		return filter == True;
 	}
 
-	bool isConfigureNotify() const  { return type() == EventType::Ev_ConfigureNotify; }
-	bool isMapNotify() const        { return type() == EventType::Ev_MapNotify; }
-	bool isVisibilityNotify() const { return type() == EventType::Ev_VisibilityNotify; }
-	bool isFocusChange() const      { return type() == EventType::Ev_FocusIn || type() == EventType::Ev_FocusOut; }
-	bool isKeyPress() const         { return type() == EventType::Ev_KeyPress; }
-	bool isClientMessage() const    { return type() == EventType::Ev_ClientMessage; }
-	bool isButtonEvent() const      { return type() == EventType::Ev_ButtonRelease || type() == EventType::Ev_ButtonPress; }
-	bool isPropertyNotify() const   { return type() == EventType::Ev_PropertyNotify; }
-	bool isSelectionNotify() const  { return type() == EventType::Ev_SelectionNotify; }
-	bool isSelectionRequest() const { return type() == EventType::Ev_SelectionRequest; }
+	bool isConfigureNotify() const  { return type() == EventType::CONFIGURE_NOTIFY; }
+	bool isMapNotify() const        { return type() == EventType::MAP_NOTIFY; }
+	bool isVisibilityNotify() const { return type() == EventType::VISIBILITY_NOTIFY; }
+	bool isFocusChange() const      { return type() == EventType::FOCUS_IN || type() == EventType::FOCUS_OUT; }
+	bool isKeyPress() const         { return type() == EventType::KEY_PRESS; }
+	bool isClientMessage() const    { return type() == EventType::CLIENT_MESSAGE; }
+	bool isButtonEvent() const      { return type() == EventType::BUTTON_RELEASE || type() == EventType::BUTTON_PRESS; }
+	bool isPropertyNotify() const   { return type() == EventType::PROPERTY_NOTIFY; }
+	bool isSelectionNotify() const  { return type() == EventType::SELECTION_NOTIFY; }
+	bool isSelectionRequest() const { return type() == EventType::SELECTION_REQUEST; }
 
 	EventType type() const { return EventType{m_ev.type}; }
 

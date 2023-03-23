@@ -23,19 +23,15 @@
 namespace xpp {
 
 /// Special return bitmask values returned from XParseGeometry()
-/**
- * These constants are preprocessor defines thus we need to avoid clashing
- * with their names and need to use alternative enum constants.
- **/
 enum class GeometrySettings : int {
-	HaveNone   = 0,           // this is not a bit position, use only == comparison
-	HaveX      = XValue,      // an x value was specified
-	HaveY      = YValue,      // a  y value was specified
-	HaveWidth  = WidthValue,  // a width value is present
-	HaveHeight = HeightValue, // a height value is present
-	HaveAll    = AllValues,   // all values above are present
-	NegativeX  = XNegative,   // the specified XVal is negative
-	NegativeY  = YNegative    // the specified YVal is negative
+	HAVE_NONE    = 0,           // this is not a bit position, use only == comparison
+	X_VALUE      = XValue,      // an x value was specified
+	Y_VALUE      = YValue,      // a  y value was specified
+	WIDTH_VALUE  = WidthValue,  // a width value is present
+	HEIGHT_VALUE = HeightValue, // a height value is present
+	ALL_VALUES   = AllValues,   // all values above are present
+	X_NEGATIVE   = XNegative,   // the specified XVal is negative
+	Y_NEGATIVE   = YNegative    // the specified YVal is negative
 };
 
 using GeometrySettingsMask = cosmos::BitMask<GeometrySettings>;

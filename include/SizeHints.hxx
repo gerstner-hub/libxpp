@@ -27,16 +27,16 @@ class SizeHints :
 public: // types
 
 	enum class Flags : long {
-		UserPos        = USPosition, // x, y
-		UserSize       = USSize,    // width, height
-		ProgPos        = PPosition, 
-		ProgSize       = PSize,
-		ProgMinSize    = PMinSize,
-		ProgMaxSize    = PMaxSize,
-		ProgResizeIncrements = PResizeInc,
-		ProgAspect     = PAspect, // min, max aspect ratios
-		ProgBaseSize   = PBaseSize, // base size for incrementing
-		ProgWinGravity = PWinGravity
+		USER_POS         = USPosition, // x, y
+		USER_SIZE        = USSize,     // width, height
+		PROG_POS         = PPosition, 
+		PROG_SIZE        = PSize,
+		PROG_MIN_SIZE    = PMinSize,
+		PROG_MAX_SIZE    = PMaxSize,
+		PROG_RESIZE_INCREMENTS = PResizeInc,
+		PROG_ASPECT      = PAspect,   // min, max aspect ratios
+		PROG_BASE_SIZE   = PBaseSize, // base size for incrementing
+		PROG_WIN_GRAVITY = PWinGravity
 	};
 
 	using Mask = cosmos::BitMask<Flags>;

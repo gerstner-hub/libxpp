@@ -15,7 +15,7 @@ public: // functions
 
 	NotifyMode mode() const { return NotifyMode{m_ev.mode}; }
 
-	bool haveFocus() const { return EventType{m_ev.type} == EventType::Ev_FocusIn; }
+	bool haveFocus() const { return EventType{m_ev.type} == EventType::FOCUS_IN; }
 
 protected: // data
 	const XFocusChangeEvent &m_ev;

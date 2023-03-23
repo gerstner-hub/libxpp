@@ -23,14 +23,14 @@ class WindowManagerHints :
 public: // types
 
 	enum class Flags : long {
-		Input        = InputHint,
-		State        = StateHint,
-		IconPixmap   = IconPixmapHint,
-		IconWindow   = IconWindowHint,
-		IconPosition = IconPositionHint,
-		IconMask     = IconMaskHint,
-		WindowGroup  = WindowGroupHint,
-		Urgency      = XUrgencyHint
+		INPUT         = InputHint,
+		STATE         = StateHint,
+		ICON_PIXMAP   = IconPixmapHint,
+		ICON_WINDOW   = IconWindowHint,
+		ICON_POSITION = IconPositionHint,
+		ICON_MASK     = IconMaskHint,
+		WINDOW_GROUP  = WindowGroupHint,
+		URGENCY       = XUrgencyHint
 	};
 
 	using Mask = cosmos::BitMask<Flags>;

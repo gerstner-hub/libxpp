@@ -376,7 +376,7 @@ public: // functions
 		// Thus if we don't want grandchildren Windows of the root
 		// window then we need to filter on the event receiving side
 		// within our process
-		selectEvent(EventMask::SubstructureNotify);
+		selectEvent(EventMask::SUBSTRUCTURE_NOTIFY);
 	}
 
 	/// Inform the X server that we want to be notified of window destruction events.
@@ -385,7 +385,7 @@ public: // functions
 	 * your X application.
 	 **/
 	void selectDestroyEvent() const {
-		selectEvent(EventMask::StructureNotify);
+		selectEvent(EventMask::STRUCTURE_NOTIFY);
 	}
 
 	/// Inform the X server that we want to be notified if properties of the current window change.
@@ -394,7 +394,7 @@ public: // functions
 	 * are added, changed or deleted.
 	 **/
 	void selectPropertyNotifyEvent() const {
-		selectEvent(EventMask::PropertyChange);
+		selectEvent(EventMask::PROPERTY_CHANGE);
 	}
 
 	/// transparently cast the object into the raw WinID identifier.

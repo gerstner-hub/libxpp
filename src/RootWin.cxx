@@ -19,8 +19,8 @@ RootWin::RootWin(XDisplay &p_display, ScreenID p_screen) :
 	// too broad but there is no clear documentation which specific value
 	// might be correct for our use cases
 	m_send_event_mask.set({
-		EventMask::SubstructureRedirect,
-		EventMask::SubstructureNotify
+		EventMask::SUBSTRUCTURE_REDIRECT,
+		EventMask::SUBSTRUCTURE_NOTIFY
 	});
 }
 
