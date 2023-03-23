@@ -3,11 +3,13 @@
 #include "cosmos/cosmos.hxx"
 #include "cosmos/formatting.hxx"
 #include "cosmos/io/StdLogger.hxx"
+#include "X++/GraphicsContext.hxx"
+#include "X++/Pixmap.hxx"
+#include "X++/RootWin.hxx"
+#include "X++/Xpp.hxx"
 #include "X++/formatting.hxx"
 #include "X++/helpers.hxx"
-#include "X++/RootWin.hxx"
 #include "X++/types.hxx"
-#include "X++/Xpp.hxx"
 
 void testDisplay() {
 	auto &display = xpp::display;
@@ -17,15 +19,17 @@ void testDisplay() {
 	if (depth < 8 || depth > 32) {
 		throw std::runtime_error("strange depth");
 	}
-	auto pmap = display.createPixmap(window, xpp::Extent{100, 100});
-	display.freePixmap(pmap);
+	xpp::Pixmap pm{window, xpp::Extent{100, 100}};
+	pm.destroy();
 }
 
 void testGC() {
-	auto &display = xpp::display;
 	XGCValues vals;
-	auto gc_ptr = display.createGraphicsContext(
-			xpp::to_drawable(xpp::RootWin().id()), xpp::GcOptMask(), vals);
+	xpp::GraphicsContext gc{
+		xpp::to_drawable(xpp::RootWin().id()),
+		xpp::GcOptMask(),
+		vals};
+	gc.destroy();
 }
 
 void test() {

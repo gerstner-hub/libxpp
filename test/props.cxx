@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "X++/AtomMapper.hxx"
 #include "X++/Xpp.hxx"
 #include "X++/RootWin.hxx"
 #include "X++/types.hxx"
