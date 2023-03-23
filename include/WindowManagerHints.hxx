@@ -18,7 +18,7 @@ namespace xpp {
  * This wrapper adds a couple of helper functions to operate on the struct's
  * members using libX++ strong types.
  **/
-struct WindowManagerHints :
+class WindowManagerHints :
 		public XWMHints {
 public: // types
 

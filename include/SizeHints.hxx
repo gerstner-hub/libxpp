@@ -22,7 +22,7 @@ namespace xpp {
  * This adds helper types and wrappers to use strong types in conjunction with
  * XSizeHints.
  **/
-struct SizeHints :
+class SizeHints :
 		public XSizeHints {
 public: // types
 

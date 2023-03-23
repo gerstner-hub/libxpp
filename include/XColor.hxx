@@ -7,7 +7,9 @@
 namespace xpp {
 
 /// C++ wrapper for the X11 XColor struct
-struct XColor : public ::XColor {
+class XColor :
+		public ::XColor {
+public: // functions
 
 	/// Sets all three RGB components to the given value
 	void setAll(unsigned short val) {

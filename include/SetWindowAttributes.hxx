@@ -12,7 +12,7 @@ namespace xpp {
  * This wrapper adds helper methods to set structure members using strong
  * libX++ types.
  **/
-struct SetWindowAttributes :
+class SetWindowAttributes :
 		public XSetWindowAttributes {
 public:
 	void setBitGravity(const Gravity gravity) {

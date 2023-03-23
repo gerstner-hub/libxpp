@@ -10,7 +10,7 @@
 namespace xpp {
 
 /// Wrapper around the XClassHint structure.
-struct ClassHints :
+class ClassHints :
 		public XClassHint {
 public: // functions
 

@@ -9,17 +9,16 @@ namespace xpp {
 	class Event;
 	class GraphicsContext;
 	class Pixmap;
-	template <typename PROPTYPE> class Property;
+	class SetWindowAttributes;
+	class SizeHints;
+	class WindowManagerHints;
+	class XColor;
 	class XCursor;
 	class XDisplay;
 	class XWindow;
-	struct SizeHints;
+	class XWindowAttrs;
 	struct utf8_string;
-	struct SetWindowAttributes;
-	struct WindowManagerHints;
-	struct XColor;
-	struct XWindowAttrs;
-
+	template <typename PROPTYPE> class Property;
 
 	extern XDisplay display;
 }
