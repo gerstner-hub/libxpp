@@ -1,14 +1,11 @@
-// C++
-#include <cstdlib>
-#include <iostream>
-
 // cosmos
 #include "cosmos/thread/RWLock.hxx"
 
 // X++
 #include "X++/AtomMapper.hxx"
-#include "X++/XDisplay.hxx"
+#include "X++/helpers.hxx"
 #include "X++/private/Xpp.hxx"
+#include "X++/XDisplay.hxx"
 
 namespace xpp {
 

@@ -6,9 +6,20 @@
  **/
 
 namespace xpp {
+	class Event;
 	class GraphicsContext;
 	class Pixmap;
+	template <typename PROPTYPE> class Property;
+	class XCursor;
 	class XDisplay;
+	class XWindow;
+	struct SizeHints;
+	struct utf8_string;
+	struct SetWindowAttributes;
+	struct WindowManagerHints;
+	struct XColor;
+	struct XWindowAttrs;
+
 
 	extern XDisplay display;
 }

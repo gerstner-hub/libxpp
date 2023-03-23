@@ -1,11 +1,9 @@
-// cosmos
-#include "cosmos/formatting.hxx"
-#include "cosmos/string.hxx"
-
 // X++
-#include "X++/helpers.hxx"
+#include "X++/atoms.hxx"
 #include "X++/formatting.hxx"
+#include "X++/helpers.hxx"
 #include "X++/private/Xpp.hxx"
+#include "X++/Property.hxx"
 #include "X++/RootWin.hxx"
 
 namespace xpp {

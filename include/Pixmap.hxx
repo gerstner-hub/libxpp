@@ -1,10 +1,13 @@
 #ifndef XPP_PIXMAP_HXX
 #define XPP_PIXMAP_HXX
 
+// C++
+#include <optional>
+
 // X++
 #include "X++/dso_export.h"
+#include "X++/fwd.hxx"
 #include "X++/types.hxx"
-#include "X++/XDisplay.hxx"
 
 namespace xpp {
 

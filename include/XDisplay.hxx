@@ -11,22 +11,16 @@
 #include <X11/Xlib.h>
 
 // cosmos
-#include "cosmos/algs.hxx"
 #include "cosmos/fs/FileDescriptor.hxx"
 #include "cosmos/types.hxx"
 
 // X++
-#include "X++/AtomMapper.hxx"
 #include "X++/helpers.hxx"
-#include "X++/SetWindowAttributes.hxx"
+#include "X++/fwd.hxx"
 #include "X++/types.hxx"
 #include "X++/X11Exception.hxx"
-#include "X++/XColor.hxx"
 
 namespace xpp {
-
-class Event;
-class XWindow;
 
 /// Wrapper around the Xlib Display type.
 /**

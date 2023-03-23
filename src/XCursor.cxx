@@ -5,6 +5,7 @@
 #include "X++/helpers.hxx"
 #include "X++/XColor.hxx"
 #include "X++/XCursor.hxx"
+#include "X++/XDisplay.hxx"
 
 namespace xpp {
 

@@ -6,6 +6,7 @@
 // X++
 #include "X++/Event.hxx"
 #include "X++/RootWin.hxx"
+#include "X++/SetWindowAttributes.hxx"
 #include "X++/XColor.hxx"
 #include "X++/XDisplay.hxx"
 

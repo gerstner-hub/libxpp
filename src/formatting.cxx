@@ -5,6 +5,7 @@
 #include "cosmos/formatting.hxx"
 
 // X++
+#include "X++/AtomMapper.hxx"
 #include "X++/formatting.hxx"
 #include "X++/utf8_string.hxx"
 #include "X++/XWindow.hxx"

@@ -9,11 +9,13 @@
 #include "cosmos/memory.hxx"
 
 // X++
-#include "X++/AtomMapper.hxx"
 #include "X++/formatting.hxx"
 #include "X++/GraphicsContext.hxx"
 #include "X++/helpers.hxx"
 #include "X++/private/Xpp.hxx"
+#include "X++/Property.hxx"
+#include "X++/SizeHints.hxx"
+#include "X++/WindowManagerHints.hxx"
 #include "X++/XCursor.hxx"
 #include "X++/XWindowAttrs.hxx"
 #include "X++/XWindow.hxx"

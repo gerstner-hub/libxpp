@@ -6,11 +6,10 @@
 
 // X++
 #include "X++/types.hxx"
+#include "X++/fwd.hxx"
 #include "X++/XWindow.hxx"
 
 namespace xpp {
-
-class XDisplay;
 
 /// This class represents the special root window.
 /**

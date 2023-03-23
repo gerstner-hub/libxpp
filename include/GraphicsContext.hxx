@@ -1,13 +1,13 @@
 #ifndef XPP_GRAPHICSCONTEXT_HXX
 #define XPP_GRAPHICSCONTEXT_HXX
 
+// Cosmos
+#include "cosmos/BitMask.hxx"
+
 // X++
 #include "X++/dso_export.h"
 #include "X++/fwd.hxx"
 #include "X++/types.hxx"
-
-// Cosmos
-#include "cosmos/BitMask.hxx"
 
 namespace xpp {
 

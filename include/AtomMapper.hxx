@@ -12,7 +12,6 @@
 // X++
 #include "X++/dso_export.h"
 #include "X++/types.hxx"
-#include "X++/X11Exception.hxx"
 
 namespace xpp {
 

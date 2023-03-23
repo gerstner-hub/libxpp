@@ -6,12 +6,8 @@
 
 // X++
 #include "X++/dso_export.h"
+#include "X++/fwd.hxx"
 #include "X++/types.hxx"
-
-namespace xpp {
-	struct utf8_string;
-	class XWindow;
-}
 
 XPP_API std::ostream& operator<<(std::ostream &o, const xpp::utf8_string &s);
 

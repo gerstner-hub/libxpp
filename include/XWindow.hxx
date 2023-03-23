@@ -9,10 +9,7 @@
 #include <vector>
 
 // X
-#include <X11/Xatom.h> // declaration of various atom types like XA_WINDOW
 #include <X11/Xlib.h>
-#include <X11/Xutil.h> // XWMHints
-#include <X11/X.h> // event mask bits
 
 // cosmos
 #include "cosmos/ostypes.hxx"
@@ -20,16 +17,12 @@
 // X++
 #include "X++/fwd.hxx"
 #include "X++/ClassHints.hxx"
-#include "X++/Property.hxx"
-#include "X++/SizeHints.hxx"
-#include "X++/WindowManagerHints.hxx"
+#include "X++/types.hxx"
+#include "X++/utf8_string.hxx"
 #include "X++/X11Exception.hxx"
 #include "X++/XDisplay.hxx"
 
 namespace xpp {
-
-struct XWindowAttrs;
-class XCursor;
 
 /// Wrapper for the X Window primitive
 /**

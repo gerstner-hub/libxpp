@@ -6,8 +6,8 @@
 #include <string_view>
 
 // X++
-#include "X++/AtomMapper.hxx"
 #include "X++/dso_export.h"
+#include "X++/types.hxx"
 
 namespace xpp {
 

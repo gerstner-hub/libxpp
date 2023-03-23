@@ -1,6 +1,6 @@
 // X++
-#include "X++/CachedAtom.hxx"
 #include "X++/AtomMapper.hxx"
+#include "X++/CachedAtom.hxx"
 
 namespace xpp {
 

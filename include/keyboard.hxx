@@ -6,12 +6,10 @@
 
 // X++
 #include "X++/dso_export.h"
+#include "X++/fwd.hxx"
 #include "X++/types.hxx"
 
 namespace xpp {
-
-class XDisplay;
-class XWindow;
 
 enum class BellVolume : int {
 	MIN_VOL = -100,

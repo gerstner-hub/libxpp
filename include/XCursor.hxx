@@ -6,12 +6,10 @@
 
 // X++
 #include "X++/dso_export.h"
+#include "X++/fwd.hxx"
 #include "X++/types.hxx"
-#include "X++/XDisplay.hxx"
 
 namespace xpp {
-
-struct XColor;
 
 /// Different cursor font types that can be used to create an XCursor.
 enum class CursorFont : unsigned int {
