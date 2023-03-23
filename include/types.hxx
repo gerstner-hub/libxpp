@@ -242,6 +242,13 @@ enum class WindowClass : long {
 	InOnly = InputOnly
 };
 
+enum class NotifyMode : int {
+	NORMAL        = NotifyNormal,
+	GRAB          = NotifyGrab,
+	UNGRAB        = NotifyUngrab,
+	WHILE_GRABBED = NotifyWhileGrabbed
+};
+
 } // end ns
 
 #endif // inc. guard
