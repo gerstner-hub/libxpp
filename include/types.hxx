@@ -118,8 +118,11 @@ struct RawProperty {
 	size_t offset = 0; /// byte offset of the data into the original property
 	size_t left = 0; /// the number of bytes of the property left to read, if a partial read was performed
 
+	explicit RawProperty(const size_t len = 0, const size_t off = 0) :
+			length{len}, offset{off} {}
+
 	/// returns a read-only string_view object representing the data
-	auto view() const { return std::string_view(reinterpret_cast<const char*>(data.get()), length); }
+	auto view() const { return std::string_view{reinterpret_cast<const char*>(data.get()), length}; }
 };
 
 enum class WindowAttr : unsigned long {
