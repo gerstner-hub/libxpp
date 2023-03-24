@@ -106,7 +106,7 @@ public: // functions
 		return m_ev.xbutton;
 	}
 
-	auto& toProperty() const {
+	auto& toPropertyNotify() const {
 		onMismatch(isPropertyNotify());
 		return m_ev.xproperty;
 	}
