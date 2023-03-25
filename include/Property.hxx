@@ -79,7 +79,7 @@ public: // functions
 		checkDelete();
 
 		m_native = p;
-		Traits::native2x( m_native, m_data );
+		Traits::native2x(m_native, m_data);
 
 		return *this;
 	}
