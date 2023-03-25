@@ -55,7 +55,7 @@ std::string XWindow::getName() const {
 
 		this->getProperty(atoms::ewmh_window_name, utf8_name);
 
-		return utf8_name.get().str;
+		return utf8_name.get().str.data();
 	} catch(...) {}
 
 	/*

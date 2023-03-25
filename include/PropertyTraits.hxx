@@ -205,7 +205,7 @@ public: // functions
 	}
 
 	static void native2x(const utf8_string &s, XPtrType &data) {
-		data = s.str.c_str();
+		data = s.str.data();
 	}
 
 	static int numElements(const utf8_string &s) {

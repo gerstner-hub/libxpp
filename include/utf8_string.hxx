@@ -7,9 +7,11 @@
 
 namespace xpp {
 
-/// A type used for differentiation between a plain ASCII string and an Xlib utf8 string
+/// A type used for differentiation between a plain ASCII string and an Xlib utf8 string.
 /**
- * This is currently just a container for a char pointer.
+ * This is just a container for a string_view. You need to be carefuly
+ * managing the lifetime validility of the contained data. This type should
+ * only be used in conjunction with the Property type.
  *
  * \note
  * The X type UTF8_STRING is a new type proposed in X.org but not yet really
@@ -29,7 +31,7 @@ struct utf8_string {
 
 	size_t length() { return str.length(); }
 
-	std::string str;
+	std::string_view str;
 };
 
 } // end ns

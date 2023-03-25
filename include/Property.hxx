@@ -15,6 +15,11 @@ namespace xpp {
  * Property objects that can get and set data transparently from/to the X
  * server and transform the data from the native C++ world into the X world
  * and vice versa with some type safety.
+ *
+ * This type should only be used for temporarily wrapping actual program data
+ * / X11 data. The data should be processed right away or should be copied for
+ * long time storage. Especially string pointers are dangerous to be passed
+ * outside of a local function context.
  **/
 template <typename PROPTYPE>
 class Property {
@@ -112,8 +117,8 @@ protected: // functions
 	void checkDelete() {
 		// frees the ptr data if it comes from xlib
 		if (m_data_is_from_x) {
-			// note: XFree returns strange codes ...
-			/*const int res = */XFree((void*)m_data);
+			// note: XFree returns always 1
+			(void)XFree((void*)m_data);
 			m_data_is_from_x = false;
 		}
 	}
