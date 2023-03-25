@@ -9,6 +9,7 @@
 #include "cosmos/memory.hxx"
 
 // X++
+#include "X++/Event.hxx"
 #include "X++/formatting.hxx"
 #include "X++/GraphicsContext.hxx"
 #include "X++/helpers.hxx"
@@ -323,6 +324,11 @@ void XWindow::sendRequest(
 	std::memcpy(event.xclient.data.b, data, len);
 
 	sendEvent(event);
+}
+
+void XWindow::sendEvent(const Event &event) {
+	auto raw = event.raw();
+	sendEvent(*raw);
 }
 
 void XWindow::sendEvent(const XEvent &event) {

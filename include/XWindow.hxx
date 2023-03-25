@@ -436,6 +436,9 @@ public: // functions
 	/// Sends the given XEvent structure to the represented X11 window.
 	void sendEvent(const XEvent &event);
 
+	/// Sends the given xpp::Event wrapper object to the represented X11 window.
+	void sendEvent(const Event &event);
+
 	/// Copies image data from the given Pixmap into the window.
 	/**
 	 * \param[in] ext The extent of the area to copy

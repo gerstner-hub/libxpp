@@ -28,8 +28,8 @@ public: // functions
 	explicit Event(const XEvent &ev) :
 			m_ev{ev} {}
 
-	Event() {
-		m_ev.type = (int)EventType::INVALID;
+	explicit Event(const EventType type = EventType::INVALID) {
+		m_ev.type = cosmos::to_integral(type);
 	}
 
 	XEvent* raw() { return &m_ev; }
@@ -71,57 +71,96 @@ public: // functions
 
 	EventType type() const { return EventType{m_ev.type}; }
 
-	void onMismatch(const bool matches) const {
-		if (!matches)
-			raiseMismatch();
-	}
-
-	auto& toConfigureNotify() const {
+	auto& toConfigureNotify() {
 		onMismatch(isConfigureNotify());
 		return m_ev.xconfigure;
 	}
 
-	auto& toVisibilityNotify() const {
+	auto& toConfigureNotify() const {
+		return unconst().toConfigureNotify();
+	}
+
+	auto& toVisibilityNotify() {
 		onMismatch(isVisibilityNotify());
 		return m_ev.xvisibility;
 	}
 
-	auto& toFocusChangeEvent() const {
+	auto& toVisibilityNotify() const {
+		return unconst().toVisibilityNotify();
+	}
+
+	auto& toFocusChangeEvent() {
 		onMismatch(isFocusChange());
 		return m_ev.xfocus;
 	}
 
-	auto& toKeyEvent() const {
+	auto& toFocusChangeEvent() const {
+		return unconst().toFocusChangeEvent();
+	}
+
+	auto& toKeyEvent() {
 		onMismatch(isKeyPress());
 		return m_ev.xkey;
 	}
 
-	auto& toClientMessage() const {
+	auto& toKeyEvent() const {
+		return unconst().toKeyEvent();
+	}
+
+	auto& toClientMessage() {
 		onMismatch(isClientMessage());
 		return m_ev.xclient;
 	}
 
-	auto& toButtonEvent() const {
+	auto& toClientMessage() const {
+		return unconst().toClientMessage();
+	}
+
+	auto& toButtonEvent() {
 		onMismatch(isButtonEvent());
 		return m_ev.xbutton;
 	}
 
-	auto& toPropertyNotify() const {
+	auto& toButtonEvent() const {
+		return unconst().toButtonEvent();
+	}
+
+	auto& toPropertyNotify() {
 		onMismatch(isPropertyNotify());
 		return m_ev.xproperty;
 	}
 
-	auto& toSelectionRequest() const {
+	auto& toPropertyNotify() const {
+		return unconst().toPropertyNotify();
+	}
+
+	auto& toSelectionRequest() {
 		onMismatch(isSelectionRequest());
 		return m_ev.xselectionrequest;
 	}
 
-	auto& toSelectionNotify() const {
+	const auto& toSelectionRequest() const {
+		return unconst().toSelectionRequest();
+	}
+
+	auto& toSelectionNotify() {
 		onMismatch(isSelectionNotify());
 		return m_ev.xselection;
 	}
 
+	auto& toSelectionNotify() const {
+		return unconst().toSelectionNotify();
+	}
+
 protected: // functions
+
+	/// Helper to support code reuse in to*() accessors above
+	Event& unconst() const { return const_cast<Event&>(*this); }
+
+	void onMismatch(const bool matches) const {
+		if (!matches)
+			raiseMismatch();
+	}
 
 	void raiseMismatch() const;
 
