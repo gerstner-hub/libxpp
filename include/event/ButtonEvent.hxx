@@ -13,7 +13,7 @@ public: // functions
 	explicit ButtonEvent(const Event &ev) :
 			InputEvent{ev.toButtonEvent()} {}
 
-	unsigned int buttonNr() const { return m_ev.button; }
+	Button buttonNr() const { return Button{m_ev.button}; }
 };
 
 } // end ns

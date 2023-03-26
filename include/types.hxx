@@ -272,6 +272,19 @@ enum class InputModifier : unsigned int {
 
 using InputMask = cosmos::BitMask<InputModifier>;
 
+/// Represents a button number in ButtonEvent.
+/**
+ * Apart from the five button constants present in Xlib there could
+ * potentially also be a higher numbered button without a dedicated constant.
+ **/
+enum class Button : unsigned int {
+	BUTTON1 = Button1,
+	BUTTON2 = Button2,
+	BUTTON3 = Button3,
+	BUTTON4 = Button4,
+	BUTTON5 = Button5
+};
+
 } // end ns
 
 #endif // inc. guard

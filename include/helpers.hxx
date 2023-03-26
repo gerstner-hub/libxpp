@@ -47,6 +47,7 @@ inline auto raw_pixmap  = cosmos::to_integral<PixmapID>;
 inline auto raw_screen  = cosmos::to_integral<ScreenID>;
 inline auto raw_cmap    = cosmos::to_integral<ColormapID>;
 inline auto raw_gravity = cosmos::to_integral<Gravity>;
+inline auto raw_button  = cosmos::to_integral<Button>;
 
 } // end ns
 
