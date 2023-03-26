@@ -20,5 +20,14 @@ namespace xpp {
 	struct utf8_string;
 	template <typename PROPTYPE> class Property;
 
+	class ButtonEvent;
+	class ClientMessageEvent;
+	class FocusChangeEvent;
+	class PointerMovedEvent;
+	class PropertyEvent;
+	class SelectionEvent;
+	class SelectionRequestEvent;
+	class VisibilityEvent;
+
 	extern XDisplay display;
 }
