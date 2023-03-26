@@ -65,6 +65,7 @@ public: // functions
 	bool isKeyPress() const         { return type() == EventType::KEY_PRESS; }
 	bool isClientMessage() const    { return type() == EventType::CLIENT_MESSAGE; }
 	bool isButtonEvent() const      { return type() == EventType::BUTTON_RELEASE || type() == EventType::BUTTON_PRESS; }
+	bool isPointerMovedEvent() const { return type() == EventType::MOTION_NOTIFY; }
 	bool isPropertyNotify() const   { return type() == EventType::PROPERTY_NOTIFY; }
 	bool isSelectionNotify() const  { return type() == EventType::SELECTION_NOTIFY; }
 	bool isSelectionRequest() const { return type() == EventType::SELECTION_REQUEST; }
@@ -150,6 +151,15 @@ public: // functions
 
 	auto& toSelectionNotify() const {
 		return unconst().toSelectionNotify();
+	}
+
+	auto& toPointerMovedEvent() {
+		onMismatch(isPointerMovedEvent());
+		return m_ev.xmotion;
+	}
+
+	auto& toPointerMovedEvent() const {
+		return unconst().toPointerMovedEvent();
 	}
 
 protected: // functions

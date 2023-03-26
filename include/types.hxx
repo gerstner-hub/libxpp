@@ -252,6 +252,26 @@ enum class NotifyMode : int {
 	WHILE_GRABBED = NotifyWhileGrabbed
 };
 
+/// Keyboard and Mouse event input modifiers.
+enum class InputModifier : unsigned int {
+	SHIFT = ShiftMask,
+	LOCK = LockMask,
+	CONTROL = ControlMask,
+	MOD1 = Mod1Mask,
+	MOD2 = Mod2Mask,
+	MOD3 = Mod3Mask,
+	MOD4 = Mod4Mask,
+	MOD5 = Mod5Mask,
+	BUTTON1 = Button1Mask,
+	BUTTON2 = Button2Mask,
+	BUTTON3 = Button3Mask,
+	BUTTON4 = Button4Mask,
+	BUTTON5 = Button5Mask,
+	ANY = AnyModifier
+};
+
+using InputMask = cosmos::BitMask<InputModifier>;
+
 } // end ns
 
 #endif // inc. guard
