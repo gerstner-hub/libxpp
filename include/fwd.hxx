@@ -22,6 +22,7 @@ namespace xpp {
 
 	class ButtonEvent;
 	class ClientMessageEvent;
+	class ConfigureEvent;
 	class FocusChangeEvent;
 	class PointerMovedEvent;
 	class PropertyEvent;
