@@ -29,6 +29,8 @@ public: // functions
 
 	Time time() const { return m_ev.time; }
 
+	auto& raw() const { return m_ev; }
+
 protected: // functions
 
 	explicit InputEvent(const EVENT &ev) :

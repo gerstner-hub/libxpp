@@ -24,6 +24,7 @@ namespace xpp {
 	class ClientMessageEvent;
 	class ConfigureEvent;
 	class FocusChangeEvent;
+	class KeyEvent;
 	class PointerMovedEvent;
 	class PropertyEvent;
 	class SelectionEvent;
