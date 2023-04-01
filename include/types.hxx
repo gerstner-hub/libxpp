@@ -254,6 +254,7 @@ enum class NotifyMode : int {
 
 /// Keyboard and Mouse event input modifiers.
 enum class InputModifier : unsigned int {
+	NONE = 0,
 	SHIFT = ShiftMask,
 	LOCK = LockMask,
 	CONTROL = ControlMask,
@@ -267,7 +268,11 @@ enum class InputModifier : unsigned int {
 	BUTTON3 = Button3Mask,
 	BUTTON4 = Button4Mask,
 	BUTTON5 = Button5Mask,
-	ANY = AnyModifier
+	ANY = AnyModifier,
+	// XKB extention group index bits, see
+	// https://www.x.org/releases/X11R7.7/doc/libX11/XKB/xkblib.html
+	// "Xkb state to core protocol state transformation"
+	XKB_GROUP_INDEX = (1 << 13 | 1 << 14)
 };
 
 using InputMask = cosmos::BitMask<InputModifier>;
