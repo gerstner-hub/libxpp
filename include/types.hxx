@@ -290,6 +290,19 @@ enum class Button : unsigned int {
 	BUTTON5 = Button5
 };
 
+/// xembed protocol message types.
+/**
+ * Messages of this type can be received via ClientMessageEvent events. The
+ * event sub-type needs to be of _XEMBED atom type, the actual xembed message
+ * type will be found in the event data.
+ *
+ * \see xembed specs: http://standards.freedesktop.org/xembed-spec/xembed-spec-latest.html
+ **/
+enum class XEmbedMessageType : long {
+	FOCUS_IN = 4,
+	FOCUS_OUT = 5
+};
+
 } // end ns
 
 #endif // inc. guard
