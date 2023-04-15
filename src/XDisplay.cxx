@@ -45,7 +45,7 @@ WinID XDisplay::createWindow(
 		const WindowSpec &spec,
 		unsigned int border_width,
 		const WindowClass clazz,
-		const std::optional<XWindow*> parent,
+		const std::optional<const XWindow*> parent,
 		const std::optional<int> depth,
 		const std::optional<Visual*> p_visual,
 		const std::optional<WindowAttrMask> value_mask,

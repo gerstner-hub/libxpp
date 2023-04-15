@@ -167,7 +167,7 @@ public: // functions
 		const WindowSpec &spec,
 		unsigned int border_width,
 		const WindowClass clazz = WindowClass::COPY_FROM_PARENT,
-		const std::optional<XWindow*> parent = std::nullopt,
+		const std::optional<const XWindow*> parent = std::nullopt,
 		const std::optional<int> depth = std::nullopt,
 		const std::optional<Visual*> visual = std::nullopt,
 		const std::optional<WindowAttrMask> value_mask = std::nullopt,
