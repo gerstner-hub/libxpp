@@ -23,4 +23,5 @@ SConscript(env['buildroot'] + 'src/SConstruct')
 
 if env['project'] == "libX++":
     SConscript(env['buildroot'] + 'test/SConstruct')
+    SConscript(env['buildroot'] + 'doc/SConstruct')
     Default(env['libs']['libX++'])
