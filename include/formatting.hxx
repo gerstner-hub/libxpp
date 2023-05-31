@@ -9,6 +9,12 @@
 #include "X++/fwd.hxx"
 #include "X++/types.hxx"
 
+/**
+ * @file
+ *
+ * A place for declaring output operators for libX++ basic types.
+ **/
+
 XPP_API std::ostream& operator<<(std::ostream &o, const xpp::utf8_string &s);
 
 /// Output operator that prints the human readable name of an atom.

@@ -15,6 +15,12 @@
 #include "X++/fwd.hxx"
 #include "X++/types.hxx"
 
+/**
+ * @file
+ *
+ * Types and misc funcionality related to the keyboard.
+ **/
+
 namespace xpp {
 
 enum class BellVolume : int {

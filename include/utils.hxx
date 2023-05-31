@@ -40,7 +40,7 @@ using GeometrySettingsMask = cosmos::BitMask<GeometrySettings>;
 /**
  * This parses a string of the following form:
  *
- * [=][<width>{xX}<height>][{+-}<xoffset>{+-}<yoffset>]
+ * `[=][<width>{xX}<height>][{+-}<xoffset>{+-}<yoffset>]`
  *
  * The parsed values will be stored in \c geometry. This call does have any
  * explicit error reporting. On error none of the values will be set and an
