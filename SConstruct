@@ -1,3 +1,4 @@
+import os
 import sys
 from pathlib import Path
 
@@ -19,9 +20,16 @@ if not env.ExistsLib("libcosmos"):
     cosmos_env['buildroot'] = ""
     SConscript('libcosmos/SConstruct', duplicate=0, variant_dir=env['buildroot'] + "libcosmos/", exports={"env": cosmos_env})
 
-SConscript(env['buildroot'] + 'src/SConstruct')
+env = SConscript(env['buildroot'] + 'src/SConstruct')
+
+instroot = env['instroot']
 
 if env['project'] == "libX++":
     SConscript(env['buildroot'] + 'test/SConstruct')
     SConscript(env['buildroot'] + 'doc/SConstruct')
     Default(env['libs']['libX++'])
+
+    env.InstallHeaders("X++")
+
+node = env.InstallVersionedLib(os.path.join(instroot, env['lib_base_dir']), env["libs"]["libX++"])
+env.Alias("install", node)

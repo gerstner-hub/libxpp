@@ -1,5 +1,6 @@
 .scons*
 build
+install
 .tags
 *.swp
 *.swo
