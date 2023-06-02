@@ -8,6 +8,7 @@
 #include <X11/Xutil.h>
 
 // Cosmos
+#include "cosmos/algs.hxx"
 #include "cosmos/BitMask.hxx"
 #include "cosmos/memory.hxx"
 
