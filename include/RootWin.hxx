@@ -5,6 +5,7 @@
 #include <vector>
 
 // X++
+#include "X++/dso_export.h"
 #include "X++/types.hxx"
 #include "X++/fwd.hxx"
 #include "X++/XWindow.hxx"

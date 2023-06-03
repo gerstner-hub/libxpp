@@ -11,6 +11,7 @@
 #include "cosmos/algs.hxx"
 
 // xpp
+#include "X++/dso_export.h"
 #include "X++/helpers.hxx"
 #include "X++/XWindow.hxx"
 

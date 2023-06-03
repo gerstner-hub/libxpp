@@ -15,6 +15,7 @@
 #include "cosmos/ostypes.hxx"
 
 // X++
+#include "X++/dso_export.h"
 #include "X++/fwd.hxx"
 #include "X++/ClassHints.hxx"
 #include "X++/types.hxx"

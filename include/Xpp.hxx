@@ -4,6 +4,9 @@
 // C++
 #include <optional>
 
+// X++
+#include "X++/dso_export.h"
+
 namespace cosmos {
 	class ILogger;
 }
