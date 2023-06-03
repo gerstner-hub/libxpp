@@ -1,0 +1,15 @@
+package=libX++
+
+Name: libX++
+# a version is required for pkg-config to recognise this file
+# this should be dynamically generated via SCons placing the current version
+# in there
+Version: 0.1.0
+Description: libX++ C++ wrapper for libX11
+URL: https://www.github.com/gerstner-hub/libXpp
+Libs: -lX++
+# Requires.private is prefered if the dependency is private to our project,
+# but since we are using some X11 calls in inlined code we need to make it
+# explicit.
+Requires: x11 libcosmos
+

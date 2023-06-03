@@ -31,5 +31,8 @@ if env['project'] == "libX++":
 
     env.InstallHeaders("X++")
 
+node = env.Install(Path(instroot) / env['pkg_config_dir'], "data/libX++.pc")
+env.Alias("install", node)
+
 node = env.InstallVersionedLib(os.path.join(instroot, env['lib_base_dir']), env["libs"]["libX++"])
 env.Alias("install", node)
