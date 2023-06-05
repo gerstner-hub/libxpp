@@ -24,15 +24,19 @@ env = SConscript(env['buildroot'] + 'src/SConstruct')
 
 instroot = env['instroot']
 
+install_dev_files = env['install_dev_files']
+
 if env['project'] == "libX++":
     SConscript(env['buildroot'] + 'test/SConstruct')
     SConscript(env['buildroot'] + 'doc/SConstruct')
     Default(env['libs']['libX++'])
 
+if install_dev_files or env['libtype'] == "shared":
+    node = env.InstallVersionedLib(os.path.join(instroot, env['lib_base_dir']), env["libs"]["libX++"])
+    env.Alias("install", node)
+
+if install_dev_files:
     env.InstallHeaders("X++")
+    node = env.Install(Path(instroot) / env['pkg_config_dir'], "data/libX++.pc")
+    env.Alias("install", node)
 
-node = env.Install(Path(instroot) / env['pkg_config_dir'], "data/libX++.pc")
-env.Alias("install", node)
-
-node = env.InstallVersionedLib(os.path.join(instroot, env['lib_base_dir']), env["libs"]["libX++"])
-env.Alias("install", node)
