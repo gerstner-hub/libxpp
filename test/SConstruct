@@ -4,8 +4,9 @@ import os
 tests = env.GatherSources(suffixes=[".cxx"])
 
 test_env = env.Clone()
-test_env.ConfigureForLib('libcosmos')
-test_env.ConfigureForLib('libX++')
+sources = []
+test_env.ConfigureForLib('libX++', sources)
+test_env.ConfigureForLib('libcosmos', sources)
 run_env = test_env.Clone()
 run_env.ConfigureRunForLib('libcosmos')
 run_env.ConfigureRunForLib('libX++')
@@ -18,7 +19,7 @@ for test in tests:
     label = '.'.join(test.split('.')[:-1])
     test_prog_key = f"test_{label}"
 
-    test_bin = test_env.Program(test_prog_key, [test])
+    test_bin = test_env.Program(test_prog_key, [test] + sources)
 
     env.Alias("xpp_tests", test_prog_key)
 
