@@ -272,7 +272,7 @@ void XWindow::convertSelection(
 			raw_atom(target_prop),
 			rawID(),
 			t) != 1) {
-		cosmos_throw (X11Exception("Failed to request selecton conversion"));
+		cosmos_throw (X11Exception("Failed to request selection conversion"));
 	}
 
 	display.flush();
