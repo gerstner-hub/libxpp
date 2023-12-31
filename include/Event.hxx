@@ -7,7 +7,7 @@
 #include <X11/Xlib.h>
 
 // cosmos
-#include "cosmos/algs.hxx"
+#include "cosmos/utils.hxx"
 
 // xpp
 #include "X++/dso_export.h"

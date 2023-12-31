@@ -1,5 +1,4 @@
 // cosmos
-#include "cosmos/algs.hxx"
 #include "cosmos/error/UsageError.hxx"
 #include "cosmos/error/RuntimeError.hxx"
 

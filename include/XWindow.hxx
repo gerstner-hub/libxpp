@@ -11,7 +11,7 @@
 #include <X11/Xlib.h>
 
 // cosmos
-#include "cosmos/ostypes.hxx"
+#include "cosmos/proc/types.hxx"
 
 // X++
 #include "X++/dso_export.h"

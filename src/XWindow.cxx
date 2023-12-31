@@ -3,7 +3,6 @@
 #include <sstream>
 
 // cosmos
-#include "cosmos/algs.hxx"
 #include "cosmos/error/InternalError.hxx"
 #include "cosmos/formatting.hxx"
 #include "cosmos/memory.hxx"

@@ -11,7 +11,6 @@
 
 // cosmos
 #include "cosmos/fs/FileDescriptor.hxx"
-#include "cosmos/types.hxx"
 
 // X++
 #include "X++/helpers.hxx"

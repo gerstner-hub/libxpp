@@ -3,7 +3,7 @@
 #include <string>
 
 // cosmos
-#include "cosmos/algs.hxx"
+#include "cosmos/utils.hxx"
 
 // X++
 #include "X++/helpers.hxx"
