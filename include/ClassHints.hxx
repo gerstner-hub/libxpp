@@ -1,5 +1,4 @@
-#ifndef XPP_CLASSHINTS_HXX
-#define XPP_CLASSHINTS_HXX
+#pragma once
 
 // C++
 #include <string_view>
@@ -33,5 +32,3 @@ public: // functions
 };
 
 } // end ns
-
-#endif // inc. guard

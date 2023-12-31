@@ -1,5 +1,4 @@
-#ifndef XPP_XDISPLAY_HXX
-#define XPP_XDISPLAY_HXX
+#pragma once
 
 // C
 #include <stdint.h>
@@ -274,5 +273,3 @@ extern XPP_API ColormapID colormap;
 extern XPP_API ScreenID screen;
 
 } // end ns
-
-#endif // inc. guard

@@ -1,5 +1,4 @@
-#ifndef XPP_PROPERTY_HXX
-#define XPP_PROPERTY_HXX
+#pragma once
 
 // cosmos
 #include "cosmos/error/UsageError.hxx"
@@ -134,5 +133,3 @@ private: // data
 };
 
 } // end ns
-
-#endif // inc. guard

@@ -1,5 +1,4 @@
-#ifndef XPP_POINTERMOVEDEVENT_HXX
-#define XPP_POINTERMOVEDEVENT_HXX
+#pragma once
 
 // X++
 #include "X++/event/InputEvent.hxx"
@@ -15,5 +14,3 @@ public: // functions
 };
 
 } // end ns
-
-#endif // inc. guard

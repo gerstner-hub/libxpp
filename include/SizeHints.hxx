@@ -1,5 +1,4 @@
-#ifndef XPP_SIZEHINTS_HXX
-#define XPP_SIZEHINTS_HXX
+#pragma once
 
 // C++
 #include <type_traits>
@@ -96,5 +95,3 @@ public: // functions
 };
 
 } // end ns
-
-#endif // inc. guard

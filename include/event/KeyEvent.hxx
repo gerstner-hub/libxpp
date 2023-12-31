@@ -1,5 +1,4 @@
-#ifndef XPP_KEYEVENT_HXX
-#define XPP_KEYEVENT_HXX
+#pragma once
 
 // X++
 #include "X++/event/InputEvent.hxx"
@@ -16,5 +15,3 @@ public: // functions
 };
 
 } // end ns
-
-#endif // inc. guard

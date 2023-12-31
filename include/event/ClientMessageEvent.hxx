@@ -1,5 +1,4 @@
-#ifndef XPP_CLIENTMESSAGEEEVENT_HXX
-#define XPP_CLIENTMESSAGEEEVENT_HXX
+#pragma once
 
 // X++
 #include "X++/Event.hxx"
@@ -34,6 +33,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard
-

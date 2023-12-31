@@ -1,5 +1,4 @@
-#ifndef XPP_KEYBOARD_HXX
-#define XPP_KEYBOARD_HXX
+#pragma once
 
 // X11
 #include <X11/keysym.h>
@@ -155,5 +154,3 @@ enum class KeySymID : ::KeySym {
 inline auto raw_key = cosmos::to_integral<KeySymID>;
 
 } // end ns
-
-#endif // inc. guard

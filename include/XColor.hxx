@@ -1,5 +1,4 @@
-#ifndef XPP_XCOLOR_HXX
-#define XPP_XCOLOR_HXX
+#pragma once
 
 // X11
 #include <X11/Xlib.h>
@@ -20,5 +19,3 @@ public: // functions
 };
 
 } // end ns
-
-#endif // inc. guard

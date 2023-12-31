@@ -1,5 +1,4 @@
-#ifndef XPP_UTF8_STRING_HXX
-#define XPP_UTF8_STRING_HXX
+#pragma once
 
 // C++
 #include <string>
@@ -35,5 +34,3 @@ struct utf8_string {
 };
 
 } // end ns
-
-#endif // inc. guard

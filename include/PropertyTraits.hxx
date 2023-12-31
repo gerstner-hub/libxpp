@@ -1,5 +1,4 @@
-#ifndef XPP_PROPERTY_TRAITS_HXX
-#define XPP_PROPERTY_TRAITS_HXX
+#pragma once
 
 // C++
 #include <cstring>
@@ -305,5 +304,3 @@ public: // functions
 };
 
 } // end ns
-
-#endif // inc. guard

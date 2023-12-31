@@ -1,5 +1,4 @@
-#ifndef XPP_HELPERS_HXX
-#define XPP_HELPERS_HXX
+#pragma once
 
 // C++
 #include <memory>
@@ -50,5 +49,3 @@ inline auto raw_gravity = cosmos::to_integral<Gravity>;
 inline auto raw_button  = cosmos::to_integral<Button>;
 
 } // end ns
-
-#endif // inc. guard

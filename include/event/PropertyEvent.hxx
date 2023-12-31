@@ -1,5 +1,4 @@
-#ifndef XPP_PROPERTYEVENT_HXX
-#define XPP_PROPERTYEVENT_HXX
+#pragma once
 
 // X++
 #include "X++/Event.hxx"
@@ -30,5 +29,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard

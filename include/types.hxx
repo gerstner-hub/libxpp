@@ -1,5 +1,4 @@
-#ifndef XPP_TYPES_HXX
-#define XPP_TYPES_HXX
+#pragma once
 
 // C++
 #include <memory>
@@ -304,5 +303,3 @@ enum class XEmbedMessageType : long {
 };
 
 } // end ns
-
-#endif // inc. guard

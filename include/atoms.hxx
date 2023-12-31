@@ -1,5 +1,4 @@
-#ifndef XPP_ATOMS_HXX
-#define XPP_ATOMS_HXX
+#pragma once
 
 // X11
 #include <X11/Xatom.h>
@@ -86,5 +85,3 @@ inline constexpr CachedAtom string_type{AtomID{XA_STRING}};
 inline constexpr CachedAtom wm_icon_name{AtomID{XA_WM_ICON_NAME}};
 
 } // end ns
-
-#endif // inc. guard

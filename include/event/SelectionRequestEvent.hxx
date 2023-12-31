@@ -1,5 +1,4 @@
-#ifndef XPP_SELECTIONREQUESTEVENT_HXX
-#define XPP_SELECTIONREQUESTEVENT_HXX
+#pragma once
 
 // X++
 #include "X++/Event.hxx"
@@ -31,5 +30,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard

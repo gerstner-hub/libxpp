@@ -1,5 +1,4 @@
-#ifndef XPP_XPP_PRIVATE_HXX
-#define XPP_XPP_PRIVATE_HXX
+#pragma once
 
 // X++
 #include "X++/Xpp.hxx"
@@ -47,5 +46,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard

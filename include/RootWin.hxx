@@ -1,5 +1,4 @@
-#ifndef XPP_ROOTWINDOW_HXX
-#define XPP_ROOTWINDOW_HXX
+#pragma once
 
 // C++
 #include <vector>
@@ -75,5 +74,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard

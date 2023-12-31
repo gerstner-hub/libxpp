@@ -1,5 +1,4 @@
-#ifndef XPP_EXPORT_HXX
-#define XPP_EXPORT_HXX
+#pragma once
 
 /*
  * Helper macro to control visibility of public APIs of the X++ shared
@@ -12,5 +11,3 @@
 #else
 #	define XPP_API
 #endif
-
-#endif // inc. guard

@@ -1,5 +1,4 @@
-#ifndef XPP_UTILS_HXX
-#define XPP_UTILS_HXX
+#pragma once
 
 // C++
 #include <string_view>
@@ -57,5 +56,3 @@ inline GeometrySettingsMask parse_geometry(const std::string_view str, WindowSpe
 }
 
 } // end ns
-
-#endif // inc. guard

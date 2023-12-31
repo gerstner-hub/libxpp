@@ -1,5 +1,4 @@
-#ifndef XPP_X11EXCEPTION_HXX
-#define XPP_X11EXCEPTION_HXX
+#pragma once
 
 // C++
 #include <string_view>
@@ -44,5 +43,3 @@ struct X11Exception :
 };
 
 } // end ns
-
-#endif // inc. guard

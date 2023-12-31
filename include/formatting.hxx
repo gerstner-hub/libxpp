@@ -1,5 +1,4 @@
-#ifndef XPP_FORMATTING_HXX
-#define XPP_FORMATTING_HXX
+#pragma once
 
 // C++
 #include <iosfwd>
@@ -22,5 +21,3 @@ XPP_API std::ostream& operator<<(std::ostream &o, const xpp::AtomID atom);
 
 /// output operator that prints out the X11 window ID associated with \c w onto the stream in hex and dec
 XPP_API std::ostream& operator<<(std::ostream &o, const xpp::XWindow &w);
-
-#endif // inc. guard

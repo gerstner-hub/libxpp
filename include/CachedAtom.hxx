@@ -1,5 +1,4 @@
-#ifndef XPP_CACHEDATOM_HXX
-#define XPP_CACHEDATOM_HXX
+#pragma once
 
 // C++
 #include <optional>
@@ -67,5 +66,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard

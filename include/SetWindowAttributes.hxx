@@ -1,5 +1,4 @@
-#ifndef XPP_SETWINDOWATTRIBUTES_HXX
-#define XPP_SETWINDOWATTRIBUTES_HXX
+#pragma once
 
 // X++
 #include "X++/types.hxx"
@@ -41,5 +40,3 @@ public:
 };
 
 } // end ns
-
-#endif // inc. guard

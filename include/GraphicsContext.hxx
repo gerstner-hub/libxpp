@@ -1,5 +1,4 @@
-#ifndef XPP_GRAPHICSCONTEXT_HXX
-#define XPP_GRAPHICSCONTEXT_HXX
+#pragma once
 
 // Cosmos
 #include "cosmos/BitMask.hxx"
@@ -121,5 +120,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard

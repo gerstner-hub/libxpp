@@ -1,5 +1,4 @@
-#ifndef XPP_ATOMMAPPER_HXX
-#define XPP_ATOMMAPPER_HXX
+#pragma once
 
 // C++
 #include <map>
@@ -73,5 +72,3 @@ protected: // data
 extern XPP_API AtomMapper atom_mapper;
 
 } // end ns
-
-#endif // inc. guard

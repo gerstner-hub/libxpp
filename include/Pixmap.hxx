@@ -1,5 +1,4 @@
-#ifndef XPP_PIXMAP_HXX
-#define XPP_PIXMAP_HXX
+#pragma once
 
 // C++
 #include <optional>
@@ -77,5 +76,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard

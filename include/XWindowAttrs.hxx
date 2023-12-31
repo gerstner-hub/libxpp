@@ -1,5 +1,4 @@
-#ifndef XPP_ATTRIBUTES_HXX
-#define XPP_ATTRIBUTES_HXX
+#pragma once
 
 // Xlib
 #include <X11/Xlib.h>
@@ -13,5 +12,3 @@ public: // functions
 };
 
 } // end ns
-
-#endif // inc. guard

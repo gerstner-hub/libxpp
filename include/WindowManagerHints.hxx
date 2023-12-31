@@ -1,5 +1,4 @@
-#ifndef XPP_WINDOWMANAGERHINTS_HXX
-#define XPP_WINDOWMANAGERHINTS_HXX
+#pragma once
 
 // C++
 #include <type_traits>
@@ -61,5 +60,3 @@ public: // functions
 };
 
 } // end ns
-
-#endif // inc. guard

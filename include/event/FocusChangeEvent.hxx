@@ -1,5 +1,4 @@
-#ifndef XPP_FOCUSCHANGEEVENT_HXX
-#define XPP_FOCUSCHANGEEVENT_HXX
+#pragma once
 
 // X++
 #include "X++/Event.hxx"
@@ -22,5 +21,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard

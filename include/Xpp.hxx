@@ -1,5 +1,4 @@
-#ifndef XPP_XPP_HXX
-#define XPP_XPP_HXX
+#pragma once
 
 // C++
 #include <optional>
@@ -48,5 +47,3 @@ struct XPP_API Init {
 };
 
 } // end ns
-
-#endif // inc. guard

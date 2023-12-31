@@ -1,5 +1,4 @@
-#ifndef XPP_XCURSOR_HXX
-#define XPP_XCURSOR_HXX
+#pragma once
 
 // X11
 #include <X11/cursorfont.h>
@@ -147,5 +146,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard

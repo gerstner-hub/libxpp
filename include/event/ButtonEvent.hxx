@@ -1,5 +1,4 @@
-#ifndef XPP_BUTTONEVENT_HXX
-#define XPP_BUTTONEVENT_HXX
+#pragma once
 
 // X++
 #include "X++/event/InputEvent.hxx"
@@ -17,5 +16,3 @@ public: // functions
 };
 
 } // end ns
-
-#endif // inc. guard

@@ -1,5 +1,4 @@
-#ifndef XPP_EVENT_HXX
-#define XPP_EVENT_HXX
+#pragma once
 
 // C++
 #include <optional>
@@ -181,5 +180,3 @@ protected: // data
 };
 
 } // end ns
-
-#endif // inc. guard

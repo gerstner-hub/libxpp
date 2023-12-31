@@ -1,5 +1,4 @@
-#ifndef XPP_WINDOW_HXX
-#define XPP_WINDOW_HXX
+#pragma once
 
 // C++
 #include <memory>
@@ -523,5 +522,3 @@ extern template XPP_API void XWindow::setProperty(const AtomID, const Property<u
 extern template XPP_API void XWindow::setProperty(const AtomID, const Property<AtomID>&);
 
 } // end ns
-
-#endif // inc. guard
