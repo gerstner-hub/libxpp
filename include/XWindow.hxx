@@ -12,6 +12,7 @@
 
 // cosmos
 #include "cosmos/proc/types.hxx"
+#include "cosmos/SysString.hxx"
 
 // X++
 #include "X++/dso_export.h"
@@ -308,13 +309,13 @@ public: // functions
 	 * The PROPTYPE type must match the property's type.
 	 **/
 	template <typename PROPTYPE>
-	void getProperty(const std::string_view name, Property<PROPTYPE> &p) const {
+	void getProperty(const cosmos::SysString name, Property<PROPTYPE> &p) const {
 		getProperty(display.mapAtom(name), p);
 	}
 
 	/// Gets a property for this window object by AtomID.
 	/**
-	 * \see getProperty(copnst std::string_view name, ...)
+	 * \see getProperty(copnst cosmos::SysString name, ...)
 	 * \param[in] info
 	 * 	An optional pointer to the PropertyInfo for the given atom for
 	 * 	helping determining the correct amount of data to retrieve.
@@ -330,7 +331,7 @@ public: // functions
 	 * On error an exception is thrown.
 	 **/
 	template <typename PROPTYPE>
-	void setProperty(const std::string_view name, const Property<PROPTYPE> &p) {
+	void setProperty(const cosmos::SysString name, const Property<PROPTYPE> &p) {
 		setProperty(display.mapAtom(name), p);
 	}
 

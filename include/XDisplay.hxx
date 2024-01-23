@@ -11,6 +11,7 @@
 
 // cosmos
 #include "cosmos/fs/FileDescriptor.hxx"
+#include "cosmos/SysString.hxx"
 
 // X++
 #include "X++/helpers.hxx"
@@ -104,8 +105,8 @@ public: // functions
 	 *
 	 * Can throw AtomMappingError.
 	 **/
-	AtomID mapAtom(const std::string_view name) {
-		auto ret = ::XInternAtom(m_dis, name.data(), False);
+	AtomID mapAtom(const cosmos::SysString name) {
+		auto ret = ::XInternAtom(m_dis, name.raw(), False);
 
 		if (ret == BadAlloc || ret == BadValue || ret == None) {
 			cosmos_throw (AtomMappingError(m_dis, ret, name));
@@ -238,7 +239,7 @@ public: // functions
 	/**
 	 * If parsing the color fails then a cosmos::RuntimeError is thrown.
 	 **/
-	void parseColor(xpp::XColor &out, std::string_view name, const std::optional<ColormapID> colormap = std::nullopt);
+	void parseColor(xpp::XColor &out, const cosmos::SysString name, const std::optional<ColormapID> colormap = std::nullopt);
 
 	/// return the window ID owning the given selection type
 	/**

@@ -1,13 +1,11 @@
 #pragma once
 
-// C++
-#include <string_view>
-
 // X11
 #include <X11/Xutil.h> // for GeometrySettings constants
 
 // Cosmos
 #include "cosmos/BitMask.hxx"
+#include "cosmos/SysString.hxx"
 
 // X++
 #include "X++/types.hxx"
@@ -49,9 +47,9 @@ using GeometrySettingsMask = cosmos::BitMask<GeometrySettings>;
  * The returned bitmask indicates which of the values in \c geometry could be
  * parsed and whether negative X or Y values have been encountered.
  **/
-inline GeometrySettingsMask parse_geometry(const std::string_view str, WindowSpec &geometry) {
+inline GeometrySettingsMask parse_geometry(const cosmos::SysString str, WindowSpec &geometry) {
 	geometry = WindowSpec{};
-	auto mask = XParseGeometry(str.data(), &geometry.x, &geometry.y, &geometry.width, &geometry.height);
+	auto mask = XParseGeometry(str.raw(), &geometry.x, &geometry.y, &geometry.width, &geometry.height);
 	return GeometrySettingsMask{mask};
 }
 

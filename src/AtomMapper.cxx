@@ -50,7 +50,7 @@ const std::string& AtomMapper::cacheMiss(const AtomID atom) const {
 
 AtomID AtomMapper::cacheMiss(const std::string_view s) const {
 	auto &logger = Xpp::getLogger();
-	AtomID ret{display.mapAtom(s)};
+	AtomID ret{display.mapAtom(std::string{s})};
 
 	logger.debug() << "Resolved atom id for '" << s << "' is " << raw_atom(ret) << std::endl;
 

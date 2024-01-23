@@ -97,10 +97,10 @@ XDisplay::DisplayOpenError::DisplayOpenError() :
 	m_msg += "\". ";
 }
 
-void XDisplay::parseColor(XColor &out, std::string_view name, const std::optional<ColormapID> p_colormap) {
+void XDisplay::parseColor(XColor &out, const cosmos::SysString name, const std::optional<ColormapID> p_colormap) {
 	auto res = ::XParseColor(m_dis,
 			raw_cmap(p_colormap ? *p_colormap : xpp::colormap),
-			name.empty() ? nullptr : name.data(),
+			name.raw(),
 			&out);
 
 	if (res == None) {
