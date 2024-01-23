@@ -25,7 +25,7 @@ namespace xpp {
  * This class associates the Xlib Display type with relevant operations. Most
  * importantly the Display provides the actual atom mapping operations and is
  * also required to create instances of the XWindow type.
- * 
+ *
  * A global xpp::display instance allows simple access to the default display
  * which is opened based on environment variables.
  *
@@ -101,7 +101,7 @@ public: // functions
 	/**
 	 * The function always returns a valid atom, even if it first needs to
 	 * be created by X11.
-	 * 
+	 *
 	 * Can throw AtomMappingError.
 	 **/
 	AtomID mapAtom(const std::string_view name) {
@@ -127,7 +127,7 @@ public: // functions
 	 * application is frequently sending some X commands to the server and
 	 * thus buffers commands according to some implementation defined
 	 * strategy.
-	 * 
+	 *
 	 * To make sure that any recently issued communication to the X server
 	 * takes place right now you can call this function.
 	 **/
@@ -141,10 +141,10 @@ public: // functions
 	/**
 	 * If no event is currently queued at the display then output buffers
 	 * are flushed and the call blocks until a new event is received.
-	 * 
+	 *
 	 * This call returns any events for any windows regardless of their
 	 * event types.
-	 * 
+	 *
 	 * This call does not pass on error conditions, it will always
 	 * succeed.
 	 **/
@@ -154,9 +154,9 @@ public: // functions
 	/**
 	 * If depth is not provided then the default depth for the current
 	 * display and default screen is used.
-	 * 
+	 *
 	 * If visual is not provided then the default visual will be be used.
-	 * 
+	 *
 	 * If attrs and value_mask are not provided then default attributes
 	 * apply. If one is supplied then the other needs to be supplied, too,
 	 * since the \c value_mask defines which fields in \c attrs are set.

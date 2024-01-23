@@ -19,10 +19,10 @@ namespace xpp {
  * This class allows to cache Xlib atom mappings that can be quickly retrieved
  * in the future. If a mapping is not cached already then it is retrieved via
  * Xlib.
- * 
+ *
  * This class is thread safe by means of a read-write lock. Read-access can
  * occur in parallel, write accesses (due to cache misses) are exclusive.
- * 
+ *
  * There is a global instance of this type `xpp::atom_mapper` that should be
  * used for centralized access to atom mapping features.
  *

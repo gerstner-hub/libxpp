@@ -16,21 +16,21 @@ namespace xpp {
 /// Type traits for X properties.
 /**
  * This is a generic template class for getting and setting X properties.
- * 
+ *
  * This generic template is not intended for use but only for explicit
  * template specialications for concrete types. This generic template merely
  * serves the purpose of documentation.
- * 
+ *
  * The traits are to be used together with the Property class to smartly
  * send/receive data of a certain format to/from the X-server.
- * 
+ *
  * The X11 protocol uses RPC type definitions that need to be specified at the
  * Xlib's C-interface by means of setting the right types, pointers, sizes
  * etc. This is pretty low-level and unattractive to use.
- * 
+ *
  * These traits and the Property class help to make these operations more type
  * safe, better readable and less redundant.
- * 
+ *
  * The approach is that the traits and Property types are instantiated using
  * the C or C++ types that are locally used in the program. Then when we need
  * to retrieve or send that type from/to the X server the Property class

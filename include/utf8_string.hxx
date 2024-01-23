@@ -15,11 +15,11 @@ namespace xpp {
  * \note
  * The X type UTF8_STRING is a new type proposed in X.org but not yet really
  * approved:
- * 
+ *
  * http://www.pps.jussieu.fr/~jch/software/UTF8_STRING/UTF8_STRING.text
- * 
+ *
  * UTF8_STRING returns 8-bit encoded UTF8-Data without a NULL-terminator.
- * 
+ *
  * This type is used by the EWMH standard, so we need to be able to deal with
  * it.
  **/

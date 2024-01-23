@@ -42,7 +42,7 @@ public: // functions
 	 * While windowList() returns only windows that are propagated by
 	 * the window manager, this function actively queries the hierarchy of
 	 * X windows from the root window onwards.
-	 * 
+	 *
 	 * Thus this list also contains hidden windows, decoration windows
 	 * etc.
 	 *

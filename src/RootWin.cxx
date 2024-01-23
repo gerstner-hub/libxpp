@@ -10,7 +10,7 @@ namespace xpp {
 
 RootWin::RootWin(XDisplay &p_display, ScreenID p_screen) :
 		XWindow{WinID{XRootWindow(p_display, raw_screen(p_screen))}} {
-		
+
 	Xpp::getLogger().debug() << "root window has id: " << *this << "\n";
 
 	// the event mask influences which X clients will receive the event.
@@ -35,14 +35,14 @@ void RootWin::queryWindows() {
 	/*
 	 * The _NET_CLIENT_LIST, if supported, is set on the root window and
 	 * contains an array of X windows that are managed by the WM.
-	 * 
+	 *
 	 * According to EWMH the array is in "initial mapping order" which I
 	 * guess is the order in which windows have been created (or more
 	 * correct: mapped). Alongside there is the _NET_CLIENT_LIST_STACKING
 	 * property that contains the same data but in "bottom-to-top stacked
 	 * order" which means it is ordered according to the layer the window
 	 * is in.
-	 * 
+	 *
 	 * NOTE: There's also _WIN_CLIENT_LIST with a similar purpose,
 	 * probably from ICCCM
 	 */

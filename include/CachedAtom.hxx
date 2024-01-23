@@ -57,7 +57,7 @@ public: // functions
 	constexpr std::string_view name() const { return m_name; }
 
 protected: // functions
-	
+
 	void resolve() const;
 
 protected: // data

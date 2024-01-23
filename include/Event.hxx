@@ -41,7 +41,7 @@ public: // functions
 	 * their own. To avoid getting confused by these events and to make
 	 * these layers work correctly this call should be used to check
 	 * whether this is the case for this event.
-	 * 
+	 *
 	 * If no window is passed then the window value stored in the event
 	 * structure will be used.
 	 *
