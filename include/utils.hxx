@@ -39,12 +39,12 @@ using GeometrySettingsMask = cosmos::BitMask<GeometrySettings>;
  *
  * `[=][<width>{xX}<height>][{+-}<xoffset>{+-}<yoffset>]`
  *
- * The parsed values will be stored in \c geometry. This call does have any
+ * The parsed values will be stored in `geometry`. This call does have any
  * explicit error reporting. On error none of the values will be set and an
- * empty mask is returned. The \c geometry will be reset to zero during this
+ * empty mask is returned. The `geometry` will be reset to zero during this
  * call to prevent undefined data being used in case of errors.
  *
- * The returned bitmask indicates which of the values in \c geometry could be
+ * The returned bitmask indicates which of the values in `geometry` could be
  * parsed and whether negative X or Y values have been encountered.
  **/
 inline GeometrySettingsMask parse_geometry(const cosmos::SysString str, WindowSpec &geometry) {

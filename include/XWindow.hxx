@@ -102,7 +102,7 @@ public: // functions
 	/// Plain copy
 	XWindow(const XWindow &other) = default;
 
-	/// Create an object representing \c win on the default Display
+	/// Create an object representing `win` on the default Display
 	explicit XWindow(WinID win);
 
 	XWindow& operator=(const WinID &win) {
@@ -129,7 +129,7 @@ public: // functions
 	 **/
 	std::string getName() const;
 
-	/// Set \c name as the new name of the current window.
+	/// Set `name` as the new name of the current window.
 	/**
 	 * If the window name cannot be set then an exception is thrown.
 	 *
@@ -272,7 +272,7 @@ public: // functions
 
 	/// Retrieves a list of all properties currently present on this window.
 	/**
-	 * The vector of \c atoms is first cleared in any case and will be
+	 * The vector of `atoms` is first cleared in any case and will be
 	 * filled with the atoms identifying the properties existing on this
 	 * window.
 	 **/
@@ -289,7 +289,7 @@ public: // functions
 	/// Retrieves raw property data without interpreting type and format.
 	/**
 	 * Similar to getPropertyInfo() this returns the actual property info
-	 * in \c info. On input the RawProperty's length and offset members
+	 * in `info`. On input the RawProperty's length and offset members
 	 * will determine the offset into the property and maximum number of
 	 * bytes to retrieve.
 	 *
@@ -301,8 +301,8 @@ public: // functions
 
 	/// Retrieve a property for this window object by name.
 	/**
-	 * The property \c name will be queried from the current window and
-	 * stored in \c p.
+	 * The property `name` will be queried from the current window and
+	 * stored in `p`.
 	 *
 	 * On error an exception is thrown.
 	 *
@@ -325,8 +325,8 @@ public: // functions
 
 	/// Store a property in this window object by name.
 	/**
-	 * Sets the property \c name for the current window to the value
-	 * stored in \c p.
+	 * Sets the property `name` for the current window to the value
+	 * stored in `p`.
 	 *
 	 * On error an exception is thrown.
 	 **/
@@ -412,7 +412,7 @@ public: // functions
 
 	/// Move and or resize the window
 	/**
-	 * The x, y, width and height parameters from \c attrs will be used to
+	 * The x, y, width and height parameters from `attrs` will be used to
 	 * perform the operation.
 	 **/
 	void moveResize(const XWindowAttrs &attrs);

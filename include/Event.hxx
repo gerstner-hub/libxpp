@@ -45,7 +45,7 @@ public: // functions
 	 * If no window is passed then the window value stored in the event
 	 * structure will be used.
 	 *
-	 * \return \c true if the event is to be filtered, \c false if the
+	 * \return `true` if the event is to be filtered, `false` if the
 	 *         caller should continue processing the event.
 	 **/
 	bool filterEvent(std::optional<const XWindow> w = std::nullopt) const {

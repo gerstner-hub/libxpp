@@ -60,7 +60,7 @@ public: // functions
 
 	/// Opens the default display.
 	/**
-	 * If \c init is \c false then an empty display object will be
+	 * If `init` is `false` then an empty display object will be
 	 * created. This is only use for special use cases.
 	 **/
 	XDisplay(const Initialize init = Initialize{true});
@@ -160,7 +160,7 @@ public: // functions
 	 *
 	 * If attrs and value_mask are not provided then default attributes
 	 * apply. If one is supplied then the other needs to be supplied, too,
-	 * since the \c value_mask defines which fields in \c attrs are set.
+	 * since the `value_mask` defines which fields in `attrs` are set.
 	 **/
 	WinID createWindow(
 		const WindowSpec &spec,
@@ -235,7 +235,7 @@ public: // functions
 		return DisplayHeight(m_dis, raw_screen(screen ? *screen : defaultScreen()));
 	}
 
-	/// Parses a color name and fills \c out with the associated color values.
+	/// Parses a color name and fills `out` with the associated color values.
 	/**
 	 * If parsing the color fails then a cosmos::RuntimeError is thrown.
 	 **/
@@ -243,7 +243,7 @@ public: // functions
 
 	/// return the window ID owning the given selection type
 	/**
-	 * If \c selection is invalid or the given selection has no owner then
+	 * If `selection` is invalid or the given selection has no owner then
 	 * no value is returned.
 	 **/
 	std::optional<WinID> selectionOwner(const AtomID selection) const;

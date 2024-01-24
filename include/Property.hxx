@@ -42,7 +42,7 @@ public: // functions
 	/// Forbid copying to avoid trouble with memory handling.
 	Property(const Property&) = delete;
 
-	/// Construct a property holding the value from \c p
+	/// Construct a property holding the value from `p`
 	explicit Property(const PROPTYPE &p) :
 			m_native{} {
 		// the assignment operator knows how to deal with this
@@ -73,7 +73,7 @@ public: // functions
 		return m_data != nullptr;
 	}
 
-	/// Assigns the given property value from \c p
+	/// Assigns the given property value from `p`
 	Property& operator=(const PROPTYPE &p) {
 		checkDelete();
 
@@ -85,12 +85,12 @@ public: // functions
 
 protected: // functions
 
-	/// Set the current value of the stored native PROPTYPE from the given X data found in \c data.
+	/// Set the current value of the stored native PROPTYPE from the given X data found in `data`.
 	/**
-	 * \c data is a pointer to the data received from Xlib. It needs
+	 * `data` is a pointer to the data received from Xlib. It needs
 	 * to be freed at an appropriate time via XFree().
 	 *
-	 * \c size determines the number of bytes present in \c data.
+	 * `size` determines the number of bytes present in `data`.
 	 **/
 	void takeData(unsigned char *data, unsigned long size) {
 		checkDelete();

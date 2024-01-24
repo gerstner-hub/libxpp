@@ -30,7 +30,7 @@ enum class BellVolume : int {
 
 /// Ring the keyboard bell.
 /**
- * This call rings the bell in the context of the given window. If \c name is
+ * This call rings the bell in the context of the given window. If `name` is
  * given then this should be a string mapped to an atom that will be provided
  * to event consumers ("named bell").
  **/

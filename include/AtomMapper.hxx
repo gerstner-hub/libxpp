@@ -43,7 +43,7 @@ public: // functions
 	 **/
 	AtomID mapAtom(const std::string_view s) const;
 
-	/// tries to do a reverse lookup to get the name of \c atom
+	/// tries to do a reverse lookup to get the name of `atom`
 	const std::string& mapName(const AtomID atom) const;
 
 	AtomMapper() = default;
@@ -64,7 +64,7 @@ protected: // data
 
 	/// contains the actual cached mappings
 	mutable AtomMapping m_mappings;
-	/// synchronizes parallel read and update of \c m_mappings
+	/// synchronizes parallel read and update of `m_mappings`
 	cosmos::RWLock m_mappings_lock;
 };
 

@@ -66,11 +66,11 @@ public: // functions
 	 * target drawable needs to have the same depth as the drawable
 	 * specified here, otherwise operational errors will occur.
 	 *
-	 * \param[in] mask Specifies the elements of \c vals that should be
+	 * \param[in] mask Specifies the elements of `vals` that should be
 	 * evaluated.
 	 *
 	 * \param[in] vals The settings that should be in effect for the new
-	 * graphics context. Only the values marked in \c mask will be
+	 * graphics context. Only the values marked in `mask` will be
 	 * evaluated.
 	 **/
 	GraphicsContext(
