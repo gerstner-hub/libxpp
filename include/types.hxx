@@ -302,4 +302,16 @@ enum class XEmbedMessageType : long {
 	FOCUS_OUT = 5
 };
 
+/// The action value used in NetWmStateEvent::setOperation().
+/**
+ * For some reason this neither seems to be an atom that can be mapped nor a
+ * constant found in headers. Use literal numbers as found in the
+ * specification then.
+ **/
+enum class NetWmStateAction : long {
+	REMOVE = 0,
+	ADD    = 1,
+	TOGGLE = 2
+};
+
 } // end ns

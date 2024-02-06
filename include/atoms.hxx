@@ -44,6 +44,12 @@ inline constexpr CachedAtom ewmh_window_pid{"_NET_WM_PID"};
 inline constexpr CachedAtom ewmh_support_check{"_NET_SUPPORTING_WM_CHECK"};
 /// Property containing EWMH comp. wm PID.
 inline constexpr CachedAtom ewmh_wm_pid{"_NET_WM_PID"};
+/// Property containing a list of hints describing the window state.
+inline constexpr CachedAtom ewmh_wm_state{"_NET_WM_STATE"};
+/// Property indicating that a NET_WM_STATE property is to be toggled.
+inline constexpr CachedAtom ewmh_wm_state_toggle{"_NET_WM_STATE_TOGGLE"};
+/// Property for _NET_WM_STATE that requests fullscreen mode without window decorations.
+inline constexpr CachedAtom ewmh_wm_state_fullscreen{"_NET_WM_STATE_FULLSCREEN"};
 /// Property indicating that EWMH comp. wm is set to show the desktop.
 inline constexpr CachedAtom ewmh_wm_desktop_shown{"_NET_SHOWING_DESKTOP"};
 /// Property giving the number of desktops available.
