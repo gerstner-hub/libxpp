@@ -1,3 +1,6 @@
+// C++
+#include <cstring>
+
 // cosmos
 #include "cosmos/error/RuntimeError.hxx"
 
@@ -5,6 +8,10 @@
 #include "X++/Event.hxx"
 
 namespace xpp {
+
+void Event::clear() {
+	std::memset(&m_ev, 0, sizeof(m_ev));
+}
 
 void Event::raiseMismatch() const {
 	cosmos_throw (cosmos::RuntimeError("XEvent type access mismatch"));

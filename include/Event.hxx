@@ -174,6 +174,8 @@ protected: // functions
 
 	void raiseMismatch() const;
 
+	void clear();
+
 protected: // data
 
 	XEvent m_ev;
