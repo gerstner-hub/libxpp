@@ -14,29 +14,11 @@ void printInfo(const xpp::XWindow::PropertyInfo &info, xpp::AtomMapper &mapper) 
 	std::cout << "bytes: " << info.numBytes() << std::endl;
 }
 
-void test() {
-	cosmos::Init cosmos_init;
-	cosmos::StdLogger logger;
-	xpp::Init init(&logger);
-	xpp::RootWin root_win;
-
-	xpp::AtomIDVector atoms;
-	root_win.getPropertyList(atoms);
-
-	if (atoms.empty()) {
-		std::cout << "no properties on root window!";
-		return;
-	}
-
-	auto &first_prop = atoms[0];
-
-	xpp::XWindow::PropertyInfo info;
-	root_win.getPropertyInfo(first_prop, info);
-
+void getRawProp(xpp::RootWin root_win, xpp::AtomID prop, const xpp::XWindow::PropertyInfo &info) {
 	auto &mapper = xpp::atom_mapper;
-	auto first_prop_name = mapper.mapName(first_prop);
+	auto prop_name = mapper.mapName(prop);
 
-	std::cout << "Got info about " << first_prop_name << std::endl;
+	std::cout << "Got info about " << prop_name << std::endl;
 	printInfo(info, mapper);
 
 	xpp::RawProperty rprop;
@@ -44,7 +26,8 @@ void test() {
 	rprop.length &= ~(0x3);
 	rprop.offset = 4;
 	std::cout << "Asking for " << rprop.length << " bytes of property at offset " << rprop.offset << "\n";
-	root_win.getRawProperty(first_prop, info, rprop);
+	xpp::XWindow::PropertyInfo raw_info;
+	root_win.getRawProperty(prop, raw_info, rprop);
 
 	std::cout << "Retrieved " << rprop.length << " bytes of property at offset " << rprop.offset << "\n";
 	std::cout << "remaining: " << rprop.left << "\n";
@@ -56,7 +39,35 @@ void test() {
 	}
 	std::cout << std::endl;
 
-	printInfo(info, mapper);
+	printInfo(raw_info, mapper);
+}
+
+void test() {
+	cosmos::Init cosmos_init;
+	cosmos::StdLogger logger;
+	xpp::Init init(&logger);
+	xpp::RootWin root_win;
+
+	xpp::AtomIDVector atoms;
+	root_win.getPropertyList(atoms);
+
+	bool found = false;
+
+	for (const auto prop: atoms) {
+		xpp::XWindow::PropertyInfo info;
+		root_win.getPropertyInfo(prop, info);
+
+		if (info.items == 0)
+			continue;
+
+		found = true;
+		getRawProp(root_win, prop, info);
+		break;
+	}
+
+	if (!found) {
+		std::cout << "no suitable properties found on root window!";
+	}
 }
 
 int main() {
