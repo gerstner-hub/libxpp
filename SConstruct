@@ -15,7 +15,7 @@ except Exception:
         from buildsystem import initSCons
     env = initSCons("libX++")
 
-if not env.ExistsLib("libcosmos"):
+if not env.ExistsLib("libcosmos") and not env['use_system_pkgs']:
     cosmos_env = env.Clone()
     cosmos_env['buildroot'] = ""
     SConscript('libcosmos/SConstruct', duplicate=0, variant_dir=env['buildroot'] + "libcosmos/", exports={"env": cosmos_env})
@@ -39,4 +39,3 @@ if install_dev_files:
     env.InstallHeaders("X++")
     node = env.Install(Path(instroot) / env['pkg_config_dir'], "data/libX++.pc")
     env.Alias("install", node)
-

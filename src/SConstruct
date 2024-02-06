@@ -7,7 +7,7 @@ libenv.Append(CPPPATH = public_includes)
 # automatically include the export header to create less noise
 libenv.Append(CCFLAGS = ["-include", "X++/dso_export.h"])
 libenv.Append(CPPPATH=["."])
-libenv.ConfigureForLib('libcosmos', libxpp_srcs)
+libenv.ConfigureForLibOrPackage('libcosmos', libxpp_srcs)
 libenv.ConfigureForPackage("x11")
 
 
