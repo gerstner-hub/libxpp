@@ -57,7 +57,7 @@ void test() {
 		xpp::XWindow::PropertyInfo info;
 		root_win.getPropertyInfo(prop, info);
 
-		if (info.items == 0)
+		if (info.items == 0 || info.numBytes() < 10)
 			continue;
 
 		found = true;
