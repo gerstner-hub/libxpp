@@ -8,9 +8,9 @@
 // cosmos
 #include "cosmos/thread/RWLock.hxx"
 
-// X++
-#include "X++/dso_export.h"
-#include "X++/types.hxx"
+// xpp
+#include "xpp/dso_export.h"
+#include "xpp/types.hxx"
 
 namespace xpp {
 
@@ -68,7 +68,7 @@ protected: // data
 	cosmos::RWLock m_mappings_lock;
 };
 
-/// Global AtomMapper instance in libX++ for centralized caching.
+/// Global AtomMapper instance in libxpp for centralized caching.
 extern XPP_API AtomMapper atom_mapper;
 
 } // end ns

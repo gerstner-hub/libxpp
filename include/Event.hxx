@@ -10,9 +10,9 @@
 #include "cosmos/utils.hxx"
 
 // xpp
-#include "X++/dso_export.h"
-#include "X++/helpers.hxx"
-#include "X++/XWindow.hxx"
+#include "xpp/dso_export.h"
+#include "xpp/helpers.hxx"
+#include "xpp/XWindow.hxx"
 
 namespace xpp {
 

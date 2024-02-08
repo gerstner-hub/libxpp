@@ -10,9 +10,9 @@
 #include "cosmos/BitMask.hxx"
 #include "cosmos/memory.hxx"
 
-// X++
-#include "X++/helpers.hxx"
-#include "X++/types.hxx"
+// xpp
+#include "xpp/helpers.hxx"
+#include "xpp/types.hxx"
 
 namespace xpp {
 

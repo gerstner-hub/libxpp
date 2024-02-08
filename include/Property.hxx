@@ -3,8 +3,8 @@
 // cosmos
 #include "cosmos/error/UsageError.hxx"
 
-// X++
-#include "X++/PropertyTraits.hxx"
+// xpp
+#include "xpp/PropertyTraits.hxx"
 
 namespace xpp {
 

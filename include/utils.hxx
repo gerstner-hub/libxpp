@@ -7,8 +7,8 @@
 #include "cosmos/BitMask.hxx"
 #include "cosmos/SysString.hxx"
 
-// X++
-#include "X++/types.hxx"
+// xpp
+#include "xpp/types.hxx"
 
 /**
  * @file

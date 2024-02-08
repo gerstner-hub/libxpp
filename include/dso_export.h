@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Helper macro to control visibility of public APIs of the X++ shared
+ * Helper macro to control visibility of public APIs of the xpp shared
  * library.
  * The object files are compiled with -fvisibility=hidden, thus each public
  * interface needs to be explicitly made visible again.

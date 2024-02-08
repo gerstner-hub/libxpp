@@ -5,12 +5,12 @@ tests = env.GatherSources(suffixes=[".cxx"])
 
 test_env = env.Clone()
 sources = []
-test_env.ConfigureForLib('libX++', sources)
+test_env.ConfigureForLib('libxpp', sources)
 test_env.ConfigureForLibOrPackage('libcosmos', sources)
 run_env = test_env.Clone()
 if not env['use_system_pkgs']:
     run_env.ConfigureRunForLib('libcosmos')
-run_env.ConfigureRunForLib('libX++')
+run_env.ConfigureRunForLib('libxpp')
 
 # we require the DISPLAY to get access to the X11 environment
 for var in ('DISPLAY', 'XAUTHORITY'):
@@ -50,7 +50,7 @@ def inc_test_builder(env, target, source):
         fd.write(f'#include "{str(inc)}"\n\nint main() {{ return 0; }}')
 
 srcroot = '/'.join(Dir(".").srcnode().abspath.split("/")[:-1])
-incroot = srcroot + "/include/X++"
+incroot = srcroot + "/include/xpp"
 
 for root, dr, fls in os.walk(incroot):
     for fl in fls:
@@ -58,7 +58,7 @@ for root, dr, fls in os.walk(incroot):
             continue
 
         path = root + "/" + fl
-        idx = path.rfind("X++")
+        idx = path.rfind("xpp")
         if idx == -1:
             continue
         include = path[idx:]

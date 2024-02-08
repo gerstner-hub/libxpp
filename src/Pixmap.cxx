@@ -1,7 +1,7 @@
-// X++
-#include "X++/helpers.hxx"
-#include "X++/Pixmap.hxx"
-#include "X++/XDisplay.hxx"
+// xpp
+#include "xpp/helpers.hxx"
+#include "xpp/Pixmap.hxx"
+#include "xpp/XDisplay.hxx"
 
 namespace xpp {
 

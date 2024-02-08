@@ -3,10 +3,10 @@
 // C++
 #include <optional>
 
-// X++
-#include "X++/dso_export.h"
-#include "X++/fwd.hxx"
-#include "X++/types.hxx"
+// xpp
+#include "xpp/dso_export.h"
+#include "xpp/fwd.hxx"
+#include "xpp/types.hxx"
 
 namespace xpp {
 

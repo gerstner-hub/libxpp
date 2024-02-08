@@ -4,8 +4,8 @@
 // cosmos
 #include "cosmos/error/RuntimeError.hxx"
 
-// X++
-#include "X++/Event.hxx"
+// xpp
+#include "xpp/Event.hxx"
 
 namespace xpp {
 

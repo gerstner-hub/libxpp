@@ -1,10 +1,10 @@
-// X++
-#include "X++/atoms.hxx"
-#include "X++/formatting.hxx"
-#include "X++/helpers.hxx"
-#include "X++/private/Xpp.hxx"
-#include "X++/Property.hxx"
-#include "X++/RootWin.hxx"
+// xpp
+#include "xpp/atoms.hxx"
+#include "xpp/formatting.hxx"
+#include "xpp/helpers.hxx"
+#include "xpp/private/Xpp.hxx"
+#include "xpp/Property.hxx"
+#include "xpp/RootWin.hxx"
 
 namespace xpp {
 

@@ -13,11 +13,11 @@
 #include "cosmos/fs/FileDescriptor.hxx"
 #include "cosmos/SysString.hxx"
 
-// X++
-#include "X++/helpers.hxx"
-#include "X++/fwd.hxx"
-#include "X++/types.hxx"
-#include "X++/X11Exception.hxx"
+// xpp
+#include "xpp/helpers.hxx"
+#include "xpp/fwd.hxx"
+#include "xpp/types.hxx"
+#include "xpp/X11Exception.hxx"
 
 namespace xpp {
 

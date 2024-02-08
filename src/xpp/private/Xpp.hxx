@@ -1,14 +1,14 @@
 #pragma once
 
-// X++
-#include "X++/Xpp.hxx"
+// xpp
+#include "xpp/Xpp.hxx"
 
 // cosmos
 #include "cosmos/io/ILogger.hxx"
 
 namespace xpp {
 
-/// Holds global libX++ library state
+/// Holds global libxpp library state
 class Xpp {
 public: // functions
 

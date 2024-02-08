@@ -2,12 +2,12 @@
 #include "cosmos/error/UsageError.hxx"
 #include "cosmos/error/RuntimeError.hxx"
 
-// X++
-#include "X++/Event.hxx"
-#include "X++/RootWin.hxx"
-#include "X++/SetWindowAttributes.hxx"
-#include "X++/XColor.hxx"
-#include "X++/XDisplay.hxx"
+// xpp
+#include "xpp/Event.hxx"
+#include "xpp/RootWin.hxx"
+#include "xpp/SetWindowAttributes.hxx"
+#include "xpp/XColor.hxx"
+#include "xpp/XDisplay.hxx"
 
 namespace xpp {
 

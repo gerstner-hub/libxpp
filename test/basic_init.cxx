@@ -3,13 +3,13 @@
 #include "cosmos/cosmos.hxx"
 #include "cosmos/formatting.hxx"
 #include "cosmos/io/StdLogger.hxx"
-#include "X++/GraphicsContext.hxx"
-#include "X++/Pixmap.hxx"
-#include "X++/RootWin.hxx"
-#include "X++/Xpp.hxx"
-#include "X++/formatting.hxx"
-#include "X++/helpers.hxx"
-#include "X++/types.hxx"
+#include "xpp/GraphicsContext.hxx"
+#include "xpp/Pixmap.hxx"
+#include "xpp/RootWin.hxx"
+#include "xpp/Xpp.hxx"
+#include "xpp/formatting.hxx"
+#include "xpp/helpers.hxx"
+#include "xpp/types.hxx"
 
 void testDisplay() {
 	auto &display = xpp::display;

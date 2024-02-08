@@ -7,9 +7,9 @@
 // X11
 #include <X11/Xatom.h>
 
-// X++
-#include "X++/atoms.hxx"
-#include "X++/utf8_string.hxx"
+// xpp
+#include "xpp/atoms.hxx"
+#include "xpp/utf8_string.hxx"
 
 namespace xpp {
 

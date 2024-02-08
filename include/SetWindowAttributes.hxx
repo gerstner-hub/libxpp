@@ -1,15 +1,15 @@
 #pragma once
 
-// X++
-#include "X++/types.hxx"
-#include "X++/helpers.hxx"
+// xpp
+#include "xpp/types.hxx"
+#include "xpp/helpers.hxx"
 
 namespace xpp {
 
 /// Wrapper around XSetWindowAttributes.
 /**
  * This wrapper adds helper methods to set structure members using strong
- * libX++ types.
+ * libxpp types.
  **/
 class SetWindowAttributes :
 		public XSetWindowAttributes {

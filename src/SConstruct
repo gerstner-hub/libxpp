@@ -5,7 +5,7 @@ libxpp_srcs = env.GatherSources(suffixes=[".cxx"])
 public_includes = Dir(".").srcnode().abspath + "/../include"
 libenv.Append(CPPPATH = public_includes)
 # automatically include the export header to create less noise
-libenv.Append(CCFLAGS = ["-include", "X++/dso_export.h"])
+libenv.Append(CCFLAGS = ["-include", "xpp/dso_export.h"])
 libenv.Append(CPPPATH=["."])
 libenv.ConfigureForLibOrPackage('libcosmos', libxpp_srcs)
 libenv.ConfigureForPackage("x11")
@@ -13,7 +13,7 @@ libenv.ConfigureForPackage("x11")
 
 if env['libtype'] == 'static':
     libxpp = libenv.StaticLibrary(
-        "X++",
+        "xpp",
         libxpp_srcs
     )
 else:
@@ -24,13 +24,13 @@ else:
     # see libcosmos/src/SConstruct about this ABI stuff
 
     libxpp = libenv.SharedLibrary(
-        "X++",
+        "xpp",
         libxpp_srcs,
-        SHLIBVERSION="0.1.0",
-        SONAME="libX++.so.0"
+        SHLIBVERSION="0.2.0",
+        SONAME="libxpp.so.0"
     )
 
-env.RegisterLibConfig('libX++', libxpp, {
+env.RegisterLibConfig('libxpp', libxpp, {
         "CCFLAGS": ["-DXPP_API="],
         "CPPPATH": [public_includes]
     },

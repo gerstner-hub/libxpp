@@ -4,11 +4,11 @@
 // cosmos
 #include "cosmos/formatting.hxx"
 
-// X++
-#include "X++/AtomMapper.hxx"
-#include "X++/formatting.hxx"
-#include "X++/utf8_string.hxx"
-#include "X++/XWindow.hxx"
+// xpp
+#include "xpp/AtomMapper.hxx"
+#include "xpp/formatting.hxx"
+#include "xpp/utf8_string.hxx"
+#include "xpp/XWindow.hxx"
 
 std::ostream& operator<<(std::ostream &o, const xpp::utf8_string &s) {
 	o << s.str;

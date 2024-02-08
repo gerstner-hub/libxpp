@@ -3,11 +3,11 @@
 // C++
 #include <vector>
 
-// X++
-#include "X++/dso_export.h"
-#include "X++/types.hxx"
-#include "X++/fwd.hxx"
-#include "X++/XWindow.hxx"
+// xpp
+#include "xpp/dso_export.h"
+#include "xpp/types.hxx"
+#include "xpp/fwd.hxx"
+#include "xpp/XWindow.hxx"
 
 namespace xpp {
 

@@ -3,8 +3,8 @@
 // C++
 #include <optional>
 
-// X++
-#include "X++/dso_export.h"
+// xpp
+#include "xpp/dso_export.h"
 
 namespace cosmos {
 	class ILogger;
@@ -18,10 +18,10 @@ namespace cosmos {
 
 namespace xpp {
 
-/// Initializes the X++ library before first use.
+/// Initializes the xpp library before first use.
 /**
  * The initialization of the library is required before any other
- * functionality of libX++ is accessed. This initialization should occur after
+ * functionality of libxpp is accessed. This initialization should occur after
  * the main() function has been entered and not from within static
  * initializers to avoid issues with static initialization order in
  * executables / libraries.

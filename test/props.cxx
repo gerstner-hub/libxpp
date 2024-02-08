@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "X++/AtomMapper.hxx"
-#include "X++/Xpp.hxx"
-#include "X++/RootWin.hxx"
-#include "X++/types.hxx"
+#include "xpp/AtomMapper.hxx"
+#include "xpp/Xpp.hxx"
+#include "xpp/RootWin.hxx"
+#include "xpp/types.hxx"
 #include "cosmos/io/StdLogger.hxx"
 #include "cosmos/cosmos.hxx"
 

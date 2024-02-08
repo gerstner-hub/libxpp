@@ -4,9 +4,9 @@
 #include <optional>
 #include <string_view>
 
-// X++
-#include "X++/dso_export.h"
-#include "X++/types.hxx"
+// xpp
+#include "xpp/dso_export.h"
+#include "xpp/types.hxx"
 
 namespace xpp {
 

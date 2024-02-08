@@ -13,7 +13,7 @@ except Exception:
         cosmos_scripts = Path(Dir('.').abspath) / "libcosmos" / "scripts"
         sys.path.append(str(cosmos_scripts))
         from buildsystem import initSCons
-    env = initSCons("libX++")
+    env = initSCons("libxpp")
 
 if not env.ExistsLib("libcosmos") and not env['use_system_pkgs']:
     cosmos_env = env.Clone()
@@ -26,16 +26,16 @@ instroot = env['instroot']
 
 install_dev_files = env['install_dev_files']
 
-if env['project'] == "libX++":
+if env['project'] == "libxpp":
     SConscript(env['buildroot'] + 'test/SConstruct')
     SConscript(env['buildroot'] + 'doc/SConstruct')
-    Default(env['libs']['libX++'])
+    Default(env['libs']['libxpp'])
 
 if install_dev_files or env['libtype'] == "shared":
-    node = env.InstallVersionedLib(os.path.join(instroot, env['lib_base_dir']), env["libs"]["libX++"])
+    node = env.InstallVersionedLib(os.path.join(instroot, env['lib_base_dir']), env["libs"]["libxpp"])
     env.Alias("install", node)
 
 if install_dev_files:
-    env.InstallHeaders("X++")
-    node = env.Install(Path(instroot) / env['pkg_config_dir'], "data/libX++.pc")
+    env.InstallHeaders("xpp")
+    node = env.Install(Path(instroot) / env['pkg_config_dir'], "data/libxpp.pc")
     env.Alias("install", node)

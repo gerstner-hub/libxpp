@@ -7,18 +7,18 @@
 #include "cosmos/formatting.hxx"
 #include "cosmos/memory.hxx"
 
-// X++
-#include "X++/Event.hxx"
-#include "X++/formatting.hxx"
-#include "X++/GraphicsContext.hxx"
-#include "X++/helpers.hxx"
-#include "X++/private/Xpp.hxx"
-#include "X++/Property.hxx"
-#include "X++/SizeHints.hxx"
-#include "X++/WindowManagerHints.hxx"
-#include "X++/XCursor.hxx"
-#include "X++/XWindowAttrs.hxx"
-#include "X++/XWindow.hxx"
+// xpp
+#include "xpp/Event.hxx"
+#include "xpp/formatting.hxx"
+#include "xpp/GraphicsContext.hxx"
+#include "xpp/helpers.hxx"
+#include "xpp/private/Xpp.hxx"
+#include "xpp/Property.hxx"
+#include "xpp/SizeHints.hxx"
+#include "xpp/WindowManagerHints.hxx"
+#include "xpp/XCursor.hxx"
+#include "xpp/XWindowAttrs.hxx"
+#include "xpp/XWindow.hxx"
 
 namespace xpp {
 

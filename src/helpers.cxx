@@ -5,8 +5,8 @@
 // cosmos
 #include "cosmos/utils.hxx"
 
-// X++
-#include "X++/helpers.hxx"
+// xpp
+#include "xpp/helpers.hxx"
 
 namespace xpp {
 

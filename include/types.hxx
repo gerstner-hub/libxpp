@@ -15,7 +15,7 @@
 /**
  * @file
  *
- * A place for miscellaneous types used in libX++ interfaces.
+ * A place for miscellaneous types used in libxpp interfaces.
  **/
 
 namespace xpp {
@@ -77,7 +77,7 @@ enum class WinID : ::Window {
  *  passing strings around.
  *
  *  In the Xlib the Atom type is some integer-like type that doesn't provide
- *  much type safety. This this enum class makes this safer within libX++.
+ *  much type safety. This this enum class makes this safer within libxpp.
  **/
 enum class AtomID : ::Atom {
 	INVALID = None

@@ -1,6 +1,6 @@
-// X++
-#include "X++/GraphicsContext.hxx"
-#include "X++/XDisplay.hxx"
+// xpp
+#include "xpp/GraphicsContext.hxx"
+#include "xpp/XDisplay.hxx"
 
 // Cosmos
 #include "cosmos/error/RuntimeError.hxx"

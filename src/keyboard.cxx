@@ -1,11 +1,11 @@
 // libX11
 #include <X11/XKBlib.h>
 
-// X++
-#include "X++/helpers.hxx"
-#include "X++/keyboard.hxx"
-#include "X++/XWindow.hxx"
-#include "X++/XDisplay.hxx"
+// xpp
+#include "xpp/helpers.hxx"
+#include "xpp/keyboard.hxx"
+#include "xpp/XWindow.hxx"
+#include "xpp/XDisplay.hxx"
 
 namespace xpp {
 

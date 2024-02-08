@@ -7,11 +7,11 @@
 // cosmos
 #include "cosmos/error/InternalError.hxx"
 
-// X++
-#include "X++/XDisplay.hxx"
-#include "X++/PropertyTraits.hxx"
-#include "X++/Xpp.hxx"
-#include "X++/private/Xpp.hxx"
+// xpp
+#include "xpp/XDisplay.hxx"
+#include "xpp/PropertyTraits.hxx"
+#include "xpp/Xpp.hxx"
+#include "xpp/private/Xpp.hxx"
 
 namespace xpp {
 

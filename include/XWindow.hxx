@@ -14,14 +14,14 @@
 #include "cosmos/proc/types.hxx"
 #include "cosmos/SysString.hxx"
 
-// X++
-#include "X++/dso_export.h"
-#include "X++/fwd.hxx"
-#include "X++/ClassHints.hxx"
-#include "X++/types.hxx"
-#include "X++/utf8_string.hxx"
-#include "X++/X11Exception.hxx"
-#include "X++/XDisplay.hxx"
+// xpp
+#include "xpp/dso_export.h"
+#include "xpp/fwd.hxx"
+#include "xpp/ClassHints.hxx"
+#include "xpp/types.hxx"
+#include "xpp/utf8_string.hxx"
+#include "xpp/X11Exception.hxx"
+#include "xpp/XDisplay.hxx"
 
 namespace xpp {
 

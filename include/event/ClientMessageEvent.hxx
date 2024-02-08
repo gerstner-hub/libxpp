@@ -1,8 +1,8 @@
 #pragma once
 
-// X++
-#include "X++/atoms.hxx"
-#include "X++/Event.hxx"
+// xpp
+#include "xpp/atoms.hxx"
+#include "xpp/Event.hxx"
 
 namespace xpp {
 

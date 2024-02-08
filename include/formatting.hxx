@@ -3,15 +3,15 @@
 // C++
 #include <iosfwd>
 
-// X++
-#include "X++/dso_export.h"
-#include "X++/fwd.hxx"
-#include "X++/types.hxx"
+// xpp
+#include "xpp/dso_export.h"
+#include "xpp/fwd.hxx"
+#include "xpp/types.hxx"
 
 /**
  * @file
  *
- * A place for declaring output operators for libX++ basic types.
+ * A place for declaring output operators for libxpp basic types.
  **/
 
 XPP_API std::ostream& operator<<(std::ostream &o, const xpp::utf8_string &s);

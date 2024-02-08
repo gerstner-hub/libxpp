@@ -5,12 +5,12 @@
 #include "cosmos/cosmos.hxx"
 #include "cosmos/io/StdLogger.hxx"
 
-// X++
-#include "X++/AtomMapper.hxx"
-#include "X++/atoms.hxx"
-#include "X++/CachedAtom.hxx"
-#include "X++/helpers.hxx"
-#include "X++/Xpp.hxx"
+// xpp
+#include "xpp/AtomMapper.hxx"
+#include "xpp/atoms.hxx"
+#include "xpp/CachedAtom.hxx"
+#include "xpp/helpers.hxx"
+#include "xpp/Xpp.hxx"
 
 constexpr xpp::CachedAtom window_name{"_NET_WM_NAME"};
 

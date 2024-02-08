@@ -1,7 +1,7 @@
 #pragma once
 
-// X++
-#include "X++/event/InputEvent.hxx"
+// xpp
+#include "xpp/event/InputEvent.hxx"
 
 namespace xpp {
 

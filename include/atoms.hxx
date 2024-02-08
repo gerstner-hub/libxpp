@@ -3,8 +3,8 @@
 // X11
 #include <X11/Xatom.h>
 
-// X++
-#include "X++/CachedAtom.hxx"
+// xpp
+#include "xpp/CachedAtom.hxx"
 
 /**
  * @file
