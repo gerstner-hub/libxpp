@@ -11,9 +11,14 @@ run_env = test_env.Clone()
 if not env['use_system_pkgs']:
     run_env.ConfigureRunForLib('libcosmos')
 run_env.ConfigureRunForLib('libX++')
+
 # we require the DISPLAY to get access to the X11 environment
-run_env['ENV']['DISPLAY'] = os.environ['DISPLAY']
-run_env['ENV']['XAUTHORITY'] = os.environ['XAUTHORITY']
+for var in ('DISPLAY', 'XAUTHORITY'):
+    val = os.environ.get(var, None)
+    if not val:
+        print("Skipping tests because", var, "environment variable is not set")
+        Return()
+    run_env['ENV'][var] = val
 
 for test in tests:
 
