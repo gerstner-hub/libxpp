@@ -36,6 +36,18 @@ public: // functions
 		const std::optional<int> depth = std::nullopt,
 		XDisplay &disp = xpp::display);
 
+	/// Creates a pixmap from in-memory bitmap data.
+	/**
+	 * \param[in] data this needs to be data as returned from
+	 *    XWriteBitmapFile(). The dimension of the bitmap is provided in
+	 *    \c extent.
+	 **/
+	Pixmap(
+		const DrawableID drawable,
+		const std::string_view data,
+		Extent extent,
+		XDisplay &disp = xpp::display);
+
 	Pixmap(Pixmap &&o) {
 		*this = std::move(o);
 	}
