@@ -6,6 +6,7 @@
 // xpp
 #include "xpp/dso_export.h"
 #include "xpp/fwd.hxx"
+#include "xpp/Pixmap.hxx"
 #include "xpp/types.hxx"
 
 namespace xpp {
@@ -91,8 +92,11 @@ enum class CursorFont : unsigned int {
 	XTERM               = XC_xterm
 };
 
-/// Represents an XCursor definition obtained from XDisplay::createFontCursor().
+/// Represents an XCursor definition.
 /**
+ * This type can define an XCursor either using a CursorFont based style or
+ * using a custom Pixmap.
+ *
  * This is a move-only type with ownership semantics. Upon destruction the
  * cursor will be freed. Even after freeing the cursor will still be usable in
  * objects (windows) that use it. After all users of the cursor have vanished
@@ -103,8 +107,22 @@ class XPP_API XCursor {
 	XCursor& operator=(const XCursor&) = delete;
 public: // functions
 
+	/// Creates an invalid cursor.
+	XCursor() = default;
+
+
 	/// Creates a new font based cursor of the given type.
 	explicit XCursor(const CursorFont which, XDisplay &disp = xpp::display);
+
+	/// Creates a new pixmap based cursor.
+	/**
+	 * \param[in] mask Which bits from `shape` to display or nullptr
+	 * to display all bits.
+	 * \param[in] pos The hotspot relative to shape.
+	 **/
+	XCursor(const Pixmap &shape, const Pixmap *mask,
+			const XColor fg, const XColor bg,
+			const Coord pos, XDisplay &disp = xpp::display);
 
 	XCursor(XCursor &&o) {
 		*this = std::move(o);

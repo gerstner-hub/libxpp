@@ -20,6 +20,25 @@ XCursor::XCursor(const CursorFont which, XDisplay &disp) {
 	m_id = CursorID{res};
 }
 
+XCursor::XCursor(const Pixmap &shape, const Pixmap *mask,
+		const XColor fg, const XColor bg,
+		const Coord pos, XDisplay &disp) {
+	auto res = ::XCreatePixmapCursor(
+			disp,
+			cosmos::to_integral(shape.id()),
+			mask ? cosmos::to_integral(mask->id()) : None,
+			const_cast<XColor*>(&fg),
+			const_cast<XColor*>(&bg),
+			pos.x, pos.y);
+
+	if (res == None) {
+		cosmos_throw (cosmos::RuntimeError("failed to create pixmap cursor"));
+	}
+
+	m_display = &disp;
+	m_id = CursorID{res};
+}
+
 void XCursor::destroy() {
 	if (valid()) {
 		::XFreeCursor(*m_display, cosmos::to_integral(m_id));
