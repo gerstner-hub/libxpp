@@ -517,6 +517,7 @@ extern template XPP_API void XWindow::getProperty(const AtomID, Property<std::ve
 extern template XPP_API void XWindow::getProperty(const AtomID, Property<std::vector<WinID> >&, const PropertyInfo*) const;
 extern template XPP_API void XWindow::getProperty(const AtomID, Property<std::vector<int> >&, const PropertyInfo*) const;
 extern template XPP_API void XWindow::getProperty(const AtomID, Property<std::vector<utf8_string> >&, const PropertyInfo*) const;
+extern template XPP_API void XWindow::getProperty(const AtomID, Property<utf8_string>&, const PropertyInfo*) const;
 extern template XPP_API void XWindow::setProperty(const AtomID, const Property<const char*>&);
 extern template XPP_API void XWindow::setProperty(const AtomID, const Property<int>&);
 extern template XPP_API void XWindow::setProperty(const AtomID, const Property<utf8_string>&);

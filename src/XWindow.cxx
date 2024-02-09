@@ -632,6 +632,7 @@ template void XWindow::getProperty(const AtomID, Property<std::vector<AtomID> >&
 template void XWindow::getProperty(const AtomID, Property<std::vector<WinID> >&, const PropertyInfo*) const;
 template void XWindow::getProperty(const AtomID, Property<std::vector<int> >&, const PropertyInfo*) const;
 template void XWindow::getProperty(const AtomID, Property<std::vector<utf8_string> >&, const PropertyInfo*) const;
+template void XWindow::getProperty(const AtomID, Property<utf8_string>&, const PropertyInfo*) const;
 template void XWindow::setProperty(const AtomID, const Property<const char*>&);
 template void XWindow::setProperty(const AtomID, const Property<int>&);
 template void XWindow::setProperty(const AtomID, const Property<utf8_string>&);
