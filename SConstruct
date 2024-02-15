@@ -15,10 +15,7 @@ except Exception:
         from buildsystem import initSCons
     env = initSCons("libxpp")
 
-if not env.ExistsLib("libcosmos") and not env['use_system_pkgs']:
-    cosmos_env = env.Clone()
-    cosmos_env['buildroot'] = ""
-    SConscript('libcosmos/SConstruct', duplicate=0, variant_dir=env['buildroot'] + "libcosmos/", exports={"env": cosmos_env})
+env.AddLocalLibrary("libcosmos")
 
 env = SConscript(env['buildroot'] + 'src/SConstruct')
 
