@@ -1,7 +1,7 @@
 import os
 Import('env')
 
-tests = env.GatherSources(suffixes=[".cxx"])
+tests = env.GatherSources(suffixes=['.cxx'])
 
 test_env = env.Clone()
 sources = []
@@ -16,59 +16,59 @@ run_env.ConfigureRunForLib('libxpp')
 for var in ('DISPLAY', 'XAUTHORITY'):
     val = os.environ.get(var, None)
     if not val:
-        print("Skipping tests because", var, "environment variable is not set")
+        print('Skipping tests because', var, 'environment variable is not set')
         Return()
     run_env['ENV'][var] = val
 
 for test in tests:
 
     label = '.'.join(test.split('.')[:-1])
-    test_prog_key = f"test_{label}"
+    test_prog_key = f'test_{label}'
 
     test_bin = test_env.Program(test_prog_key, [test] + sources)
 
-    env.Alias("xpp_tests", test_prog_key)
+    env.Alias('xpp_tests', test_prog_key)
 
-    run_test_key = f"run_xpp_test_{label}"
-    logfile = Dir(".").abspath + "/" + run_test_key + ".log"
+    run_test_key = f'run_xpp_test_{label}'
+    logfile = Dir('.').abspath + '/' + run_test_key + '.log'
     binary = test_bin[0].abspath
-    test_action = run_env.Action(f"{binary} >{logfile} 2>&1 || (cat {logfile} && exit 1)")
-    run_cmd = run_env.Command(f"{run_test_key}.command", test_bin, test_action)
+    test_action = run_env.Action(f'{binary} >{logfile} 2>&1 || (cat {logfile} && exit 1)')
+    run_cmd = run_env.Command(f'{run_test_key}.command', test_bin, test_action)
 
     env.Alias(run_test_key, run_cmd)
-    env.Alias("run_xpp_tests", run_test_key)
+    env.Alias('run_xpp_tests', run_test_key)
 
-env.Alias("tests", "xpp_tests")
-env.Alias("run_tests", "run_xpp_tests")
+env.Alias('tests', 'xpp_tests')
+env.Alias('run_tests', 'run_xpp_tests')
 
 # setup compilation tests for each individual header to make sure no includes
 # are missing anywhere and everything compiles.
 
 
 def inc_test_builder(env, target, source):
-    inc = str(source[0]).split("include/")[1]
+    inc = str(source[0]).split('include/')[1]
     with open(str(target[0]), 'w') as fd:
         fd.write(f'#include "{str(inc)}"\n\nint main() {{ return 0; }}')
 
 
-srcroot = '/'.join(Dir(".").srcnode().abspath.split("/")[:-1])
-incroot = srcroot + "/include/xpp"
+srcroot = '/'.join(Dir('.').srcnode().abspath.split('/')[:-1])
+incroot = srcroot + '/include/xpp'
 
 for root, dr, fls in os.walk(incroot):
     for fl in fls:
-        if not fl.endswith(".hxx"):
+        if not fl.endswith('.hxx'):
             continue
 
-        path = root + "/" + fl
-        idx = path.rfind("xpp")
+        path = root + '/' + fl
+        idx = path.rfind('xpp')
         if idx == -1:
             continue
         include = path[idx:]
-        include_src = srcroot + "/include/" + include
-        gensrc = include.replace('/', '_').split(".hxx")[0]
-        test_env.Command(f"{gensrc}.cxx", include_src, action=inc_test_builder)
-        prog = test_env.Program(f"{gensrc}_test", f"{gensrc}.cxx")
+        include_src = srcroot + '/include/' + include
+        gensrc = include.replace('/', '_').split('.hxx')[0]
+        test_env.Command(f'{gensrc}.cxx', include_src, action=inc_test_builder)
+        prog = test_env.Program(f'{gensrc}_test', f'{gensrc}.cxx')
 
-        env.Alias("include_compile_tests", prog)
+        env.Alias('include_compile_tests', prog)
 
-env.Alias("tests", "include_compile_tests")
+env.Alias('tests', 'include_compile_tests')
