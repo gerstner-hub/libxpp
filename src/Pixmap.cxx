@@ -1,10 +1,10 @@
 // cosmos
-#include "cosmos/error/RuntimeError.hxx"
+#include <cosmos/error/RuntimeError.hxx>
 
 // xpp
-#include "xpp/helpers.hxx"
-#include "xpp/Pixmap.hxx"
-#include "xpp/XDisplay.hxx"
+#include <xpp/helpers.hxx>
+#include <xpp/Pixmap.hxx>
+#include <xpp/XDisplay.hxx>
 
 namespace xpp {
 

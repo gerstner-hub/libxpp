@@ -7,12 +7,12 @@
 #include <X11/Xlib.h>
 
 // cosmos
-#include "cosmos/utils.hxx"
+#include <cosmos/utils.hxx>
 
 // xpp
-#include "xpp/dso_export.h"
-#include "xpp/helpers.hxx"
-#include "xpp/XWindow.hxx"
+#include <xpp/dso_export.h>
+#include <xpp/helpers.hxx>
+#include <xpp/XWindow.hxx>
 
 namespace xpp {
 

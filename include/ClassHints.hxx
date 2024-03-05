@@ -4,7 +4,7 @@
 #include <string_view>
 
 // Cosmos
-#include "cosmos/SysString.hxx"
+#include <cosmos/SysString.hxx>
 
 // X11
 #include <X11/Xutil.h>

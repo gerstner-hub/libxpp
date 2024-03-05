@@ -10,7 +10,7 @@
 #include <X11/Xlib.h> // for consistent declaration of _XGC
 
 // Cosmos
-#include "cosmos/BitMask.hxx"
+#include <cosmos/BitMask.hxx>
 
 /**
  * @file

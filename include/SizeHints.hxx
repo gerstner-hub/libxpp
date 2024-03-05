@@ -7,12 +7,12 @@
 #include <X11/Xutil.h>
 
 // Cosmos
-#include "cosmos/BitMask.hxx"
-#include "cosmos/memory.hxx"
+#include <cosmos/BitMask.hxx>
+#include <cosmos/memory.hxx>
 
 // xpp
-#include "xpp/helpers.hxx"
-#include "xpp/types.hxx"
+#include <xpp/helpers.hxx>
+#include <xpp/types.hxx>
 
 namespace xpp {
 

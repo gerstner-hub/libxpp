@@ -2,15 +2,15 @@
 #include <iostream>
 
 // cosmos
-#include "cosmos/cosmos.hxx"
-#include "cosmos/io/StdLogger.hxx"
+#include <cosmos/cosmos.hxx>
+#include <cosmos/io/StdLogger.hxx>
 
 // xpp
-#include "xpp/AtomMapper.hxx"
-#include "xpp/atoms.hxx"
-#include "xpp/CachedAtom.hxx"
-#include "xpp/helpers.hxx"
-#include "xpp/Xpp.hxx"
+#include <xpp/AtomMapper.hxx>
+#include <xpp/atoms.hxx>
+#include <xpp/CachedAtom.hxx>
+#include <xpp/helpers.hxx>
+#include <xpp/Xpp.hxx>
 
 constexpr xpp::CachedAtom window_name{"_NET_WM_NAME"};
 

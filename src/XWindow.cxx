@@ -3,22 +3,22 @@
 #include <sstream>
 
 // cosmos
-#include "cosmos/error/InternalError.hxx"
-#include "cosmos/formatting.hxx"
-#include "cosmos/memory.hxx"
+#include <cosmos/error/InternalError.hxx>
+#include <cosmos/formatting.hxx>
+#include <cosmos/memory.hxx>
 
 // xpp
-#include "xpp/Event.hxx"
-#include "xpp/formatting.hxx"
-#include "xpp/GraphicsContext.hxx"
-#include "xpp/helpers.hxx"
-#include "xpp/private/Xpp.hxx"
-#include "xpp/Property.hxx"
-#include "xpp/SizeHints.hxx"
-#include "xpp/WindowManagerHints.hxx"
-#include "xpp/XCursor.hxx"
-#include "xpp/XWindowAttrs.hxx"
-#include "xpp/XWindow.hxx"
+#include <xpp/Event.hxx>
+#include <xpp/formatting.hxx>
+#include <xpp/GraphicsContext.hxx>
+#include <xpp/helpers.hxx>
+#include <xpp/private/Xpp.hxx>
+#include <xpp/Property.hxx>
+#include <xpp/SizeHints.hxx>
+#include <xpp/WindowManagerHints.hxx>
+#include <xpp/XCursor.hxx>
+#include <xpp/XWindowAttrs.hxx>
+#include <xpp/XWindow.hxx>
 
 namespace xpp {
 

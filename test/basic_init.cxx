@@ -1,15 +1,15 @@
 #include <iostream>
 
-#include "cosmos/cosmos.hxx"
-#include "cosmos/formatting.hxx"
-#include "cosmos/io/StdLogger.hxx"
-#include "xpp/GraphicsContext.hxx"
-#include "xpp/Pixmap.hxx"
-#include "xpp/RootWin.hxx"
-#include "xpp/Xpp.hxx"
-#include "xpp/formatting.hxx"
-#include "xpp/helpers.hxx"
-#include "xpp/types.hxx"
+#include <cosmos/cosmos.hxx>
+#include <cosmos/formatting.hxx>
+#include <cosmos/io/StdLogger.hxx>
+#include <xpp/GraphicsContext.hxx>
+#include <xpp/Pixmap.hxx>
+#include <xpp/RootWin.hxx>
+#include <xpp/Xpp.hxx>
+#include <xpp/formatting.hxx>
+#include <xpp/helpers.hxx>
+#include <xpp/types.hxx>
 
 void testDisplay() {
 	auto &display = xpp::display;

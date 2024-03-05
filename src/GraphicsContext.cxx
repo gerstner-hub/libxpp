@@ -1,9 +1,9 @@
 // xpp
-#include "xpp/GraphicsContext.hxx"
-#include "xpp/XDisplay.hxx"
+#include <xpp/GraphicsContext.hxx>
+#include <xpp/XDisplay.hxx>
 
 // Cosmos
-#include "cosmos/error/RuntimeError.hxx"
+#include <cosmos/error/RuntimeError.hxx>
 
 namespace xpp {
 

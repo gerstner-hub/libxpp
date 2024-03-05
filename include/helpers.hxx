@@ -8,11 +8,11 @@
 #include <X11/Xlib.h>
 
 // cosmos
-#include "cosmos/utils.hxx"
+#include <cosmos/utils.hxx>
 
 // xpp
-#include "xpp/dso_export.h"
-#include "xpp/types.hxx"
+#include <xpp/dso_export.h>
+#include <xpp/types.hxx>
 
 namespace xpp {
 

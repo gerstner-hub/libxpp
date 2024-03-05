@@ -1,10 +1,10 @@
 #pragma once
 
 // xpp
-#include "xpp/Xpp.hxx"
+#include <xpp/Xpp.hxx>
 
 // cosmos
-#include "cosmos/io/ILogger.hxx"
+#include <cosmos/io/ILogger.hxx>
 
 namespace xpp {
 

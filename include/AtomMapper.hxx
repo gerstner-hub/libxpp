@@ -6,11 +6,11 @@
 #include <stdint.h>
 
 // cosmos
-#include "cosmos/thread/RWLock.hxx"
+#include <cosmos/thread/RWLock.hxx>
 
 // xpp
-#include "xpp/dso_export.h"
-#include "xpp/types.hxx"
+#include <xpp/dso_export.h>
+#include <xpp/types.hxx>
 
 namespace xpp {
 

@@ -4,7 +4,7 @@
 #include <X11/Xatom.h>
 
 // xpp
-#include "xpp/CachedAtom.hxx"
+#include <xpp/CachedAtom.hxx>
 
 /**
  * @file

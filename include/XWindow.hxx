@@ -11,17 +11,17 @@
 #include <X11/Xlib.h>
 
 // cosmos
-#include "cosmos/proc/types.hxx"
-#include "cosmos/SysString.hxx"
+#include <cosmos/proc/types.hxx>
+#include <cosmos/SysString.hxx>
 
 // xpp
-#include "xpp/dso_export.h"
-#include "xpp/fwd.hxx"
-#include "xpp/ClassHints.hxx"
-#include "xpp/types.hxx"
-#include "xpp/utf8_string.hxx"
-#include "xpp/X11Exception.hxx"
-#include "xpp/XDisplay.hxx"
+#include <xpp/dso_export.h>
+#include <xpp/fwd.hxx>
+#include <xpp/ClassHints.hxx>
+#include <xpp/types.hxx>
+#include <xpp/utf8_string.hxx>
+#include <xpp/X11Exception.hxx>
+#include <xpp/XDisplay.hxx>
 
 namespace xpp {
 

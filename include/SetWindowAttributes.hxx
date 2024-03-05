@@ -1,8 +1,8 @@
 #pragma once
 
 // xpp
-#include "xpp/types.hxx"
-#include "xpp/helpers.hxx"
+#include <xpp/types.hxx>
+#include <xpp/helpers.hxx>
 
 namespace xpp {
 

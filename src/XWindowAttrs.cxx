@@ -1,5 +1,5 @@
 // xpp
-#include "xpp/XWindowAttrs.hxx"
+#include <xpp/XWindowAttrs.hxx>
 
 namespace xpp {
 

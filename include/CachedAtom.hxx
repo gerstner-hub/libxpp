@@ -5,8 +5,8 @@
 #include <string_view>
 
 // xpp
-#include "xpp/dso_export.h"
-#include "xpp/types.hxx"
+#include <xpp/dso_export.h>
+#include <xpp/types.hxx>
 
 namespace xpp {
 

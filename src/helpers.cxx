@@ -3,10 +3,10 @@
 #include <string>
 
 // cosmos
-#include "cosmos/utils.hxx"
+#include <cosmos/utils.hxx>
 
 // xpp
-#include "xpp/helpers.hxx"
+#include <xpp/helpers.hxx>
 
 namespace xpp {
 

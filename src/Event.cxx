@@ -2,10 +2,10 @@
 #include <cstring>
 
 // cosmos
-#include "cosmos/error/RuntimeError.hxx"
+#include <cosmos/error/RuntimeError.hxx>
 
 // xpp
-#include "xpp/Event.hxx"
+#include <xpp/Event.hxx>
 
 namespace xpp {
 

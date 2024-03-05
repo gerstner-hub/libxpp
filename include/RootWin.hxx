@@ -4,10 +4,10 @@
 #include <vector>
 
 // xpp
-#include "xpp/dso_export.h"
-#include "xpp/types.hxx"
-#include "xpp/fwd.hxx"
-#include "xpp/XWindow.hxx"
+#include <xpp/dso_export.h>
+#include <xpp/types.hxx>
+#include <xpp/fwd.hxx>
+#include <xpp/XWindow.hxx>
 
 namespace xpp {
 

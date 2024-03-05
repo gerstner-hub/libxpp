@@ -10,14 +10,14 @@
 #include <X11/Xlib.h>
 
 // cosmos
-#include "cosmos/fs/FileDescriptor.hxx"
-#include "cosmos/SysString.hxx"
+#include <cosmos/fs/FileDescriptor.hxx>
+#include <cosmos/SysString.hxx>
 
 // xpp
-#include "xpp/helpers.hxx"
-#include "xpp/fwd.hxx"
-#include "xpp/types.hxx"
-#include "xpp/X11Exception.hxx"
+#include <xpp/helpers.hxx>
+#include <xpp/fwd.hxx>
+#include <xpp/types.hxx>
+#include <xpp/X11Exception.hxx>
 
 namespace xpp {
 

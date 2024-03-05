@@ -1,5 +1,5 @@
 // xpp
-#include "xpp/PropertyTraits.hxx"
+#include <xpp/PropertyTraits.hxx>
 
 namespace xpp {
 

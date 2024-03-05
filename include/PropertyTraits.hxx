@@ -8,8 +8,8 @@
 #include <X11/Xatom.h>
 
 // xpp
-#include "xpp/atoms.hxx"
-#include "xpp/utf8_string.hxx"
+#include <xpp/atoms.hxx>
+#include <xpp/utf8_string.hxx>
 
 namespace xpp {
 

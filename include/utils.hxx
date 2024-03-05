@@ -4,11 +4,11 @@
 #include <X11/Xutil.h> // for GeometrySettings constants
 
 // Cosmos
-#include "cosmos/BitMask.hxx"
-#include "cosmos/SysString.hxx"
+#include <cosmos/BitMask.hxx>
+#include <cosmos/SysString.hxx>
 
 // xpp
-#include "xpp/types.hxx"
+#include <xpp/types.hxx>
 
 /**
  * @file

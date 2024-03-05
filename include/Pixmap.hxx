@@ -4,9 +4,9 @@
 #include <optional>
 
 // xpp
-#include "xpp/dso_export.h"
-#include "xpp/fwd.hxx"
-#include "xpp/types.hxx"
+#include <xpp/dso_export.h>
+#include <xpp/fwd.hxx>
+#include <xpp/types.hxx>
 
 namespace xpp {
 

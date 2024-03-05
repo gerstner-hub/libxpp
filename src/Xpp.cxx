@@ -5,13 +5,13 @@
 #include <X11/Xlib.h>
 
 // cosmos
-#include "cosmos/error/InternalError.hxx"
+#include <cosmos/error/InternalError.hxx>
 
 // xpp
-#include "xpp/XDisplay.hxx"
-#include "xpp/PropertyTraits.hxx"
-#include "xpp/Xpp.hxx"
-#include "xpp/private/Xpp.hxx"
+#include <xpp/XDisplay.hxx>
+#include <xpp/PropertyTraits.hxx>
+#include <xpp/Xpp.hxx>
+#include <xpp/private/Xpp.hxx>
 
 namespace xpp {
 

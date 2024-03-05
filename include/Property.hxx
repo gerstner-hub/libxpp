@@ -1,10 +1,10 @@
 #pragma once
 
 // cosmos
-#include "cosmos/error/UsageError.hxx"
+#include <cosmos/error/UsageError.hxx>
 
 // xpp
-#include "xpp/PropertyTraits.hxx"
+#include <xpp/PropertyTraits.hxx>
 
 namespace xpp {
 

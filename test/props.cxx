@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "xpp/AtomMapper.hxx"
-#include "xpp/Xpp.hxx"
-#include "xpp/RootWin.hxx"
-#include "xpp/types.hxx"
-#include "cosmos/io/StdLogger.hxx"
-#include "cosmos/cosmos.hxx"
+#include <xpp/AtomMapper.hxx>
+#include <xpp/Xpp.hxx>
+#include <xpp/RootWin.hxx>
+#include <xpp/types.hxx>
+#include <cosmos/io/StdLogger.hxx>
+#include <cosmos/cosmos.hxx>
 
 void printInfo(const xpp::XWindow::PropertyInfo &info, xpp::AtomMapper &mapper) {
 	std::cout << "property type: " << mapper.mapName(xpp::AtomID{info.type}) << std::endl;

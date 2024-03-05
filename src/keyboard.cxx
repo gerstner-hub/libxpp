@@ -2,10 +2,10 @@
 #include <X11/XKBlib.h>
 
 // xpp
-#include "xpp/helpers.hxx"
-#include "xpp/keyboard.hxx"
-#include "xpp/XWindow.hxx"
-#include "xpp/XDisplay.hxx"
+#include <xpp/helpers.hxx>
+#include <xpp/keyboard.hxx>
+#include <xpp/XWindow.hxx>
+#include <xpp/XDisplay.hxx>
 
 namespace xpp {
 
