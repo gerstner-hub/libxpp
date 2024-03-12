@@ -7,6 +7,7 @@
 #include <optional>
 
 // cosmos
+#include <cosmos/string.hxx>
 #include <cosmos/utils.hxx>
 
 // xpp
@@ -17,7 +18,7 @@
 /**
  * @file
  *
- * Types and misc funcionality related to the keyboard.
+ * Types and misc functionality related to the keyboard.
  **/
 
 namespace xpp {
@@ -152,5 +153,20 @@ enum class KeySymID : ::KeySym {
 };
 
 inline auto raw_key = cosmos::to_integral<KeySymID>;
+
+/// Translates a string into the corresponding KeySym value.
+/**
+ * `str` is expected to correspond to one of the XK_ constants without the XK_
+ * prefix. The string needs match in case as well. If there is no matching
+ * constant then std::nullopt is returned.
+ **/
+XPP_API std::optional<KeySymID> string_to_keysym(const cosmos::SysString str);
+
+/// Translates a string into the corresponding InputModifier value.
+/**
+ * `str` is expected to be one of the InputModifier values like MOD1. Case is
+ * ignored. If there is no matching constant then std::nullopt is returned.
+ **/
+XPP_API std::optional<InputModifier> string_to_input_mod(const cosmos::SysString str);
 
 } // end ns
