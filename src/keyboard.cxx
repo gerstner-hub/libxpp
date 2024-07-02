@@ -63,6 +63,8 @@ std::optional<InputModifier> string_to_input_mod(const cosmos::SysString str) {
 		return InputModifier::BUTTON4;
 	if (label == "BUTTON5")
 		return InputModifier::BUTTON5;
+	if (label == "NONE")
+		return InputModifier::NONE;
 
 	return std::nullopt;
 }
