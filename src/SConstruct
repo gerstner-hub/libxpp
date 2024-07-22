@@ -26,7 +26,7 @@ else:
     libxpp = libenv.SharedLibrary(
         'xpp',
         libxpp_srcs,
-        SHLIBVERSION='0.2.0',
+        SHLIBVERSION='0.2.1',
         SONAME='libxpp.so.0'
     )
 
