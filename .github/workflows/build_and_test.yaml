@@ -25,7 +25,7 @@ jobs:
         # it is hard to come by the images used by GH runner to test it
         # locally, thus I did not investigate this more deeply
         run: |
-          ./scripts/check.py --skip-32bit --skip-static
+          ./libcosmos/scripts/check.py --skip-32bit --skip-static
       # the runner's doxygen for some reason doesn't support a -q switch
       #- name: build doxygen
       #  run: |
