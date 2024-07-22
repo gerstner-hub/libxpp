@@ -18,7 +18,7 @@ namespace xpp {
  * This is a generic template class for getting and setting X properties.
  *
  * This generic template is not intended for use but only for explicit
- * template specialications for concrete types. This generic template merely
+ * template specializations for concrete types. This generic template merely
  * serves the purpose of documentation.
  *
  * The traits are to be used together with the Property class to smartly

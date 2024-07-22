@@ -30,7 +30,7 @@ namespace xpp {
  * A global xpp::display instance allows simple access to the default display
  * which is opened based on environment variables.
  *
- * Making it possible to operate on the a non-default Display should be not
+ * Making it possible to operate on the non-default Display should be not
  * too hard to implement in the future, if every needed. The xpp::display
  * could e.g. be constructed differently based on xpp library initialization
  * parameters.

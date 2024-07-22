@@ -8,8 +8,8 @@ namespace xpp {
 
 /// A type used for differentiation between a plain ASCII string and an Xlib utf8 string.
 /**
- * This is just a container for a string_view. You need to be carefuly
- * managing the lifetime validility of the contained data. This type should
+ * This is just a container for a string_view. You need to be carefully
+ * managing the lifetime validity of the contained data. This type should
  * only be used in conjunction with the Property type.
  *
  * \note

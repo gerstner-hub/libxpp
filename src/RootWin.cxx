@@ -112,8 +112,8 @@ void RootWin::queryTree() {
 			auto &current = *(to_process.back());
 
 			if (current.isFinished()) {
-				// no more childs, add this window to the list
-				// and remove it
+				// no more children, add this window to the
+				// list and remove it
 				m_tree.push_back(WinID{current.id()});
 				delete &current;
 				to_process.pop_back();

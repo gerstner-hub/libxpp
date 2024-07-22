@@ -150,7 +150,7 @@ public: // functions
 	/**
 	 * The same details found at getName() are true here, too.
 	 *
-	 * If the desktop nr. cannot be determined an exception is thrown.
+	 * If the desktop number cannot be determined an exception is thrown.
 	 **/
 	int getDesktop() const;
 
@@ -423,7 +423,7 @@ public: // functions
 
 	/// Returns a set of the known child windows
 	/**
-	 * call updateFamily() to get ia snapshort of the current set of sub
+	 * call updateFamily() to get a snapshot of the current set of sub
 	 * windows.
 	 **/
 	const WindowSet& children() const { return m_children; }

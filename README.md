@@ -67,7 +67,7 @@ It's the same for *libxpp*.
 
 I guess it is no secret that the libX11 API is not that much fun to work with.
 Its documentation is somewhat lacking. The error handling model is special
-since there is synchronous and ansychronous error reporting, based on the X
+since there is synchronous and asynchronous error reporting, based on the X
 protocol. Many synchronous error returns in libX11 are actually constant and
 never report an error. *libxpp* cannot really improve these shortcomings.
 

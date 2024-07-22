@@ -8,7 +8,7 @@ Version: 0.2.0
 Description: libxpp C++ wrapper for libX11
 URL: https://www.github.com/gerstner-hub/libxpp
 Libs: -lxpp
-# Requires.private is prefered if the dependency is private to our project,
+# Requires.private is preferred if the dependency is private to our project,
 # but since we are using some X11 calls in inlined code we need to make it
 # explicit.
 Requires: x11 libcosmos

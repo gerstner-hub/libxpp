@@ -10,7 +10,7 @@ namespace xpp {
 /**
  * A client message is not interpreted by the X server itself, but can contain
  * e.g. window manager related information. The type field contains an atom
- * that defines further content of the messsage.
+ * that defines further content of the message.
  *
  * Examples for this are the XEMBED extension and the WM_PROTOCOLS extension.
  **/
@@ -50,7 +50,7 @@ protected: // data
 /// A ClientMessageEvent for notifying the window manager about window state.
 /**
  * This event can contain up to two properties that are set, removed or
- * toggled depending on the value passeed in setOperation().
+ * toggled depending on the value passed in setOperation().
  **/
 class NetWmStateEvent :
 	public ClientMessageEvent {

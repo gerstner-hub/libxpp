@@ -532,7 +532,7 @@ void XWindow::setProperty(const AtomID name_atom, const Property<PROPTYPE> &prop
 	// result.
 	(void)res;
 
-	// requests to the server are not dispatched immediatly thus we need
+	// requests to the server are not dispatched immediately thus we need
 	// to flush once
 	display.flush();
 }
