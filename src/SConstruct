@@ -21,13 +21,15 @@ else:
     libenv.Append(CCFLAGS='-fvisibility=hidden')
     libenv.Append(CCFLAGS='-DXPP_EXPORT')
 
+    version, soname = libenv.GetSharedLibVersionInfo('libxpp')
+
     # see libcosmos/src/SConstruct about this ABI stuff
 
     libxpp = libenv.SharedLibrary(
         'xpp',
         libxpp_srcs,
-        SHLIBVERSION='0.2.1',
-        SONAME='libxpp.so.0'
+        SHLIBVERSION=version,
+        SONAME=soname
     )
 
 env.RegisterLibConfig(
