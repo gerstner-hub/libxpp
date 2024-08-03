@@ -10,7 +10,8 @@ libenv.Append(CPPPATH=['.'])
 libenv.ConfigureForLibOrPackage('libcosmos', libxpp_srcs)
 libenv.ConfigureForPackage('x11')
 
-version, soname = libenv.GetSharedLibVersionInfo('libxpp')
+version, soname, tag = libenv.GetSharedLibVersionInfo('libxpp')
+libenv.AddVersionFileTarget('libxpp', tag)
 
 if env['libtype'] == 'static':
     libxpp = libenv.StaticLibrary(
