@@ -4,3 +4,4 @@ install
 .tags
 *.swp
 *.swo
+.lib*.tag

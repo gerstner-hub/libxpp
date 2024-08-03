@@ -10,6 +10,7 @@ libenv.Append(CPPPATH=['.'])
 libenv.ConfigureForLibOrPackage('libcosmos', libxpp_srcs)
 libenv.ConfigureForPackage('x11')
 
+version, soname = libenv.GetSharedLibVersionInfo('libxpp')
 
 if env['libtype'] == 'static':
     libxpp = libenv.StaticLibrary(
@@ -20,8 +21,6 @@ else:
 
     libenv.Append(CCFLAGS='-fvisibility=hidden')
     libenv.Append(CCFLAGS='-DXPP_EXPORT')
-
-    version, soname = libenv.GetSharedLibVersionInfo('libxpp')
 
     # see libcosmos/src/SConstruct about this ABI stuff
 
@@ -39,7 +38,10 @@ env.RegisterLibConfig(
         'CCFLAGS': ['-DXPP_API='],
         'CPPPATH': [public_includes]
     },
-    config={'pkgs': ['x11']}
+    config={
+        'pkgs': ['x11'],
+        'version': version
+    }
 )
 
 Return('env')

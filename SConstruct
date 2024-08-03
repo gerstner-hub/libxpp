@@ -17,7 +17,9 @@ except Exception:
 
 env.AddLocalLibrary('libcosmos')
 
-env = SConscript(env['buildroot'] + 'src/SConstruct')
+env['project_root'] = str(Dir('.').get_abspath())
+
+env = SConscript(env['buildroot'] + 'src/SConstruct', exports=['env'])
 
 instroot = env['instroot']
 
@@ -34,5 +36,3 @@ if install_dev_files or env['libtype'] == 'shared':
 
 if install_dev_files:
     env.InstallHeaders('xpp')
-    node = env.Install(Path(instroot) / env['pkg_config_dir'], 'data/libxpp.pc')
-    env.Alias('install', node)
