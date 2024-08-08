@@ -85,11 +85,11 @@ public: // functions
 		}
 	}
 
-	GraphicsContext(GraphicsContext &&other) {
+	GraphicsContext(GraphicsContext &&other) noexcept {
 		*this = std::move(other);
 	}
 
-	GraphicsContext& operator=(GraphicsContext &&other) {
+	GraphicsContext& operator=(GraphicsContext &&other) noexcept {
 		m_display = other.m_display;
 		m_gc = other.m_gc;
 

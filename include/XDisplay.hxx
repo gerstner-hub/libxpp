@@ -65,11 +65,11 @@ public: // functions
 	 **/
 	XDisplay(const Initialize init = Initialize{true});
 
-	XDisplay(XDisplay &&other) {
+	XDisplay(XDisplay &&other) noexcept {
 		*this = std::move(other);
 	}
 
-	XDisplay& operator=(XDisplay &&other) {
+	XDisplay& operator=(XDisplay &&other) noexcept {
 		m_dis = other.m_dis;
 		other.m_dis = nullptr;
 		return *this;
