@@ -30,7 +30,7 @@ XDisplay::XDisplay(const Initialize init) {
 		m_dis = ::XOpenDisplay(nullptr);
 
 		if (!m_dis) {
-			cosmos_throw (DisplayOpenError());
+			throw DisplayOpenError{};
 		}
 	}
 }
@@ -51,7 +51,7 @@ WinID XDisplay::createWindow(
 		const std::optional<SetWindowAttributes*> attrs) {
 
 	if (value_mask && !attrs) {
-		cosmos_throw (cosmos::UsageError("attrs cannot be unset if value_mask is set"));
+		throw cosmos::UsageError{"attrs cannot be unset if value_mask is set"};
 	}
 
 	static RootWin root_win;
@@ -75,7 +75,7 @@ void XDisplay::mapWindow(const XWindow &win) {
 	// this should never fail looking at current libX11 code, but you
 	// never know ...
 	if (::XMapWindow(m_dis, raw_win(win.id())) != 1) {
-		cosmos_throw (cosmos::RuntimeError("failed to map window"));
+		throw cosmos::RuntimeError{"failed to map window"};
 	}
 }
 
@@ -84,8 +84,10 @@ void XDisplay::setSynchronized(bool on_off) {
 	(void)::XSynchronize (m_dis, on_off ? True : False);
 }
 
-XDisplay::AtomMappingError::AtomMappingError(Display *dis, const int errcode, const std::string_view s) :
-		X11Exception{dis, errcode} {
+XDisplay::AtomMappingError::AtomMappingError(Display *dis, const int errcode,
+			const std::string_view s,
+			const cosmos::SourceLocation &loc) :
+		X11Exception{dis, errcode, loc} {
 
 	m_msg = std::string("Trying to map atom '") + std::string{s} + std::string("':") + m_msg;
 }
@@ -104,7 +106,7 @@ void XDisplay::parseColor(XColor &out, const cosmos::SysString name, const std::
 			&out);
 
 	if (res == None) {
-		cosmos_throw (cosmos::RuntimeError("failed to parse color"));
+		throw cosmos::RuntimeError{"failed to parse color"};
 	}
 }
 

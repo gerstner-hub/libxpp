@@ -21,8 +21,9 @@ struct X11Exception :
 	 * description is produced within the class. The related Display
 	 * instance is also necessary for this.
 	 **/
-	X11Exception(Display *dis, const int errcode) :
-			CosmosError{"X11Exception"} {
+	X11Exception(Display *dis, const int errcode,
+				const cosmos::SourceLocation &loc = cosmos::SourceLocation::current()) :
+			CosmosError{"X11Exception", {}, loc} {
 		char errtext[128];
 		errtext[0] = 0;
 		(void)::XGetErrorText(dis, errcode, errtext, sizeof(errtext));
@@ -38,8 +39,6 @@ struct X11Exception :
 	explicit X11Exception(const std::string_view problem) :
 			CosmosError{"X11Exception", problem} {
 	}
-
-	COSMOS_ERROR_IMPL;
 };
 
 } // end ns

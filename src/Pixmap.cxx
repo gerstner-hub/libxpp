@@ -32,7 +32,7 @@ Pixmap::Pixmap(
 			data.data(), extent.width, extent.height);
 
 	if (pm == None) {
-		cosmos_throw (cosmos::RuntimeError("failed to allocate bitmap from data"));
+		throw cosmos::RuntimeError{"failed to allocate bitmap from data"};
 	}
 
 	m_display = &disp;

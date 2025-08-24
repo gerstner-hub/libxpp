@@ -36,45 +36,38 @@ public: // types
 	/// Exception used for property query errors.
 	struct PropertyQueryError :
 			public X11Exception {
-		PropertyQueryError(Display *dis, const int errcode);
-
-		COSMOS_ERROR_IMPL;
+		PropertyQueryError(Display *dis, const int errcode,
+				const cosmos::SourceLocation &loc = cosmos::SourceLocation::current());
 	};
 
 	/// Exception used for property change errors.
 	struct PropertyChangeError :
 			public X11Exception {
-		PropertyChangeError(Display *dis, const int errcode);
-
-		COSMOS_ERROR_IMPL;
+		PropertyChangeError(Display *dis, const int errcode,
+				const cosmos::SourceLocation &loc = cosmos::SourceLocation::current());
 	};
 
 	/// Exception used for the case when property types don't match.
 	struct PropertyTypeMismatch :
 			public cosmos::CosmosError {
-		PropertyTypeMismatch(AtomID expected, AtomID encountered);
-
-		COSMOS_ERROR_IMPL;
+		PropertyTypeMismatch(AtomID expected, AtomID encountered,
+				const cosmos::SourceLocation &loc = cosmos::SourceLocation::current());
 	};
 
 	/// Exception used for the case when a requested property doesn't exist.
 	struct PropertyNotExisting :
 			public cosmos::CosmosError {
-		PropertyNotExisting() :
-			CosmosError{"PropertyNotExisting", "Requested property is not existing"}
+		explicit PropertyNotExisting(const cosmos::SourceLocation &loc = cosmos::SourceLocation::current()) :
+			CosmosError{"PropertyNotExisting", "Requested property is not existing", loc}
 		{}
-
-		COSMOS_ERROR_IMPL;
 	};
 
 	/// Exception used in situations when an operation is not implemented by the window manager.
 	struct NotImplemented :
 			public cosmos::CosmosError {
-		NotImplemented() :
-			CosmosError{"NotImplemented", "The operation is not implemented"}
+		explicit NotImplemented(const cosmos::SourceLocation &loc = cosmos::SourceLocation::current()) :
+			CosmosError{"NotImplemented", "The operation is not implemented", loc}
 		{}
-
-		COSMOS_ERROR_IMPL;
 	};
 
 	/// Keeps metadata about a property.

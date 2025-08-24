@@ -12,7 +12,7 @@ GraphicsContext::GraphicsContext(DrawableID d, const GcOptMask mask, const XGCVa
 	m_gc = ::XCreateGC(disp, cosmos::to_integral(d), mask.raw(), const_cast<XGCValues*>(&vals));
 
 	if (!m_gc) {
-		cosmos_throw (cosmos::RuntimeError("failed to allocate GC"));
+		throw cosmos::RuntimeError{"failed to allocate GC"};
 	}
 }
 

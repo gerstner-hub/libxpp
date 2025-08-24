@@ -23,10 +23,10 @@ public: // types
 	/// Specialized exception for root window query errors.
 	struct QueryError :
 			public cosmos::CosmosError {
-		explicit QueryError(const std::string &s) :
-				CosmosError{"QueryError", s} {}
-
-		COSMOS_ERROR_IMPL;
+		explicit QueryError(const std::string &s,
+				const cosmos::SourceLocation &loc = cosmos::SourceLocation::current()) :
+				CosmosError{"QueryError", s, loc} {
+		}
 	};
 
 public: // functions

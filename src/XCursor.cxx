@@ -13,7 +13,7 @@ XCursor::XCursor(const CursorFont which, XDisplay &disp) {
 	auto res = ::XCreateFontCursor(disp, cosmos::to_integral(which));
 
 	if (res == None) {
-		cosmos_throw (cosmos::RuntimeError("failed to create font cursor"));
+		throw cosmos::RuntimeError{"failed to create font cursor"};
 	}
 
 	m_display = &disp;
@@ -32,7 +32,7 @@ XCursor::XCursor(const Pixmap &shape, const Pixmap *mask,
 			pos.x, pos.y);
 
 	if (res == None) {
-		cosmos_throw (cosmos::RuntimeError("failed to create pixmap cursor"));
+		throw cosmos::RuntimeError{"failed to create pixmap cursor"};
 	}
 
 	m_display = &disp;

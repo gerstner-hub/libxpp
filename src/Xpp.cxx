@@ -25,7 +25,7 @@ void init(std::optional<cosmos::ILogger*> logger) {
 	// be careful that this must be the first Xlib call in the process
 	// otherwise it won't work!
 	if (!::XInitThreads()) {
-		cosmos_throw (cosmos::InternalError("Error initializing libX11 threads"));
+		throw cosmos::InternalError{"Error initializing libX11 threads"};
 	}
 
 	// only now initialize global convenience variables

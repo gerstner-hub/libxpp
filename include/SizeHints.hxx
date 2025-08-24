@@ -43,7 +43,7 @@ public: // types
 public: // functions
 
 	void clear() {
-		static_assert(std::is_pod<SizeHints>::value);
+		static_assert(std::is_standard_layout<SizeHints>::value && std::is_trivial<SizeHints>::value);
 		cosmos::zero_object(*this);
 	}
 

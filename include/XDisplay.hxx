@@ -41,17 +41,14 @@ public: // types
 	/// Specialized X11Exception for atom Mapping Errors.
 	struct AtomMappingError :
 			public xpp::X11Exception {
-		AtomMappingError(Display *dis, const int errcode, const std::string_view s);
-
-		COSMOS_ERROR_IMPL;
+		AtomMappingError(Display *dis, const int errcode, const std::string_view s,
+				const cosmos::SourceLocation &loc = cosmos::SourceLocation::current());
 	};
 
 	/// Specialized Exception for errors regarding opening the Display.
 	struct DisplayOpenError :
 			public cosmos::CosmosError {
 		DisplayOpenError();
-
-		COSMOS_ERROR_IMPL;
 	};
 
 	using Initialize = cosmos::NamedBool<struct init_t, true>;

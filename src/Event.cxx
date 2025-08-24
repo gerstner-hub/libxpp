@@ -14,7 +14,7 @@ void Event::clear() {
 }
 
 void Event::raiseMismatch() const {
-	cosmos_throw (cosmos::RuntimeError("XEvent type access mismatch"));
+	throw cosmos::RuntimeError{"XEvent type access mismatch"};
 }
 
 } // end ns

@@ -22,20 +22,24 @@
 
 namespace xpp {
 
-XWindow::PropertyTypeMismatch::PropertyTypeMismatch(AtomID expected, AtomID encountered) :
-		CosmosError{"PropertyTypeMismatch", "Retrieved property has different type than expected"} {
+XWindow::PropertyTypeMismatch::PropertyTypeMismatch(AtomID expected, AtomID encountered,
+			const cosmos::SourceLocation &loc) :
+		CosmosError{"PropertyTypeMismatch",
+			"Retrieved property has different type than expected", loc} {
 	std::ostringstream s;
 	s << "Expected " << expected << " but encountered " << encountered;
 	m_msg += s.str();
 }
 
-XWindow::PropertyChangeError::PropertyChangeError(Display *dis, const int errcode) :
-		X11Exception{dis, errcode} {
+XWindow::PropertyChangeError::PropertyChangeError(Display *dis, const int errcode,
+			const cosmos::SourceLocation &loc) :
+		X11Exception{dis, errcode, loc} {
 	m_msg = std::string("Error changing property: ") + m_msg;
 }
 
-XWindow::PropertyQueryError::PropertyQueryError(Display *dis, const int errcode) :
-		X11Exception{dis, errcode} {
+XWindow::PropertyQueryError::PropertyQueryError(Display *dis, const int errcode,
+			const cosmos::SourceLocation &loc) :
+		X11Exception{dis, errcode, loc} {
 	m_msg = std::string("Error querying property: ") + m_msg;
 }
 
@@ -158,7 +162,7 @@ void XWindow::getProtocols(AtomIDVector &protocols) const {
 	);
 
 	if (status == 0) {
-		cosmos_throw (X11Exception(display, status));
+		throw X11Exception{display, status};
 	}
 
 	for (int num = 0; num < ret_count; num++) {
@@ -177,7 +181,7 @@ void XWindow::setProtocols(const AtomIDVector &protocols) {
 	auto res = ::XSetWMProtocols(display, rawID(), plain.data(), plain.size());
 
 	if (res != True) {
-		cosmos_throw (X11Exception(display, res));
+		throw X11Exception{display, res};
 	}
 }
 
@@ -237,7 +241,7 @@ void XWindow::destroy() {
 	display.flush();
 
 	if (res != 1) {
-		cosmos_throw (X11Exception(display, res));
+		throw X11Exception{display, res};
 	}
 }
 
@@ -250,7 +254,7 @@ WinID XWindow::createChild() {
 	);
 
 	if (new_win == 0) {
-		cosmos_throw (X11Exception("Failed to create pseudo child window"));
+		throw X11Exception{"Failed to create pseudo child window"};
 	}
 
 	display.flush();
@@ -271,7 +275,7 @@ void XWindow::convertSelection(
 			raw_atom(target_prop),
 			rawID(),
 			t) != 1) {
-		cosmos_throw (X11Exception("Failed to request selection conversion"));
+		throw X11Exception{"Failed to request selection conversion"};
 	}
 
 	display.flush();
@@ -311,7 +315,7 @@ void XWindow::sendRequest(
 	cosmos::zero_object(event);
 
 	if (len > sizeof(event.xclient.data)) {
-		cosmos_throw(X11Exception("XEvent data exceeds maximum"));
+		throw X11Exception{"XEvent data exceeds maximum"};
 	}
 
 	event.xclient.type = ClientMessage;
@@ -340,7 +344,7 @@ void XWindow::sendEvent(const XEvent &event) {
 	);
 
 	if (s == BadValue || s == BadWindow) {
-		cosmos_throw (X11Exception(display, s));
+		throw X11Exception{display, s};
 	}
 
 	// make sure the event gets sent out
@@ -353,7 +357,7 @@ void XWindow::selectEvent(const EventMask new_event) const {
 	const int res = ::XSelectInput(display, rawID(), m_input_event_mask.raw());
 
 	if (res == 0) {
-		cosmos_throw (X11Exception("XSelectInput failed"));
+		throw X11Exception{"XSelectInput failed"};
 	}
 }
 
@@ -396,7 +400,7 @@ void XWindow::getRawProperty(const AtomID property, PropertyInfo &info, RawPrope
 	unsigned char *prop_data = nullptr;
 
 	if ((out.length & 0x3) != 0 || (out.offset & 0x3) != 0) {
-		cosmos_throw (cosmos::UsageError("length or offset not aligned to 32-bits"));
+		throw cosmos::UsageError{"length or offset not aligned to 32-bits"};
 	}
 
 	const auto res = ::XGetWindowProperty(
@@ -415,7 +419,7 @@ void XWindow::getRawProperty(const AtomID property, PropertyInfo &info, RawPrope
 	);
 
 	if (res != Success) {
-		cosmos_throw (X11Exception(display, res));
+		throw X11Exception{display, res};
 	}
 
 	const auto bytes_per_item = actual_format / 8;
@@ -475,17 +479,17 @@ void XWindow::getProperty(const AtomID name_atom, Property<PROPTYPE> &prop, cons
 	// one excess byte that is set to zero thus its possible to use data
 	// as a c-string without copying it.
 	if  (res != Success) {
-		cosmos_throw (PropertyQueryError(display, res));
+		throw PropertyQueryError{display, res};
 	}
 
 	try {
 		AtomID this_type{actual_type};
 		if (this_type == AtomID::INVALID) {
-			cosmos_throw (PropertyNotExisting());
+			throw PropertyNotExisting{};
 		} else if (x_type != this_type) {
-			cosmos_throw (PropertyTypeMismatch(x_type, this_type));
+			throw PropertyTypeMismatch{x_type, this_type};
 		} else if (remaining_bytes != 0) {
-			cosmos_throw (cosmos::InternalError("Bytes remaining during property read"));
+			throw cosmos::InternalError{"Bytes remaining during property read"};
 		}
 
 		assert (actual_format == THIS_PROP::Traits::FORMAT);
@@ -541,7 +545,7 @@ void XWindow::delProperty(const AtomID name_atom) {
 	const auto status = ::XDeleteProperty(display, rawID(), raw_atom(name_atom));
 
 	if (status == 0) {
-		cosmos_throw (X11Exception(display, status));
+		throw X11Exception{display, status};
 	}
 
 	// see setProperty()
@@ -552,7 +556,7 @@ void XWindow::nextEvent(XEvent &event, const long event_mask) {
 	const auto status = ::XWindowEvent(display, rawID(), event_mask, &event);
 
 	if (status == 0) {
-		cosmos_throw (X11Exception(display, status));
+		throw X11Exception{display, status};
 	}
 }
 
@@ -561,7 +565,7 @@ void XWindow::getAttrs(XWindowAttrs &attrs) {
 
 	// stupid error codes again. A non-zero status on success?
 	if (status == 0) {
-		cosmos_throw(X11Exception(display, status));
+		throw X11Exception{display, status};
 	}
 }
 
@@ -577,7 +581,7 @@ void XWindow::moveResize(const XWindowAttrs &attrs) {
 	);
 
 	if (status == 0) {
-		cosmos_throw (X11Exception(display, status));
+		throw X11Exception{display, status};
 	}
 }
 
@@ -592,7 +596,7 @@ void XWindow::updateFamily() {
 	const Status res = ::XQueryTree(display, rawID(), &root, &parent, &children, &num_children);
 
 	if (res != 1) {
-		cosmos_throw (X11Exception(display, res));
+		throw X11Exception{display, res};
 	}
 
 	m_parent = WinID{parent};
