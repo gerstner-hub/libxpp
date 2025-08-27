@@ -35,7 +35,11 @@ public: // functions
 	RootWin();
 
 	/// Creates a root window representation for the given display/screen.
-	explicit RootWin(XDisplay &display, ScreenID screen);
+	/**
+	 * When `_screen` is not provided, then the display's default screen
+	 * will be used.
+	 **/
+	explicit RootWin(XDisplay &_display, ScreenID _screen = ScreenID::INVALID);
 
 	/// Returns the complete hierarchy of windows, actively queried.
 	/**
