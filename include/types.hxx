@@ -7,6 +7,7 @@
 
 // X11
 #include <X11/X.h>
+#include <X11/Xatom.h>
 #include <X11/Xlib.h> // for consistent declaration of _XGC
 
 // Cosmos
@@ -80,7 +81,11 @@ enum class WinID : ::Window {
  *  much type safety. This this enum class makes this safer within libxpp.
  **/
 enum class AtomID : ::Atom {
-	INVALID = None
+	STRING   = XA_STRING,   ///< fixed ID that denotes string types
+	CARDINAL = XA_CARDINAL, ///< fixed ID that denotes cardinal (integer) types
+	ATOM     = XA_ATOM,     ///< fixed ID that denotes Atom types
+	WINDOW   = XA_WINDOW,   ///< fixed ID that denotes Window types
+	INVALID  = None
 };
 
 enum class PixmapID : ::Pixmap {
