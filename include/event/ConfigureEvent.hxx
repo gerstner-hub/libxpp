@@ -1,16 +1,19 @@
 #pragma once
 
 // xpp
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 
 namespace xpp {
 
 /// Wrapper around the XConfigureEvent type.
-class ConfigureEvent {
+class ConfigureEvent :
+		public AnyEvent {
 public: // functions
 
 	explicit ConfigureEvent(const Event &ev) :
-		m_ev{ev.toConfigureNotify()} {}
+		AnyEvent{ev},
+		m_ev{ev.toConfigureNotify()} {
+	}
 
 	/// Returns the position and inner size of the window not including borders.
 	WindowSpec spec() const {
@@ -20,10 +23,6 @@ public: // functions
 			m_ev.width > 0 ? static_cast<unsigned int>(m_ev.width)  : 0,
 			m_ev.height > 0 ? static_cast<unsigned int>(m_ev.height) : 0
 		};
-	}
-
-	WinID window() const {
-		return WinID{m_ev.window};
 	}
 
 protected: // data

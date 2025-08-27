@@ -1,7 +1,7 @@
 #pragma once
 
 // xpp
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 
 namespace xpp {
 
@@ -13,15 +13,19 @@ enum class VisibilityState : int {
 };
 
 /// Wrapper around the XVisibilityEvent type.
-class VisibilityEvent {
+class VisibilityEvent :
+		public AnyEvent {
 public: // functions
 
 	explicit VisibilityEvent(const Event &ev) :
-		m_ev{ev.toVisibilityNotify()} {}
+		AnyEvent{ev.toAnyEvent()},
+		m_ev{ev.toVisibilityNotify()} {
+	}
 
 	VisibilityState state() const { return VisibilityState{m_ev.state}; }
 
 protected: // data
+
 	const XVisibilityEvent &m_ev;
 };
 

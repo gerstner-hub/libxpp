@@ -1,22 +1,22 @@
 #pragma once
 
 // xpp
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 #include <xpp/types.hxx>
 
 namespace xpp {
 
 /// Wrapper around the XCreateWindowEvent type.
-class DestroyEvent {
+/**
+ * AnyEvent::window() provides access to the destroyed window's ID.
+ **/
+class DestroyEvent :
+		public AnyEvent {
 public: // functions
 
 	explicit DestroyEvent(const Event &ev) :
+		AnyEvent{ev},
 		m_ev{ev.toDestroyNotify()} {}
-
-	/// The destroyed window
-	WinID window() const {
-		return WinID{m_ev.window};
-	}
 
 	/// The window the event appeared on.
 	/**

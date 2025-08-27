@@ -1,15 +1,18 @@
 #pragma once
 
 // xpp
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 #include <xpp/types.hxx>
 
 namespace xpp {
 
 /// Wrapper around the XReparentEvent type.
-class ReparentEvent {
+class ReparentEvent :
+		public AnyEvent {
 public: // functions
+
 	explicit ReparentEvent(const Event &ev) :
+		AnyEvent{ev.toAnyEvent()},
 		m_ev{ev.toReparentNotify()} {
 	}
 

@@ -20,6 +20,12 @@ public: // functions
 
 	EventType type() const { return EventType{m_any.type}; }
 
+protected: // functions
+
+	explicit AnyEvent(const XAnyEvent &ev) :
+		m_any{ev} {
+	}
+
 protected: // data
 	const XAnyEvent &m_any;
 };

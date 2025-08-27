@@ -1,7 +1,7 @@
 #pragma once
 
 // xpp
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 #include <xpp/types.hxx>
 
 namespace xpp {
@@ -15,10 +15,9 @@ namespace xpp {
  * Specializations of this call need to be derived to make it useful
  **/
 template <typename EVENT>
-class InputEvent {
+class InputEvent :
+		public AnyEvent {
 public: // functions
-
-	EventType type() const { return EventType{m_ev.type}; }
 
 	/// Returns key / button state related to the event.
 	InputMask state() const { return InputMask{m_ev.state}; }
@@ -33,7 +32,9 @@ public: // functions
 protected: // functions
 
 	explicit InputEvent(const EVENT &ev) :
-			m_ev{ev} {}
+			AnyEvent{reinterpret_cast<const XAnyEvent&>(ev)},
+			m_ev{ev} {
+	}
 
 protected: // data
 	const EVENT &m_ev;

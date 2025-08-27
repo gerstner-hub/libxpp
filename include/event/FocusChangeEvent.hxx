@@ -1,16 +1,19 @@
 #pragma once
 
 // xpp
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 
 namespace xpp {
 
 /// Wrapper around the XFocusChangeEvent type.
-class FocusChangeEvent {
+class FocusChangeEvent :
+		public AnyEvent {
 public: // functions
 
 	explicit FocusChangeEvent(const Event &ev) :
-		m_ev{ev.toFocusChangeEvent()} {}
+		AnyEvent{ev},
+		m_ev{ev.toFocusChangeEvent()} {
+	}
 
 	NotifyMode mode() const { return NotifyMode{m_ev.mode}; }
 

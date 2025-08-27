@@ -1,21 +1,19 @@
 #pragma once
 
 // xpp
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 #include <xpp/types.hxx>
 
 namespace xpp {
 
 /// Wrapper around the XCreateWindowEvent type.
-class CreateEvent {
+class CreateEvent :
+		public AnyEvent {
 public: // functions
 
 	explicit CreateEvent(const Event &ev) :
+		AnyEvent{ev},
 		m_ev{ev.toCreateNotify()} {
-	}
-
-	WinID window() const {
-		return WinID{m_ev.window};
 	}
 
 	/// Parent of the window which was newly created.

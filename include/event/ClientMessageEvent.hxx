@@ -2,7 +2,7 @@
 
 // xpp
 #include <xpp/atoms.hxx>
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 
 namespace xpp {
 
@@ -14,14 +14,17 @@ namespace xpp {
  *
  * Examples for this are the XEMBED extension and the WM_PROTOCOLS extension.
  **/
-class ClientMessageEvent {
+class ClientMessageEvent :
+		public AnyEvent {
 public: // functions
 
 	explicit ClientMessageEvent(const Event &ev) :
-		m_ev{ev.toClientMessage()} {}
+		AnyEvent{ev},
+		m_ev{ev.toClientMessage()} {
+	}
 
 	/// returns the actual client message type
-	AtomID type() const { return AtomID(m_ev.message_type); }
+	AtomID msgType() const { return AtomID{m_ev.message_type}; }
 
 	auto format() const { return m_ev.format; }
 
@@ -31,7 +34,9 @@ public: // functions
 protected: // functions
 
 	explicit ClientMessageEvent(XClientMessageEvent &ev) :
-		m_ev{ev} {}
+		AnyEvent{reinterpret_cast<const XAnyEvent&>(ev)},
+		m_ev{ev} {
+	}
 
 protected: // data
 

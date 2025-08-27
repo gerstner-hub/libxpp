@@ -1,16 +1,19 @@
 #pragma once
 
 // xpp
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 
 namespace xpp {
 
 /// Wrapper around the XSelectionEvent type.
-class SelectionEvent {
+class SelectionEvent :
+		public AnyEvent {
 public: // functions
 
 	explicit SelectionEvent(const Event &ev) :
-			m_ev{ev.toSelectionNotify()} {}
+			AnyEvent{ev.toAnyEvent()},
+			m_ev{ev.toSelectionNotify()} {
+	}
 
 	/// Returns the atom corresponding to the property where the selection is stored on
 	AtomID property() const { return AtomID{m_ev.property}; }
@@ -29,9 +32,12 @@ public: // functions
 protected: // functions
 
 	explicit SelectionEvent(const XSelectionEvent &ev) :
-		m_ev{ev} {}
+		AnyEvent{reinterpret_cast<const XAnyEvent&>(ev)},
+		m_ev{ev} {
+	}
 
 protected: // data
+
 	const XSelectionEvent &m_ev;
 };
 

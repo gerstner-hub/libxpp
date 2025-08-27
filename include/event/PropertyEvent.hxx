@@ -1,7 +1,7 @@
 #pragma once
 
 // xpp
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 
 namespace xpp {
 
@@ -12,11 +12,14 @@ enum class PropertyNotification : int {
 };
 
 /// Wrapper around the XPropertyEvent type.
-class PropertyEvent {
+class PropertyEvent :
+		public AnyEvent {
 public: // functions
 
 	explicit PropertyEvent(const Event &ev) :
-		m_ev{ev.toPropertyNotify()} {}
+		AnyEvent{ev.toAnyEvent()},
+		m_ev{ev.toPropertyNotify()} {
+	}
 
 	/// Returns the kind of property notification event: new value or deleted
 	PropertyNotification state() const { return PropertyNotification{m_ev.state}; }
@@ -24,9 +27,8 @@ public: // functions
 	/// Returns the atom corresponding to the property the event is about
 	AtomID property() const { return AtomID{m_ev.atom}; }
 
-	WinID window() const { return WinID{m_ev.window}; }
-
 protected: // data
+
 	const XPropertyEvent &m_ev;
 };
 

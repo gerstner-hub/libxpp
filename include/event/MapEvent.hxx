@@ -1,25 +1,19 @@
 #pragma once
 
 // xpp
-#include <xpp/Event.hxx>
+#include <xpp/event/AnyEvent.hxx>
 #include <xpp/types.hxx>
 
 namespace xpp {
 
 /// Base class for XMapEvent and XUnmapEvent wrappers.
+/**
+ * AnyEvent::window() provides access to the window that was mapped.
+ **/
 template <typename EV>
-class MapEventBase {
+class MapEventBase :
+		public AnyEvent {
 public: // functions
-
-	explicit MapEventBase(const EV &ev) :
-		m_ev{ev} {}
-
-	EventType type() const { return EventType{m_ev.type}; }
-
-	/// The destroyed window
-	WinID window() const {
-		return WinID{m_ev.window};
-	}
 
 	/// The window the event appeared on.
 	/**
@@ -34,6 +28,14 @@ public: // functions
 	bool overrideRedirect() const {
 		return m_ev.override_redirect != False;
 	}
+
+protected: // functions
+
+	explicit MapEventBase(const EV &ev) :
+		AnyEvent{reinterpret_cast<const XAnyEvent&>(ev)},
+		m_ev{ev} {
+	}
+
 
 protected: // data
 
