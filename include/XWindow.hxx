@@ -410,6 +410,8 @@ public: // functions
 	 **/
 	void moveResize(const XWindowAttrs &attrs);
 
+	void setParent(const WinID id) { m_parent = id; }
+
 	void setParent(const XWindow &parent) { m_parent = parent.id(); }
 
 	WinID getParent() const { return m_parent; }
