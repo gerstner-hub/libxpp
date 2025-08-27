@@ -21,3 +21,6 @@ XPP_API std::ostream& operator<<(std::ostream &o, const xpp::AtomID atom);
 
 /// output operator that prints out the X11 window ID associated with `w` onto the stream in hex and dec
 XPP_API std::ostream& operator<<(std::ostream &o, const xpp::XWindow &w);
+
+/// output the window ID as a regular integer.
+XPP_API std::ostream& operator<<(std::ostream &o, const xpp::WinID id);

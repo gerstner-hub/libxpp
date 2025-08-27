@@ -28,3 +28,8 @@ std::ostream& operator<<(std::ostream &o, const xpp::XWindow &w) {
 
 	return o;
 }
+
+std::ostream& operator<<(std::ostream &o, const xpp::WinID id) {
+	o << cosmos::to_integral(id);
+	return o;
+}
