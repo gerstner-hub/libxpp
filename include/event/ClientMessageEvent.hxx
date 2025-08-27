@@ -23,16 +23,36 @@ public: // functions
 	/// returns the actual client message type
 	AtomID type() const { return AtomID(m_ev.message_type); }
 
-	void setType(const AtomID type) { m_ev.message_type = cosmos::to_integral(type); }
-
 	auto format() const { return m_ev.format; }
+
+	/// returns the raw event message data
+	const auto& data() const { return m_ev.data; }
+
+protected: // functions
+
+	explicit ClientMessageEvent(XClientMessageEvent &ev) :
+		m_ev{ev} {}
+
+protected: // data
+
+	const XClientMessageEvent &m_ev;
+};
+
+/// Extension of ClientMessage event for building data to send out.
+class ClientMessageEventBuilder :
+		public ClientMessageEvent {
+public: // functions
+
+	explicit ClientMessageEventBuilder(Event &ev) :
+		ClientMessageEvent{ev.toClientMessage()},
+		m_ev{ev.toClientMessage()} {
+	}
+
+	void setType(const AtomID type) { m_ev.message_type = cosmos::to_integral(type); }
 
 	void setFormat(int format) {
 		m_ev.format = format;
 	}
-
-	/// returns the raw event message data
-	const auto& data() const { return m_ev.data; }
 
 	void setDisplay(xpp::XDisplay &p_display) {
 		m_ev.display = p_display;
@@ -43,7 +63,6 @@ public: // functions
 	}
 
 protected: // data
-
 	XClientMessageEvent &m_ev;
 };
 
@@ -52,12 +71,12 @@ protected: // data
  * This event can contain up to two properties that are set, removed or
  * toggled depending on the value passed in setOperation().
  **/
-class NetWmStateEvent :
-	public ClientMessageEvent {
+class NetWmStateEventBuilder :
+	public ClientMessageEventBuilder {
 public: // functions
 
-	explicit NetWmStateEvent(const Event &ev) :
-			ClientMessageEvent{ev} {
+	explicit NetWmStateEventBuilder(Event &ev) :
+			ClientMessageEventBuilder{ev} {
 		setType(atoms::ewmh_wm_state);
 		setFormat(32);
 	}
