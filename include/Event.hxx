@@ -60,6 +60,7 @@ public: // functions
 
 	bool isConfigureNotify() const  { return type() == EventType::CONFIGURE_NOTIFY; }
 	bool isMapNotify() const        { return type() == EventType::MAP_NOTIFY; }
+	bool isUnmapNotify() const      { return type() == EventType::UNMAP_NOTIFY; }
 	bool isVisibilityNotify() const { return type() == EventType::VISIBILITY_NOTIFY; }
 	bool isFocusChange() const      { return type() == EventType::FOCUS_IN || type() == EventType::FOCUS_OUT; }
 	bool isKeyPress() const         { return type() == EventType::KEY_PRESS; }
@@ -69,8 +70,66 @@ public: // functions
 	bool isPropertyNotify() const   { return type() == EventType::PROPERTY_NOTIFY; }
 	bool isSelectionNotify() const  { return type() == EventType::SELECTION_NOTIFY; }
 	bool isSelectionRequest() const { return type() == EventType::SELECTION_REQUEST; }
+	bool isSelectionClear() const   { return type() == EventType::SELECTION_CLEAR; }
+	bool isCreateNotify() const     { return type() == EventType::CREATE_NOTIFY; }
+	bool isDestroyNotify() const    { return type() == EventType::DESTROY_NOTIFY; }
+	bool isReparentNotify() const   { return type() == EventType::REPARENT_NOTIFY; }
 
 	EventType type() const { return EventType{m_ev.type}; }
+
+	// this allows to access some generic data members present on all events
+	auto& toAnyEvent() {
+		return m_ev.xany;
+	}
+
+	auto& toAnyEvent() const {
+		return unconst().toAnyEvent();
+	}
+
+	auto& toReparentNotify() {
+		onMismatch(isReparentNotify());
+		return m_ev.xreparent;
+	}
+
+	auto& toReparentNotify() const {
+		return unconst().toReparentNotify();
+	}
+
+	auto& toMapNotify() {
+		onMismatch(isMapNotify());
+		return m_ev.xmap;
+	}
+
+	auto& toMapNotify() const {
+		return unconst().toMapNotify();
+	}
+
+	auto& toUnmapNotify() {
+		onMismatch(isUnmapNotify());
+		return m_ev.xunmap;
+	}
+
+	auto& toUnmapNotify() const {
+		return unconst().toUnmapNotify();
+	}
+
+	auto& toDestroyNotify() {
+		onMismatch(isDestroyNotify());
+		return m_ev.xdestroywindow;
+	}
+
+	auto& toDestroyNotify() const {
+		return unconst().toDestroyNotify();
+	}
+
+	auto& toCreateNotify() {
+		onMismatch(isCreateNotify());
+		return m_ev.xcreatewindow;
+	}
+
+	auto& toCreateNotify() const {
+		return unconst().toCreateNotify();
+	}
 
 	auto& toConfigureNotify() {
 		onMismatch(isConfigureNotify());
@@ -151,6 +210,15 @@ public: // functions
 
 	auto& toSelectionNotify() const {
 		return unconst().toSelectionNotify();
+	}
+
+	auto& toSelectionClear() {
+		onMismatch(isSelectionClear());
+		return m_ev.xselectionclear;
+	}
+
+	auto& toSelectionClear() const {
+		return unconst().toSelectionClear();
 	}
 
 	auto& toPointerMovedEvent() {
