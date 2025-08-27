@@ -9,7 +9,7 @@ namespace xpp {
 class SelectionRequestEvent {
 public: // functions
 
-	explicit SelectionRequestEvent(Event &ev) :
+	explicit SelectionRequestEvent(const Event &ev) :
 			m_ev{ev.toSelectionRequest()} {}
 
 	/// Returns the atom corresponding to the property where the selection is stored on
@@ -26,7 +26,7 @@ public: // functions
 
 	Time time() const { return m_ev.time; }
 protected: // data
-	XSelectionRequestEvent &m_ev;
+	const XSelectionRequestEvent &m_ev;
 };
 
 } // end ns
