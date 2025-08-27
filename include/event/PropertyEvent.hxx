@@ -24,6 +24,8 @@ public: // functions
 	/// Returns the atom corresponding to the property the event is about
 	AtomID property() const { return AtomID{m_ev.atom}; }
 
+	WinID window() const { return WinID{m_ev.window}; }
+
 protected: // data
 	const XPropertyEvent &m_ev;
 };
