@@ -82,7 +82,7 @@ public: // functions
 		return m_ev.xany;
 	}
 
-	auto& toAnyEvent() const {
+	const auto& toAnyEvent() const {
 		return unconst().toAnyEvent();
 	}
 
@@ -91,7 +91,7 @@ public: // functions
 		return m_ev.xreparent;
 	}
 
-	auto& toReparentNotify() const {
+	const auto& toReparentNotify() const {
 		return unconst().toReparentNotify();
 	}
 
@@ -100,7 +100,7 @@ public: // functions
 		return m_ev.xmap;
 	}
 
-	auto& toMapNotify() const {
+	const auto& toMapNotify() const {
 		return unconst().toMapNotify();
 	}
 
@@ -109,7 +109,7 @@ public: // functions
 		return m_ev.xunmap;
 	}
 
-	auto& toUnmapNotify() const {
+	const auto& toUnmapNotify() const {
 		return unconst().toUnmapNotify();
 	}
 
@@ -118,7 +118,7 @@ public: // functions
 		return m_ev.xdestroywindow;
 	}
 
-	auto& toDestroyNotify() const {
+	const auto& toDestroyNotify() const {
 		return unconst().toDestroyNotify();
 	}
 
@@ -127,7 +127,7 @@ public: // functions
 		return m_ev.xcreatewindow;
 	}
 
-	auto& toCreateNotify() const {
+	const auto& toCreateNotify() const {
 		return unconst().toCreateNotify();
 	}
 
@@ -136,7 +136,7 @@ public: // functions
 		return m_ev.xconfigure;
 	}
 
-	auto& toConfigureNotify() const {
+	const auto& toConfigureNotify() const {
 		return unconst().toConfigureNotify();
 	}
 
@@ -145,7 +145,7 @@ public: // functions
 		return m_ev.xvisibility;
 	}
 
-	auto& toVisibilityNotify() const {
+	const auto& toVisibilityNotify() const {
 		return unconst().toVisibilityNotify();
 	}
 
@@ -154,7 +154,7 @@ public: // functions
 		return m_ev.xfocus;
 	}
 
-	auto& toFocusChangeEvent() const {
+	const auto& toFocusChangeEvent() const {
 		return unconst().toFocusChangeEvent();
 	}
 
@@ -163,7 +163,7 @@ public: // functions
 		return m_ev.xkey;
 	}
 
-	auto& toKeyEvent() const {
+	const auto& toKeyEvent() const {
 		return unconst().toKeyEvent();
 	}
 
@@ -172,7 +172,7 @@ public: // functions
 		return m_ev.xclient;
 	}
 
-	auto& toClientMessage() const {
+	const auto& toClientMessage() const {
 		return unconst().toClientMessage();
 	}
 
@@ -181,7 +181,7 @@ public: // functions
 		return m_ev.xbutton;
 	}
 
-	auto& toButtonEvent() const {
+	const auto& toButtonEvent() const {
 		return unconst().toButtonEvent();
 	}
 
@@ -190,7 +190,7 @@ public: // functions
 		return m_ev.xproperty;
 	}
 
-	auto& toPropertyNotify() const {
+	const auto& toPropertyNotify() const {
 		return unconst().toPropertyNotify();
 	}
 
@@ -208,7 +208,7 @@ public: // functions
 		return m_ev.xselection;
 	}
 
-	auto& toSelectionNotify() const {
+	const auto& toSelectionNotify() const {
 		return unconst().toSelectionNotify();
 	}
 
@@ -217,7 +217,7 @@ public: // functions
 		return m_ev.xselectionclear;
 	}
 
-	auto& toSelectionClear() const {
+	const auto& toSelectionClear() const {
 		return unconst().toSelectionClear();
 	}
 
@@ -226,7 +226,7 @@ public: // functions
 		return m_ev.xmotion;
 	}
 
-	auto& toPointerMovedEvent() const {
+	const auto& toPointerMovedEvent() const {
 		return unconst().toPointerMovedEvent();
 	}
 
