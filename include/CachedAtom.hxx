@@ -30,10 +30,11 @@ class XPP_API CachedAtom {
 public: // functions
 	/// Prepare a CachedAtom for the given literal string
 	/**
-	 * TODO: Once we have C++20 use `consteval` here to prevent
-	 * non-literal strings being used.
+	 * \note we are declaring consteval here, because only compile-time
+	 * constant literal strings should be passed into this constructor.
+	 * Otherwise the string behind `m_name` may become invalid.
 	 **/
-	explicit constexpr CachedAtom(std::string_view sv) :
+	explicit consteval CachedAtom(std::string_view sv) :
 			m_name{sv} {
 	}
 
