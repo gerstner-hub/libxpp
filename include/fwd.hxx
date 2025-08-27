@@ -9,6 +9,7 @@ namespace xpp {
 	class Event;
 	class GraphicsContext;
 	class Pixmap;
+	class RootWin;
 	class SetWindowAttributes;
 	class SizeHints;
 	class WindowManagerHints;
@@ -29,6 +30,7 @@ namespace xpp {
 	class PropertyEvent;
 	class SelectionEvent;
 	class SelectionRequestEvent;
+	class SelectionClearEvent;
 	class VisibilityEvent;
 
 	extern XDisplay display;
