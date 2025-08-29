@@ -1,6 +1,6 @@
 // cosmos
-#include <cosmos/error/UsageError.hxx>
 #include <cosmos/error/RuntimeError.hxx>
+#include <cosmos/error/UsageError.hxx>
 
 // xpp
 #include <xpp/Event.hxx>
@@ -8,6 +8,7 @@
 #include <xpp/SetWindowAttributes.hxx>
 #include <xpp/XColor.hxx>
 #include <xpp/XDisplay.hxx>
+#include <xpp/event/AnyEvent.hxx>
 
 namespace xpp {
 
@@ -38,6 +39,10 @@ XDisplay::XDisplay(const Initialize init) {
 void XDisplay::nextEvent(Event &event) {
 	// xlib unconditionally returns 0 here (not documented)
 	(void)::XNextEvent(m_dis, event.raw());
+}
+
+bool XDisplay::sameDisplay(const AnyEvent &event) {
+	return event.display() == m_dis;
 }
 
 WinID XDisplay::createWindow(

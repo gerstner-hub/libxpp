@@ -148,6 +148,9 @@ public: // functions
 	 **/
 	void nextEvent(Event &event);
 
+	/// Returns whether the given event was received on this display.
+	bool sameDisplay(const AnyEvent &event);
+
 	/// Creates a new window with the given properties.
 	/**
 	 * If depth is not provided then the default depth for the current
