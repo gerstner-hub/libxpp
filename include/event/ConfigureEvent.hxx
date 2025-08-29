@@ -28,6 +28,24 @@ public: // functions
 		};
 	}
 
+	/// Either the reconfigured window or its parent.
+	/**
+	 * Which window this refers to depends on whether StructureNotify or
+	 * SubStructureNotify was used.
+	 **/
+	WinID eventWin() const {
+		return WinID{m_ev.event};
+	}
+
+	/// The window which changed whose configuration changed.
+	/**
+	 * This override AnyEvent::window() which refers to the eventWin()
+	 * instead.
+	 **/
+	WinID window() const {
+		return WinID{m_ev.window};
+	}
+
 	/// Returns the sibling window for stacking operations.
 	/**
 	 * If this is not available then the affected window is at the bottom

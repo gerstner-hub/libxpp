@@ -24,6 +24,15 @@ public: // functions
 		return WinID{m_ev.event};
 	}
 
+	/// The window that was mapped or unmapped.
+	/**
+	 * This overrides AnyEvent::window() which refers to the eventWin()
+	 * instead.
+	 **/
+	WinID window() const {
+		return WinID{m_ev.window};
+	}
+
 	/// Whether override-redirect is set for the event.
 	bool overrideRedirect() const {
 		return m_ev.override_redirect != False;

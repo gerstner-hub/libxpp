@@ -25,6 +25,9 @@ public: // functions
 	AtomID selection() const { return AtomID{m_ev.selection}; }
 
 	/// Returns the window ID that requested the selection
+	/**
+	 * This is the same window as AnyEvent::window() returns.
+	 **/
 	WinID requestor() const { return WinID{m_ev.requestor}; }
 
 	Time time() const { return m_ev.time; }

@@ -19,7 +19,7 @@ public: // functions
 	AtomID selection() const { return AtomID{m_ev.selection}; }
 
 	/// Returns the window that currently owns the selection (and now loses it).
-	WinID owner() const { return this->window(); }
+	WinID owner() const { return *this->window(); }
 
 	/// Last change time recorded for the selection.
 	Time time() const { return m_ev.time; }

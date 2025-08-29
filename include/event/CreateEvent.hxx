@@ -21,6 +21,15 @@ public: // functions
 		return WinID{m_ev.parent};
 	}
 
+	/// The ID of the window that has been created.
+	/**
+	 * This overrides AnyEvent::window(), which refers to the parent() in
+	 * this case.
+	 **/
+	WinID window() const {
+		return WinID{m_ev.window};
+	}
+
 	/// Window size and location.
 	WindowSpec spec() const {
 		return WindowSpec{m_ev.x, m_ev.y,

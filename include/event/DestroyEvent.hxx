@@ -27,6 +27,15 @@ public: // functions
 		return WinID{m_ev.event};
 	}
 
+	/// The ID of the window which was destroyed.
+	/**
+	 * This overrides AnyEvent::window() which refers to the eventWin()
+	 * instead of to the window which was actually destroyed.
+	 **/
+	WinID window() const {
+		return WinID{m_ev.window};
+	}
+
 protected: // data
 
 	const XDestroyWindowEvent &m_ev;

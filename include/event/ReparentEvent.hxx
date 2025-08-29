@@ -28,10 +28,14 @@ public: // functions
 
 	/// Either the reparented window or the old/new parent.
 	/**
+	 * This overrides AnyEvent::window(), which refers to the same data in
+	 * this case but uses a different field name (`window`) which can be
+	 * confusing, since in our context `window` is the reparentedWindow()..
+	 *
 	 * The interpretation of this depends on whether StructureNotify or
 	 * SubstructureNotify was selected.
 	 **/
-	WinID eventWindow() const {
+	WinID window() const {
 		return WinID{m_ev.event};
 	}
 

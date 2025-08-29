@@ -13,9 +13,29 @@ public: // functions
 		m_any{ev.toAnyEvent()} {
 	}
 
-	/// The window the event is about.
-	WinID window() const {
-		return WinID{m_any.window};
+	/// The window the event is about, or occured on.
+	/**
+	 * \warning This field is not common to all events, this is kind of a
+	 * glitch in the libX11 API.
+	 *
+	 * In some event types (CreateWindow, DestroyWindow, MapEvent,
+	 * UnmapEvent, MapRequest) the field contains a WinID, but has a
+	 * different semantic. In some event types (expose events) this is
+	 * a Drawable, which has the same base type, but different meaning.
+	 * The concrete event types override this accessor, if necessary, to
+	 * reflect this.
+	 *
+	 * Therefore if the concrete event type does not store an actualy
+	 * WinID here, a std::nullopt is returned.
+	 **/
+	std::optional<WinID> window() const {
+		switch (type()) {
+		default: return WinID{m_any.window};
+		case EventType::GRAPHICS_EXPOSE:
+		case EventType::NOEXPOSE:
+			 // a Drawable is stored here instead
+			 return {};
+		}
 	}
 
 	EventType type() const { return EventType{m_any.type}; }
