@@ -1,5 +1,8 @@
 #pragma once
 
+// C++
+#include <optional>
+
 // xpp
 #include <xpp/event/AnyEvent.hxx>
 
@@ -23,6 +26,24 @@ public: // functions
 			m_ev.width > 0 ? static_cast<unsigned int>(m_ev.width)  : 0,
 			m_ev.height > 0 ? static_cast<unsigned int>(m_ev.height) : 0
 		};
+	}
+
+	/// Returns the sibling window for stacking operations.
+	/**
+	 * If this is not available then the affected window is at the bottom
+	 * of the stack. Otherwise the affected window is on top (above) the
+	 * returned window.
+	 **/
+	std::optional<WinID> aboveWin() const {
+		if (m_ev.above == None)
+			return {};
+
+		return WinID{m_ev.above};
+	}
+
+	/// Event should be overriden.
+	bool overrideRedirect() const {
+		return m_ev.override_redirect;
 	}
 
 protected: // data
