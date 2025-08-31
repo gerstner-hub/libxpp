@@ -245,7 +245,7 @@ public: // functions
 		const AtomID selection,
 		const AtomID target_type,
 		const AtomID target_prop,
-		const Time t = CurrentTime
+		const XTime t = XTime::CURRENT_TIME
 	);
 
 	/// Makes the current window the owner of the given selection type.
@@ -253,7 +253,7 @@ public: // functions
 	 * This means that other clients on the XServer can in the future
 	 * request the selection from this window.
 	 **/
-	void makeSelectionOwner(const AtomID selection, const Time t = CurrentTime);
+	void makeSelectionOwner(const AtomID selection, const XTime t = XTime::CURRENT_TIME);
 
 	/// Requests the targeted window to close itself.
 	/**

@@ -1,5 +1,8 @@
 #pragma once
 
+// cosmos
+#include <cosmos/utils.hxx>
+
 // xpp
 #include <xpp/event/AnyEvent.hxx>
 
@@ -30,7 +33,7 @@ public: // functions
 	 **/
 	WinID requestor() const { return WinID{m_ev.requestor}; }
 
-	Time time() const { return m_ev.time; }
+	XTime time() const { return XTime{m_ev.time}; }
 
 protected: // functions
 
@@ -70,8 +73,8 @@ public: // functions
 		m_ev.requestor = raw_win(id);
 	}
 
-	void setTime(const Time t) {
-		m_ev.time = t;
+	void setTime(const XTime t) {
+		m_ev.time = cosmos::to_integral(t);
 	}
 
 protected: // data

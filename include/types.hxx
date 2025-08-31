@@ -319,4 +319,13 @@ enum class NetWmStateAction : long {
 	TOGGLE = 2
 };
 
+/// Timestamps used in X11 APIs.
+/**
+ * These timestamps are in milliseconds and usually count the time since the
+ * last server reboot. These timestamps may wrap around after a while.
+ **/
+enum class XTime : Time {
+	CURRENT_TIME = CurrentTime
+};
+
 } // end ns

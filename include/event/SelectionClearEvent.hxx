@@ -22,7 +22,7 @@ public: // functions
 	WinID owner() const { return *this->window(); }
 
 	/// Last change time recorded for the selection.
-	Time time() const { return m_ev.time; }
+	XTime time() const { return XTime{m_ev.time}; }
 
 protected: // data
 

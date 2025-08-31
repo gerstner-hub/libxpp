@@ -25,7 +25,7 @@ public: // functions
 	/// Returns the window coordinates where the event took place.
 	Coord pos() const { return Coord{m_ev.x, m_ev.y}; }
 
-	Time time() const { return m_ev.time; }
+	XTime time() const { return XTime{m_ev.time}; }
 
 	auto& raw() const { return m_ev; }
 

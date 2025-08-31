@@ -266,7 +266,7 @@ void XWindow::convertSelection(
 		const AtomID selection,
 		const AtomID target_type,
 		const AtomID target_prop,
-		const Time t) {
+		const XTime t) {
 
 	if (::XConvertSelection(
 			display,
@@ -274,16 +274,16 @@ void XWindow::convertSelection(
 			raw_atom(target_type),
 			raw_atom(target_prop),
 			rawID(),
-			t) != 1) {
+			cosmos::to_integral(t)) != 1) {
 		throw X11Exception{"Failed to request selection conversion"};
 	}
 
 	display.flush();
 }
 
-void XWindow::makeSelectionOwner(const AtomID selection, const Time t) {
+void XWindow::makeSelectionOwner(const AtomID selection, const XTime t) {
 	// libX11 always returns 1 here, so ignore it
-	::XSetSelectionOwner(display, raw_atom(selection), rawID(), t);
+	::XSetSelectionOwner(display, raw_atom(selection), rawID(), cosmos::to_integral(t));
 }
 
 void XWindow::sendDeleteRequest() {
