@@ -4,6 +4,7 @@
 #include <memory>
 #include <string_view>
 #include <vector>
+#include <cstdint>
 
 // X11
 #include <X11/X.h>
