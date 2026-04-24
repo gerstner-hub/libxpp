@@ -403,6 +403,8 @@ void XWindow::getRawProperty(const AtomID property, PropertyInfo &info, RawPrope
 		throw cosmos::UsageError{"length or offset not aligned to 32-bits"};
 	}
 
+	Atom type = None;
+
 	const auto res = ::XGetWindowProperty(
 		display,
 		rawID(),
@@ -411,7 +413,7 @@ void XWindow::getRawProperty(const AtomID property, PropertyInfo &info, RawPrope
 		out.length / 4, /* length in 32-bit multiples */
 		False, /* deleted property ? */
 		AnyPropertyType,
-		cosmos::to_raw_ptr(&info.type),
+		&type,
 		&actual_format,
 		&number_items,
 		&bytes_left, /* bytes left to read */
@@ -421,6 +423,8 @@ void XWindow::getRawProperty(const AtomID property, PropertyInfo &info, RawPrope
 	if (res != Success) {
 		throw X11Exception{display, res};
 	}
+
+	info.type = AtomID{type};
 
 	const auto bytes_per_item = actual_format / 8;
 
