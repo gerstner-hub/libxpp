@@ -1,7 +1,7 @@
-.scons*
-build*
-install
-.tags
+/.scons*
+/build*
+/install*
+/.tags
 *.swp
 *.swo
-.lib*.tag
+/.lib*.tag
