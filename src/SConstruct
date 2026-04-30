@@ -36,7 +36,6 @@ env.RegisterLibConfig(
     'libxpp',
     libxpp,
     {
-        'CCFLAGS': ['-DXPP_API='],
         'CPPPATH': [public_includes]
     },
     config={
